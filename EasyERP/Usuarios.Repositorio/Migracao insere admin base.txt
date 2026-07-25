@@ -1,0 +1,77 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Repositorio.Migrations
+{
+    /// <inheritdoc />
+    public partial class INS_ADMIN_AUTO : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql("""
+        IF NOT EXISTS (
+            SELECT 1
+            FROM USUARIOS
+            WHERE NomeUsuario = 'admin'
+        )
+        BEGIN
+
+            INSERT INTO PESSOASFISICAS
+            (
+                PublicId,
+                NomeCompleto,
+                DataNascimento,
+                Genero,
+                CriadoEm,
+                CriadoPor,
+                AtualizadoEm,
+                AtualizadoPor,
+                Deletado
+            )
+            VALUES
+            (
+                '3FA85F64-5717-4562-B3FC-2C963F66AFA6',
+                'Administrador',
+                '1950-01-01',
+                'M',
+                GETDATE(),
+                NULL,
+                NULL,
+                NULL,
+                0
+            );
+
+            --DECLARE @PessoaId INT = SCOPE_IDENTITY();
+
+            INSERT INTO USUARIOS
+            (
+                PessoaId,
+                NomeUsuario,
+                Email,
+                SenhaHash,
+                UltimoAcesso,
+                Perfil
+            )
+            VALUES
+            (
+                '3FA85F64-5717-4562-B3FC-2C963F66AFA6',
+                'admin',
+                'admin@mail.com',
+                '$2a$11$6VRK1jdlovVHL6iwLlKgPe8DavMgtVlI1yq1IcC5DJjCeAnV4fIyu',
+                GETDATE(),
+                0
+            );
+
+        END
+        """);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+
+        }
+    }
+}

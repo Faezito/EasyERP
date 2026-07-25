@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/CrossCutting/">
+    <Project Path="Auditoria/Auditoria.csproj" />
+    <Project Path="Bibliotecas/Bibliotecas.csproj" />
+    <Project Path="Middlewares/Middlewares.csproj" />
+  </Folder>
+  <Folder Name="/ServicosDeUsuario/">
+    <Project Path="Usuarios.Model/Usuarios.Model.csproj" />
+    <Project Path="Usuarios.Repositorio/Usuarios.Repositorio.csproj">
+      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
+    </Project>
+    <Project Path="Usuarios.Servicos/Usuarios.Servicos.csproj">
+      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
+      <BuildDependency Project="Usuarios.Repositorio/Usuarios.Repositorio.csproj" />
+    </Project>
+    <Project Path="Usuarios/Usuarios.csproj">
+      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
+      <BuildDependency Project="Usuarios.Servicos/Usuarios.Servicos.csproj" />
+    </Project>
+  </Folder>
+</Solution>
