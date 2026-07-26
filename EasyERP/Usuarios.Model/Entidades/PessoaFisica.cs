@@ -1,6 +1,4 @@
-﻿using CrossCutting.Auditoria;
-
-namespace Usuarios.Model.Entidades
+﻿namespace Usuarios.Model.Entidades
 {
     public class PessoaFisica : PessoaBase
     {
@@ -11,5 +9,8 @@ namespace Usuarios.Model.Entidades
         public string SenhaHash { get; set; } = string.Empty;
         public DateTime? DataNascimento { get; set; }
         public DateTime? UltimoAcesso { get; set; }
+
+        public int? EmpresaId { get; set; }
+        public PessoaJuridica? Empresa { get; set; }
     }
 }

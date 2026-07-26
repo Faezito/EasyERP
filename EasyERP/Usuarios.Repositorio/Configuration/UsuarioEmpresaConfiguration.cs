@@ -1,0 +1,22 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Usuarios.Model.Entidades;
+
+namespace Usuarios.Repositorio.Configuration
+{
+    public class UsuarioEmpresaConfiguration : IEntityTypeConfiguration<UsuarioEmpresa>
+    {
+        public void Configure(EntityTypeBuilder<UsuarioEmpresa> builder)
+        {
+            builder.HasOne(ue => ue.Usuario)
+                .WithMany()
+                .HasForeignKey(ue => ue.UsuarioId);
+
+            builder.HasOne(ue => ue.PessoaJuridica)
+                .WithMany()
+                .HasForeignKey(ue => ue.PessoaJuridicaId);
+
+            builder.HasIndex(ue => new { ue.UsuarioId, ue.PessoaJuridicaId }).IsUnique();
+        }
+    }
+}
