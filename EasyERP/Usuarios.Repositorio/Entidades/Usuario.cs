@@ -1,8 +1,9 @@
-﻿using CrossCutting.Model.Enums;
+﻿using CrossCutting.Auditoria;
+using CrossCutting.Model.Enums;
 
 namespace Usuarios.Repositorio.Entidades
 {
-    public class Usuario
+    public class Usuario : EntidadeAuditavel
     {
         public int Id { get; set; }
         public Guid PublicId { get; set; } = Guid.CreateVersion7();
