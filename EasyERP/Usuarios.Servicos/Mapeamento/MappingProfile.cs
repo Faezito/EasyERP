@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
-using Usuarios.Model.DTOs;
-using Usuarios.Model.Entidades;
+using Model.DTOs.Endereco;
+using Model.DTOs.PessoaFisica;
+using Model.DTOs.PessoaJuridica;
+using Model.DTOs.Usuario;
+using Usuarios.Repositorio.Entidades;
 
 namespace Usuarios.Model.Mapeamento
 {
@@ -9,11 +12,16 @@ namespace Usuarios.Model.Mapeamento
         public MappingProfile()
         {
             CreateMap<UsuarioCadastroDTO, PessoaFisica>();
-            CreateMap<UsuarioAtualizacaoDTO, PessoaFisica>();
-            CreateMap<UsuarioAtualizacaoDTO, PessoaFisica>()
-                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<UsuarioRespostaDTO, PessoaFisica>();
+
+            CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();
+            CreateMap<PessoaFisicaCadastroDTO, PessoaFisica>();
+            CreateMap<PessoaFisica, PessoaFisicaCadastroDTO>();
+            CreateMap<PessoaFisicaAtualizacaoDTO, PessoaFisica>();
+            CreateMap<PessoaFisica, PessoaFisicaAtualizacaoDTO>()
+                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<PessoaFisica, UsuarioRespostaDTO>();
+
             CreateMap<EnderecoCadastroDTO, Endereco>();
             CreateMap<Endereco, EnderecoCadastroDTO>();
 
