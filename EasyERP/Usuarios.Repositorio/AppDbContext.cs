@@ -15,6 +15,7 @@ public partial class AppDbContext : DbContextAuditavel
     public DbSet<PessoaFisica> PessoasFisicas { get; set; }
     public DbSet<PessoaJuridica> PessoasJuridicas { get; set; }
     public DbSet<Endereco> Enderecos { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
