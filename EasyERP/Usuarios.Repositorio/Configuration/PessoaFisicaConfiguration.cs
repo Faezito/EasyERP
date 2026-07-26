@@ -30,13 +30,6 @@ public class PessoaFisicaConfiguration : IEntityTypeConfiguration<PessoaFisica>
         builder.HasIndex(x => x.Email)
                .IsUnique();
 
-        builder.Property(x => x.NomeUsuario)
-               .HasMaxLength(60)
-               .IsRequired();
-
-        builder.HasIndex(x => x.NomeUsuario)
-               .IsUnique();
-
         builder.HasIndex(x => x.CPF)
                .IsUnique();
 
