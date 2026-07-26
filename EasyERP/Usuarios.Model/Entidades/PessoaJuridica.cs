@@ -1,4 +1,6 @@
-﻿namespace Usuarios.Model.Entidades
+﻿using Usuarios.Model.Enums;
+
+namespace Usuarios.Model.Entidades
 {
     public class PessoaJuridica : PessoaBase
     {
@@ -9,12 +11,5 @@
         public List<EmpresaModulo> Acessos { get; set; } = [];
         public int ResponsavelId { get; set; }
         public PessoaFisica Responsavel { get; set; } = null!;
-    }
-
-    public enum EmpresaSituacao
-    {
-        Inativo = 0,
-        Ativo = 1,
-        Inadimplente = 2
     }
 }
