@@ -8,44 +8,44 @@ namespace AvenTuristaAPI.Controllers
     [Route("api/usuario")]
     public class UsuarioController : ControllerBase
     {
-        private readonly IPessoaFisicaServicos _pessoaServicos;
-        public UsuarioController(IPessoaFisicaServicos pessoaServicos)
+        private readonly IUsuarioServicos _usuarioServicos;
+        public UsuarioController(IUsuarioServicos usuarioServicos)
         {
-            _pessoaServicos = pessoaServicos;
+            _usuarioServicos = usuarioServicos;
         }
 
-        [HttpGet("{usuarioId}")]
-        public async Task<IActionResult> Obter(int usuarioId)
+        [HttpGet("{publicId}")]
+        public async Task<IActionResult> Obter(Guid publicId)
         {
-            //var usuario = await _pessoaServicos.ObterUsuarioPorId(usuarioId) ?? throw new Exception("Usuario não encontrado");
+            var usuario = await _usuarioServicos.ObterPorPublicId(publicId) ?? throw new Exception("Usuario não encontrado");
             return Ok();
         }
 
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
-            //var usuarios = await _pessoaServicos.ListarUsuarios();
+            var usuarios = await _usuarioServicos.Listar();
             return Ok();
         }
 
         [HttpPost("cadastro")]
         public async Task<IActionResult> Cadastro(UsuarioCadastroDTO dto)
         {
-            //await _pessoaServicos.Cadastro(dto);
+            await _usuarioServicos.Cadastrar(dto);
             return Ok();
         }
 
         [HttpPut("atualizacao")]
         public async Task<IActionResult> Atualizacao(UsuarioAtualizacaoDTO dto)
         {
-            //await _pessoaServicos.Atualizacao(dto);
+            await _usuarioServicos.Atualizar(dto);
             return Ok();
         }
 
         [HttpDelete("deletar")]
-        public async Task<IActionResult> Deletar(int pessoaId)
+        public async Task<IActionResult> Deletar(Guid publicId)
         {
-            //await _pessoaServicos.Deletar(pessoaId);
+            await _usuarioServicos.Deletar(publicId);
             return Ok();
         }
     }

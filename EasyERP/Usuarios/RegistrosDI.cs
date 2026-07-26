@@ -7,6 +7,7 @@ public static class RegistrosDI
     {
         services.AddHttpContextAccessor();
 
+        services.AddScoped<IUsuarioServicos, UsuarioServicos>();
         services.AddScoped<IPessoaFisicaServicos, PessoaFisicaServicos>();
         services.AddScoped<IPessoaJuridicaServicos, PessoaJuridicaServicos>();
         services.AddScoped<IEnderecoServicos, EnderecoServicos>();
