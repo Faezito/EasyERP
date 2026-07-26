@@ -14,6 +14,9 @@ namespace Usuarios.Model.Mapeamento
             CreateMap<UsuarioCadastroDTO, PessoaFisica>();
             CreateMap<UsuarioRespostaDTO, PessoaFisica>();
 
+            CreateMap<UsuarioCadastroDTO, Usuario>();
+            CreateMap<Usuario, UsuarioCadastroDTO>();
+
             CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();
             CreateMap<PessoaFisicaCadastroDTO, PessoaFisica>();
             CreateMap<PessoaFisica, PessoaFisicaCadastroDTO>();
@@ -29,7 +32,6 @@ namespace Usuarios.Model.Mapeamento
             CreateMap<PessoaJuridica, PessoaJuridicaAlteracaoDTO>();
             CreateMap<PessoaJuridica, PessoaJuridicaRespostaDTO>();
             CreateMap<PessoaJuridicaCadastroDTO, PessoaJuridica>();
-            CreateMap<PessoaJuridicaAlteracaoDTO, PessoaJuridica>();
             CreateMap<PessoaJuridicaAlteracaoDTO, PessoaJuridica>()
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
