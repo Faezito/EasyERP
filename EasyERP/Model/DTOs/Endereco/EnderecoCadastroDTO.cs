@@ -7,7 +7,6 @@ namespace Model.DTOs.Endereco
     {
         private string _cep = string.Empty;
 
-        public int? Id { get; set; }
 
         [Required(ErrorMessage = "CEP é necessário")]
         [Display(Name = "CEP")]
