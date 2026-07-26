@@ -3,18 +3,14 @@
     <Project Path="Auditoria/Auditoria.csproj" />
     <Project Path="Bibliotecas/Bibliotecas.csproj" />
     <Project Path="Middlewares/Middlewares.csproj" />
+    <Project Path="Model/Model.csproj" Id="4dce9491-4fec-4cba-be79-40acdc52b3cf" />
   </Folder>
   <Folder Name="/ServicosDeUsuario/">
-    <Project Path="Usuarios.Model/Usuarios.Model.csproj" />
-    <Project Path="Usuarios.Repositorio/Usuarios.Repositorio.csproj">
-      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
-    </Project>
+    <Project Path="Usuarios.Repositorio/Usuarios.Repositorio.csproj" />
     <Project Path="Usuarios.Servicos/Usuarios.Servicos.csproj">
-      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
       <BuildDependency Project="Usuarios.Repositorio/Usuarios.Repositorio.csproj" />
     </Project>
     <Project Path="Usuarios/Usuarios.csproj">
-      <BuildDependency Project="Usuarios.Model/Usuarios.Model.csproj" />
       <BuildDependency Project="Usuarios.Servicos/Usuarios.Servicos.csproj" />
     </Project>
   </Folder>
