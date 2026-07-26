@@ -1,13 +1,14 @@
-﻿using CrossCutting.Auditoria;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+
+namespace CrossCutting.Auditoria;
 
 public abstract class DbContextAuditavel : DbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    protected DbContextAuditavel(DbContextOptions options, IHttpContextAccessor httpContextAccessor) 
+    protected DbContextAuditavel(DbContextOptions options, IHttpContextAccessor httpContextAccessor)
         : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
