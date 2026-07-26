@@ -20,6 +20,12 @@ public abstract class DbContextAuditavel : DbContext
         return base.SaveChanges();
     }
 
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        AplicarAuditoria();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
     private void AplicarAuditoria()
     {
         var usuarioId = ObterUsuarioAtual();
@@ -29,13 +35,13 @@ public abstract class DbContextAuditavel : DbContext
         {
             if (entrada.State == EntityState.Added)
             {
-                entrada.Entity.CriadoEm = DateTime.UtcNow;
+                entrada.Entity.CriadoEm = DateTime.Now;
                 entrada.Entity.CriadoPor = usuarioId;
             }
 
             if (entrada.State == EntityState.Modified)
             {
-                entrada.Entity.AtualizadoEm = DateTime.UtcNow;
+                entrada.Entity.AtualizadoEm = DateTime.Now;
                 entrada.Entity.AtualizadoPor = usuarioId;
             }
         }
