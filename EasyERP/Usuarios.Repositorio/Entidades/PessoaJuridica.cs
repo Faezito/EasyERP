@@ -1,6 +1,6 @@
-﻿using Usuarios.Model.Enums;
+﻿using CrossCutting.Model.Enums;
 
-namespace Usuarios.Model.Entidades
+namespace Usuarios.Repositorio.Entidades
 {
     public class PessoaJuridica : PessoaBase
     {

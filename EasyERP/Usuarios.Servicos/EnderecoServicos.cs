@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Usuarios.Model.DTOs;
-using Usuarios.Model.Entidades;
+using Model.DTOs.Endereco;
+using Usuarios.Repositorio.Entidades;
 using Usuarios.Repositorio;
 
 namespace Usuarios.Servicos
@@ -44,7 +44,6 @@ namespace Usuarios.Servicos
             Remover(pessoa.Endereco);
 
             pessoa.Endereco = null;
-            pessoa.EnderecoId = null;
 
             await SalvarAsync();
         }

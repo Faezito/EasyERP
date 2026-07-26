@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Usuarios.Model.DTOs;
-using Usuarios.Model.Entidades;
+using Model.DTOs.Endereco;
+using Usuarios.Repositorio.Entidades;
 using Usuarios.Servicos;
 
 namespace AvenTuristaAPI.Controllers

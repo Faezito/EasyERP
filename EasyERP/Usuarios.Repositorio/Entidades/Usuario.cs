@@ -1,13 +1,13 @@
-﻿using Usuarios.Model.Enums;
+﻿using CrossCutting.Model.Enums;
 
-namespace Usuarios.Model.Entidades
+namespace Usuarios.Repositorio.Entidades
 {
     public class Usuario
     {
         public int Id { get; set; }
-        public Guid PublicId { get; set; }
+        public Guid PublicId { get; set; } = Guid.CreateVersion7();
         public int PessoaFisicaId { get; set; }
-        public string Email { get; set; } = string.Empty;
+        public string NomeUsuario { get; set; } = string.Empty;
         public string SenhaHash { get; set; } = string.Empty;
         public Perfil Perfil { get; set; }
 

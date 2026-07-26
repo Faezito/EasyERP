@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Usuarios.Model.DTOs;
-using Usuarios.Model.Entidades;
+using Model.DTOs.PessoaJuridica;
 using Usuarios.Repositorio;
+using Usuarios.Repositorio.Entidades;
 using bC = BCrypt.Net.BCrypt;
 
 namespace Usuarios.Servicos
@@ -29,7 +29,6 @@ namespace Usuarios.Servicos
         public async Task Cadastro(PessoaJuridicaCadastroDTO dto)
         {
             var pj = _mapper.Map<PessoaJuridica>(dto);
-            pj.SenhaHash = bC.HashPassword(dto.Senha);
             pj.CriadoEm = DateTime.Now;
 
             pj.Endereco = _mapper.Map<Endereco>(dto.Endereco);
@@ -41,7 +40,6 @@ namespace Usuarios.Servicos
         {
             var pj = await ObterPorIdAsync(dto.Id) ?? throw new Exception("Usuário não encontrado");
             pj.CriadoEm = DateTime.Now;
-            pj.SenhaHash = string.IsNullOrWhiteSpace(dto.Senha) ? pj.SenhaHash : bC.HashPassword(dto.Senha);
 
             await SalvarAsync();
         }
@@ -52,7 +50,7 @@ namespace Usuarios.Servicos
             if (pessoa == null) throw new Exception("Erro ao excluir usuário: Pessoa não encontrada.");
 
             Remover(pessoa);
-            _enderecoServicos.Remover(new Endereco { Id = pessoa.EnderecoId });
+            //_enderecoServicos.Remover(new Endereco { Id = pessoa.EnderecoId });
             await SalvarAsync();
         }
 

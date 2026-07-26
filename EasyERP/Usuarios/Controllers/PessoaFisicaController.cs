@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Usuarios.Model.DTOs;
+using Model.DTOs.PessoaFisica;
 using Usuarios.Servicos;
 
 namespace AvenTuristaAPI.Controllers
 {
     [ApiController]
-    [Route("api/usuario")]
+    [Route("api/[controller]")]
     public class PessoaFisicaController : ControllerBase
     {
         private readonly IPessoaFisicaServicos _pessoaServicos;
@@ -17,35 +17,34 @@ namespace AvenTuristaAPI.Controllers
         [HttpGet("{usuarioId}")]
         public async Task<IActionResult> Obter(int usuarioId)
         {
-            var usuario = await _pessoaServicos.ObterUsuarioPorId(usuarioId) ?? throw new Exception("Usuario não encontrado");
-            return Ok(usuario);
+            return Ok();
         }
 
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
-            var usuarios = await _pessoaServicos.ListarUsuarios();
+            var usuarios = await _pessoaServicos.Listar();
             return Ok(usuarios);
         }
 
         [HttpPost("cadastro")]
-        public async Task<IActionResult> Cadastro(UsuarioCadastroDTO dto)
+        public async Task<IActionResult> Cadastro(PessoaFisicaCadastroDTO dto)
         {
-            await _pessoaServicos.Cadastro(dto);
+            await _pessoaServicos.Cadastrar(dto);
             return Ok();
         }
 
         [HttpPut("atualizacao")]
-        public async Task<IActionResult> Atualizacao(UsuarioAtualizacaoDTO dto)
+        public async Task<IActionResult> Atualizacao(PessoaFisicaAtualizacaoDTO dto)
         {
-            await _pessoaServicos.Atualizacao(dto);
+            await _pessoaServicos.Atualizar(dto);
             return Ok();
         }
 
         [HttpDelete("deletar")]
-        public async Task<IActionResult> Deletar(int pessoaId)
+        public async Task<IActionResult> Deletar(Guid publicId)
         {
-            await _pessoaServicos.Deletar(pessoaId);
+            await _pessoaServicos.Deletar(publicId);
             return Ok();
         }
     }

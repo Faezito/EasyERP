@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Usuarios.Model.Entidades;
+using Usuarios.Repositorio.Entidades;
 
 namespace Usuarios.Repositorio.Configuration
 {
@@ -9,11 +9,11 @@ namespace Usuarios.Repositorio.Configuration
         public void Configure(EntityTypeBuilder<UsuarioModulo> builder)
         {
             builder.HasOne(um => um.Usuario)
-                .WithMany()
+                .WithMany(u => u.Acessos)
                 .HasForeignKey(um => um.UsuarioId);
 
             builder.HasOne(um => um.EmpresaModulo)
-                .WithMany()
+                .WithMany(em => em.Acessos)
                 .HasForeignKey(um => um.EmpresaModuloId);
 
             builder.HasIndex(um => new { um.UsuarioId, um.EmpresaModuloId }).IsUnique();

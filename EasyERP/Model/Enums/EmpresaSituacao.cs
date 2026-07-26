@@ -1,4 +1,4 @@
-﻿namespace Usuarios.Model.Enums
+﻿namespace CrossCutting.Model.Enums
 {
     public enum EmpresaSituacao
     {

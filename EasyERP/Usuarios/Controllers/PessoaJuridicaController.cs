@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Usuarios.Model.DTOs;
+using Model.DTOs.PessoaJuridica;
 using Usuarios.Servicos;
 
 namespace AvenTuristaAPI.Controllers

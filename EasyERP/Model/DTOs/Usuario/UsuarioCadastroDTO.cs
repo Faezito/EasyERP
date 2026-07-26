@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CrossCutting.Model.Enums;
+using Model.DTOs.Endereco;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using Usuarios.Model.Entidades;
 
-namespace Usuarios.Model.DTOs
+namespace Model.DTOs.Usuario
 {
     public class UsuarioCadastroDTO
     {
@@ -62,19 +63,5 @@ namespace Usuarios.Model.DTOs
         public Perfil Perfil { get; set; }
         public int UsuarioAlteracaoId { get; set; }
         public EnderecoCadastroDTO Endereco { get; set; }
-    }
-
-    public class UsuarioAtualizacaoDTO
-    {
-        [Required(ErrorMessage = "Id é necessário")]
-        [Display(Name = "Id")]
-        public int Id { get; set; }
-
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "A senha deve conter entre 8 e 100 caracteres")]
-        [Display(Name = "Senha")]
-        public string? Senha { get; set; }
-
-        [Display(Name = "Perfil")]
-        public Perfil? Perfil { get; set; }
     }
 }

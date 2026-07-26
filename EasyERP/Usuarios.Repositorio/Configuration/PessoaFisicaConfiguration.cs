@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Usuarios.Model.Entidades;
+using Usuarios.Repositorio.Entidades;
 
 namespace Usuarios.Repositorio.Configuration;
 
-public class PessoaConfiguration : IEntityTypeConfiguration<PessoaFisica>
+public class PessoaFisicaConfiguration : IEntityTypeConfiguration<PessoaFisica>
 {
     public void Configure(EntityTypeBuilder<PessoaFisica> builder)
     {
         builder.ToTable("PESSOAS");
 
-        builder.HasKey(x => x.Id);
+        //builder.HasKey(x => x.Id);
 
         builder.Property(x => x.NomeCompleto)
                .HasMaxLength(400)
@@ -48,6 +48,11 @@ public class PessoaConfiguration : IEntityTypeConfiguration<PessoaFisica>
 
         builder.Property(x => x.AtualizadoEm)
                .HasColumnType("smalldatetime");
+
+        builder.HasOne(pf => pf.Empresa)
+               .WithMany()
+               .HasForeignKey(pf => pf.EmpresaId)
+               .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Endereco)
                .WithMany()

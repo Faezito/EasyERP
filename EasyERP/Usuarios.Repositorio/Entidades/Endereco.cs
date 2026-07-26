@@ -1,4 +1,4 @@
-﻿namespace Usuarios.Model.Entidades
+﻿namespace Usuarios.Repositorio.Entidades
 {
     public class Endereco
     {

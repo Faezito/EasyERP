@@ -1,6 +1,6 @@
 ﻿using CrossCutting.Auditoria;
 
-namespace Usuarios.Model.Entidades
+namespace Usuarios.Repositorio.Entidades
 {
     public class UsuarioModulo : EntidadeAuditavel
     {

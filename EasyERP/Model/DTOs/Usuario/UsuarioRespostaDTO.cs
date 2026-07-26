@@ -1,6 +1,7 @@
-﻿using Usuarios.Model.Entidades;
+﻿using CrossCutting.Model.Enums;
+using Model.DTOs.Endereco;
 
-namespace Usuarios.Model.DTOs
+namespace Model.DTOs.Usuario
 {
     public class UsuarioRespostaDTO
     {
@@ -8,9 +9,10 @@ namespace Usuarios.Model.DTOs
         private string _telefone = string.Empty;
         private string _genero = string.Empty;
 
-        public int Id { get; set; }
-        public string NomeCompleto { get; set; }
-        public string NomeUsuario { get; set; }
+        public int Id { get; set; } // APENAS DEV, REMOVER
+        public Guid PublicId { get; set; }
+        public string NomeCompleto { get; set; } = string.Empty;
+        public string NomeUsuario { get; set; } = string.Empty;
         public string Genero
         {
             get => _genero; set => _genero = value switch
@@ -31,9 +33,9 @@ namespace Usuarios.Model.DTOs
             get => _telefone;
             set => _telefone = value ?? Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         public DateTime DataNascimento { get; set; }
         public Perfil Perfil { get; set; }
-        public Endereco? Endereco { get; set; }
+        public EnderecoRespostaDTO? Endereco { get; set; }
     }
 }

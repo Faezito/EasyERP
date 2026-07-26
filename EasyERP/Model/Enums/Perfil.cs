@@ -1,4 +1,4 @@
-﻿namespace Usuarios.Model.Enums
+﻿namespace CrossCutting.Model.Enums
 {
     public enum Perfil
     {
@@ -6,5 +6,6 @@
         AdministradorDoSistema = 1,
         Administrador = 5,
         Usuario = 10,
+        Pessoa = 20
     }
 }

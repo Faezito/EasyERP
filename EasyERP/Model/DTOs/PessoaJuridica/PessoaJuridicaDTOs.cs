@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model.DTOs.Endereco;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Usuarios.Model.DTOs
+namespace Model.DTOs.PessoaJuridica
 {
     public class PessoaJuridicaCadastroDTO
     {

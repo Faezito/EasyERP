@@ -1,6 +1,6 @@
-﻿using Usuarios.Model.Entidades;
+﻿using Model.DTOs.Endereco;
 
-namespace Usuarios.Model.DTOs
+namespace Model.DTOs.PessoaJuridica
 {
     public class PessoaJuridicaRespostaDTO
     {
@@ -33,14 +33,14 @@ namespace Usuarios.Model.DTOs
             set => _telefone = Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
         public string? Email { get; set; }
-        public string NomeDoResponsavel { get; set; }
+        public string NomeDoResponsavel { get; set; } = string.Empty;
         public string TelefoneDoResponsavel
         {
             get => _telefoneResp;
             set => _telefoneResp = Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
-        public string EmailDoResponsavel { get; set; }
+        public string EmailDoResponsavel { get; set; } = string.Empty;
         public bool Ativo { get; set; }
-        public Endereco Endereco { get; set; }
+        public EnderecoRespostaDTO? Endereco { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Usuarios.Model.Entidades
+﻿namespace Usuarios.Repositorio.Entidades
 {
     public class PessoaFisica : PessoaBase
     {
@@ -12,5 +12,6 @@
 
         public int? EmpresaId { get; set; }
         public PessoaJuridica? Empresa { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

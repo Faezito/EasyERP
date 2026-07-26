@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Usuarios.Model.Entidades;
+using Usuarios.Repositorio.Entidades;
 
 namespace Usuarios.Repositorio.Configuration;
 
