@@ -14,10 +14,11 @@ namespace AvenTuristaAPI.Controllers
             _pessoaServicos = pessoaServicos;
         }
 
-        [HttpGet("{usuarioId}")]
-        public async Task<IActionResult> Obter(int usuarioId)
+        [HttpGet("{publicId}")]
+        public async Task<IActionResult> Obter(Guid publicId)
         {
-            return Ok();
+            var pessoa = await _pessoaServicos.ObterPorPublicId(publicId);
+            return Ok(pessoa);
         }
 
         [HttpGet("listar")]
@@ -31,6 +32,13 @@ namespace AvenTuristaAPI.Controllers
         public async Task<IActionResult> Cadastro(PessoaFisicaCadastroDTO dto)
         {
             await _pessoaServicos.Cadastrar(dto);
+            return Ok();
+        }
+
+        [HttpPost("cadastroBulk")]
+        public async Task<IActionResult> CadastroBulk(List<PessoaFisicaCadastroDTO> dtos)
+        {
+            await _pessoaServicos.CadastrarBulk(dtos);
             return Ok();
         }
 

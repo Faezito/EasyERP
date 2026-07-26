@@ -11,8 +11,10 @@ namespace Usuarios.Servicos
     public interface IPessoaFisicaServicos : ICRUDGenerico<PessoaFisica>
     {
         Task Cadastrar(PessoaFisicaCadastroDTO dto);
+        Task CadastrarBulk(List<PessoaFisicaCadastroDTO> dto);
         Task Atualizar(PessoaFisicaAtualizacaoDTO dto);
         Task<PessoaFisicaRespostaDTO> ObterPorId(int id);
+        Task<PessoaFisica?> ObterPessoaPorPublicId(Guid publicId);
         Task<PessoaFisicaRespostaDTO> ObterPorPublicId(Guid publicId);
         Task<List<PessoaFisicaRespostaDTO>> Listar();
         Task Deletar(Guid publicId);
@@ -28,9 +30,12 @@ namespace Usuarios.Servicos
             _servicoEndereco = servicoEndereco;
         }
 
-        public Task Atualizar(PessoaFisicaAtualizacaoDTO dto)
+        public async Task Atualizar(PessoaFisicaAtualizacaoDTO dto)
         {
-            throw new NotImplementedException();
+            var pessoa = _mapper.Map<PessoaFisica>(dto);
+            pessoa.AtualizadoEm = DateTime.Now;
+            _dbSet.Update(pessoa);
+            await SalvarAsync();
         }
 
         public async Task Cadastrar(PessoaFisicaCadastroDTO dto)
@@ -41,9 +46,13 @@ namespace Usuarios.Servicos
             await SalvarAsync();
         }
 
-        public Task Deletar(Guid publicId)
+        public async Task Deletar(Guid publicId)
         {
-            throw new NotImplementedException();
+            var pessoa = await ObterPessoaPorPublicId(publicId);
+            if (pessoa == null) throw new Exception("Erro ao excluir: Pessoa não encontrada.");
+
+            _db.Remove(pessoa);
+            await SalvarAsync();
         }
 
         public async Task<List<PessoaFisicaRespostaDTO>> Listar()
@@ -52,14 +61,33 @@ namespace Usuarios.Servicos
             return _mapper.Map<List<PessoaFisicaRespostaDTO>>(pessoas);
         }
 
-        public Task<PessoaFisicaRespostaDTO> ObterPorId(int id)
+        public async Task<PessoaFisicaRespostaDTO> ObterPorId(int id)
         {
-            throw new NotImplementedException();
+            var pessoa = await ObterPorIdAsync(id);
+            return _mapper.Map<PessoaFisicaRespostaDTO>(pessoa);
         }
 
-        public Task<PessoaFisicaRespostaDTO> ObterPorPublicId(Guid publicId)
+        public async Task<PessoaFisicaRespostaDTO> ObterPorPublicId(Guid publicId)
         {
-            throw new NotImplementedException();
+            var pessoa = await _db.Set<PessoaFisica>().FirstOrDefaultAsync(x=>x.PublicId == publicId);
+            return _mapper.Map<PessoaFisicaRespostaDTO>(pessoa);
+        }
+
+        public async Task<PessoaFisica?> ObterPessoaPorPublicId(Guid publicId)
+        {
+            return await _db.Set<PessoaFisica>().FirstOrDefaultAsync(x => x.PublicId == publicId);
+        }
+
+        public async Task CadastrarBulk(List<PessoaFisicaCadastroDTO> dto)
+        {
+            var pessoas = _mapper.Map<List<PessoaFisica>>(dto);
+
+            foreach (var pessoa in pessoas)
+            {
+                pessoa.CriadoEm = DateTime.Now;
+                Adicionar(pessoa);
+            }
+            await SalvarAsync();
         }
     }
 }
