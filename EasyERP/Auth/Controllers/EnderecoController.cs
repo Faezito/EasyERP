@@ -23,13 +23,6 @@ namespace AvenTuristaAPI.Controllers
             return Ok(endereco);
         }
 
-        [HttpGet("listarPorEmpresa/{empresaId}")]
-        public async Task<IActionResult> ListarPorEmpresa(int empresaId)
-        {
-            var endereco = await _servicoDeEndereco.ObterPorIdAsync(empresaId);
-            return Ok(endereco);
-        }
-
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
