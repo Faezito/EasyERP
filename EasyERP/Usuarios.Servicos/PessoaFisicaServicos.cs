@@ -23,17 +23,22 @@ namespace Usuarios.Servicos
     public class PessoaFisicaServicos : CRUDGenerico<PessoaFisica>, IPessoaFisicaServicos
     {
         private readonly IMapper _mapper;
-        private readonly IEnderecoServicos _servicoEndereco;
-        public PessoaFisicaServicos(AppDbContext db, IMapper mapper, IEnderecoServicos servicoEndereco) : base(db)
+        public PessoaFisicaServicos(AppDbContext db, IMapper mapper) : base(db)
         {
             _mapper = mapper;
-            _servicoEndereco = servicoEndereco;
         }
 
         public async Task Atualizar(PessoaFisicaAtualizacaoDTO dto)
         {
-            var pessoa = _mapper.Map<PessoaFisica>(dto);
+            var pessoa = await _db.Set<PessoaFisica>().FirstOrDefaultAsync(x => x.PublicId == dto.PublicId)
+                ?? throw new Exception("Erro ao atualizar: Usuário não encontrado");
+
+            pessoa.NomeCompleto = string.IsNullOrWhiteSpace(dto.NomeCompleto) ? pessoa.NomeCompleto : dto.NomeCompleto;
+            pessoa.Genero = string.IsNullOrWhiteSpace(dto.Genero) ? pessoa.Genero : dto.Genero;
+            pessoa.Telefone = string.IsNullOrWhiteSpace(dto.Telefone) ? pessoa.Telefone : dto.Telefone;
+            pessoa.Email = string.IsNullOrWhiteSpace(dto.Email) ? pessoa.Email : dto.Email;
             pessoa.AtualizadoEm = DateTime.Now;
+
             _dbSet.Update(pessoa);
             await SalvarAsync();
         }
@@ -57,7 +62,9 @@ namespace Usuarios.Servicos
 
         public async Task<List<PessoaFisicaRespostaDTO>> Listar()
         {
-            var pessoas = await ObterTodosAsync();
+            var pessoas = await _db.PessoasFisicas
+                                   .Include(x=>x.Endereco)
+                                   .ToListAsync();
             return _mapper.Map<List<PessoaFisicaRespostaDTO>>(pessoas);
         }
 
