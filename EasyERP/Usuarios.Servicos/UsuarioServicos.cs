@@ -10,6 +10,7 @@ namespace Usuarios.Servicos
     public interface IUsuarioServicos : ICRUDGenerico<Usuario>
     {
         Task Cadastrar(UsuarioCadastroDTO dto);
+        Task CadastrarBulk(List<UsuarioCadastroDTO> dto);
         Task Atualizar(UsuarioAtualizacaoDTO dto);
         Task<UsuarioRespostaDTO> ObterPorId(int id);
         Task<UsuarioRespostaDTO> ObterPorPublicId(Guid publicId);
@@ -27,10 +28,12 @@ namespace Usuarios.Servicos
 
         public async Task Atualizar(UsuarioAtualizacaoDTO dto)
         {
-            var usuario = _mapper.Map<Usuario>(dto);
+            var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.PublicId == dto.PublicId);
+
+            usuario.SenhaHash = string.IsNullOrWhiteSpace(dto.Senha) ? usuario.SenhaHash : bC.HashPassword(dto.Senha);
+            usuario.Perfil = dto.Perfil ?? usuario.Perfil;
             usuario.AtualizadoEm = DateTime.Now;
 
-            _dbSet.Update(usuario);
             await SalvarAsync();
         }
 
@@ -43,6 +46,21 @@ namespace Usuarios.Servicos
             usuario.PessoaFisica = pessoa;
 
             Adicionar(usuario);
+            await SalvarAsync();
+        }
+
+        public async Task CadastrarBulk(List<UsuarioCadastroDTO> dto)
+        {
+            foreach (var item in dto)
+            {
+                var usuario = _mapper.Map<Usuario>(item);
+                var pessoa = _mapper.Map<PessoaFisica>(item);
+
+                usuario.SenhaHash = bC.HashPassword(item.Senha);
+                usuario.PessoaFisica = pessoa;
+
+                Adicionar(usuario);
+            }
             await SalvarAsync();
         }
 

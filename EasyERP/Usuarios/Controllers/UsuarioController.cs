@@ -18,20 +18,27 @@ namespace AvenTuristaAPI.Controllers
         public async Task<IActionResult> Obter(Guid publicId)
         {
             var usuario = await _usuarioServicos.ObterPorPublicId(publicId) ?? throw new Exception("Usuario não encontrado");
-            return Ok();
+            return Ok(usuario);
         }
 
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
             var usuarios = await _usuarioServicos.Listar();
-            return Ok();
+            return Ok(usuarios);
         }
 
         [HttpPost("cadastro")]
         public async Task<IActionResult> Cadastro(UsuarioCadastroDTO dto)
         {
             await _usuarioServicos.Cadastrar(dto);
+            return Ok();
+        }
+
+        [HttpPost("cadastroBulk")]
+        public async Task<IActionResult> CadastroBulk(List<UsuarioCadastroDTO> dto)
+        {
+            await _usuarioServicos.CadastrarBulk(dto);
             return Ok();
         }
 
