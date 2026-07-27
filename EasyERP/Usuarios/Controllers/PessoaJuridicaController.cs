@@ -1,5 +1,6 @@
+using CrossCutting.Model.DTOs.PessoaJuridica;
 using Microsoft.AspNetCore.Mvc;
-using Model.DTOs.PessoaJuridica;
+using Model.DTOs.PessoaFisica;
 using Usuarios.Servicos;
 
 namespace AvenTuristaAPI.Controllers
@@ -14,10 +15,10 @@ namespace AvenTuristaAPI.Controllers
             _pessoaJuridicaServicos = pessoaJuridicaServicos;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Obter(int id)
+        [HttpGet("{publicId}")]
+        public async Task<IActionResult> Obter(Guid publicId)
         {
-            var empresa = await _pessoaJuridicaServicos.ObterEmpresaPorId(id) ?? throw new Exception("Usuario não encontrado");
+            var empresa = await _pessoaJuridicaServicos.ObterPorId(publicId) ?? throw new Exception("Empresa não encontrada");
             return Ok(empresa);
         }
 
@@ -35,6 +36,13 @@ namespace AvenTuristaAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("cadastroBulk")]
+        public async Task<IActionResult> CadastroBulk(List<PessoaJuridicaCadastroDTO> dtos)
+        {
+            await _pessoaJuridicaServicos.CadastrarBulk(dtos);
+            return Ok();
+        }
+
         [HttpPut("atualizacao")]
         public async Task<IActionResult> Atualizacao(PessoaJuridicaAlteracaoDTO dto)
         {
@@ -43,9 +51,9 @@ namespace AvenTuristaAPI.Controllers
         }
 
         [HttpDelete("deletar")]
-        public async Task<IActionResult> Deletar(int id)
+        public async Task<IActionResult> Deletar(Guid publicId)
         {
-            await _pessoaJuridicaServicos.Deletar(id);
+            await _pessoaJuridicaServicos.Deletar(publicId);
             return Ok();
         }
     }
