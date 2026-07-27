@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using CrossCutting.Model.DTOs.PessoaJuridica;
 using Model.DTOs.Endereco;
 using Model.DTOs.PessoaFisica;
-using Model.DTOs.PessoaJuridica;
 using Model.DTOs.Usuario;
 using Usuarios.Repositorio.Entidades;
 
@@ -17,6 +17,8 @@ namespace Usuarios.Model.Mapeamento
             CreateMap<UsuarioCadastroDTO, Usuario>();
             CreateMap<Usuario, UsuarioCadastroDTO>();
 
+            CreateMap<Usuario, UsuarioRespostaDTO>();
+
             CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();
             CreateMap<PessoaFisicaCadastroDTO, PessoaFisica>();
             CreateMap<PessoaFisica, PessoaFisicaCadastroDTO>();
@@ -27,6 +29,8 @@ namespace Usuarios.Model.Mapeamento
 
             CreateMap<EnderecoCadastroDTO, Endereco>();
             CreateMap<Endereco, EnderecoCadastroDTO>();
+            CreateMap<Endereco, EnderecoRespostaDTO>();
+            CreateMap<EnderecoRespostaDTO, Endereco>();
 
             CreateMap<PessoaJuridica, PessoaJuridicaCadastroDTO>();
             CreateMap<PessoaJuridica, PessoaJuridicaAlteracaoDTO>();
