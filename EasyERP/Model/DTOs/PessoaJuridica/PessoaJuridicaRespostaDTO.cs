@@ -1,9 +1,11 @@
-﻿using Model.DTOs.Endereco;
+﻿using CrossCutting.Auditoria;
+using CrossCutting.Model.Enums;
+using Model.DTOs.Endereco;
 using Model.DTOs.PessoaFisica;
 
 namespace CrossCutting.Model.DTOs.PessoaJuridica
 {
-    public class PessoaJuridicaRespostaDTO
+    public class PessoaJuridicaRespostaDTO : EntidadeAuditavel
     {
         private string _cnpj = string.Empty;
         private string _telefone = string.Empty;
@@ -34,7 +36,7 @@ namespace CrossCutting.Model.DTOs.PessoaJuridica
             set => _telefone = Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
         public string? Email { get; set; }
-        public bool Ativo { get; set; }
+        public EmpresaSituacao Situacao { get; set; }
         public PessoaFisicaRespostaDTO? Responsavel { get; set; }
         public EnderecoRespostaDTO? Endereco { get; set; }
     }

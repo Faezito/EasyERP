@@ -1,4 +1,5 @@
-﻿using Model.DTOs.Endereco;
+﻿using CrossCutting.Model.Enums;
+using Model.DTOs.Endereco;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
@@ -47,8 +48,8 @@ namespace CrossCutting.Model.DTOs.PessoaJuridica
         [Display(Name = "Senha")]
         public string? Senha { get; set; }
 
-        [Display(Name = "Ativo")]
-        public bool Ativo { get; set; }
+        [Display(Name = "Situação")]
+        public EmpresaSituacao Situacao { get; set; }
 
         [Display(Name = "Responsável")]
         public Guid? ResponsavelPublicId { get; set; }
