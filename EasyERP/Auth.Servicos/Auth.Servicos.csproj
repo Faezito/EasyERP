@@ -15,7 +15,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\CrossCutting\Auditoria\Auditoria.csproj" />
 	  <ProjectReference Include="..\CrossCutting\Model\Model.csproj" />
-	  <ProjectReference Include="..\Model\Model.csproj" />
 	  <ProjectReference Include="..\Auth.Repositorio\Auth.Repositorio.csproj" />
 	</ItemGroup>
 

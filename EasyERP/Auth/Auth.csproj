@@ -37,7 +37,6 @@
 	  <ProjectReference Include="..\CrossCutting\Auditoria\Auditoria.csproj" />
 	  <ProjectReference Include="..\CrossCutting\Middlewares\Middlewares.csproj" />
 	  <ProjectReference Include="..\CrossCutting\Model\Model.csproj" />
-	  <ProjectReference Include="..\Middlewares\Middlewares.csproj" />
 	  <ProjectReference Include="..\Auth.Repositorio\Auth.Repositorio.csproj" />
 	</ItemGroup>
 
