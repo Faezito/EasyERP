@@ -20,7 +20,6 @@ public class ErrorHandlingMiddleware
 
     public async Task InvokeAsync(
         HttpContext context
-        //ILogDeErroServicos log
         )
     {
         try
@@ -53,8 +52,7 @@ public class ErrorHandlingMiddleware
             context.Response.Clear();
             context.Response.StatusCode = problem.Status ?? 500;
 
-            //await log.LogarErro(ex, context.Request.Path);
-            //await context.Response.WriteAsJsonAsync(problem);
+            await context.Response.WriteAsJsonAsync(problem);
         }
     }
 
