@@ -1,14 +1,15 @@
 ﻿using Model.DTOs.Endereco;
+using Model.DTOs.PessoaFisica;
 
-namespace Model.DTOs.PessoaJuridica
+namespace CrossCutting.Model.DTOs.PessoaJuridica
 {
     public class PessoaJuridicaRespostaDTO
     {
         private string _cnpj = string.Empty;
         private string _telefone = string.Empty;
-        private string _telefoneResp = string.Empty;
 
-        public int Id { get; set; }
+        public int Id { get; set; } // TODO: DELETAR
+        public Guid PublicId { get; set; }
         public string? NomeFantasia { get; set; }
         public string? RazaoSocial { get; set; }
         public string CNPJ
@@ -33,14 +34,8 @@ namespace Model.DTOs.PessoaJuridica
             set => _telefone = Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
         public string? Email { get; set; }
-        public string NomeDoResponsavel { get; set; } = string.Empty;
-        public string TelefoneDoResponsavel
-        {
-            get => _telefoneResp;
-            set => _telefoneResp = Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
-        }
-        public string EmailDoResponsavel { get; set; } = string.Empty;
         public bool Ativo { get; set; }
+        public PessoaFisicaRespostaDTO? Responsavel { get; set; }
         public EnderecoRespostaDTO? Endereco { get; set; }
     }
 }
