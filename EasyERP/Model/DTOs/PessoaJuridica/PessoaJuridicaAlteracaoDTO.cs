@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CrossCutting.Model.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace CrossCutting.Model.DTOs.PessoaJuridica;
@@ -17,11 +18,6 @@ public class PessoaJuridicaAlteracaoDTO
     [Display(Name = "Razão Social")]
     public string? RazaoSocial { get; set; }
 
-    [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 caracteres")]
-    [Display(Name = "CNPJ")]
-    [RegularExpression(@"^[A-Z0-9]{14}$", ErrorMessage = "O CNPJ informado é inválido")]
-    public string? CNPJ { get; set; }
-
     [StringLength(20, MinimumLength = 10, ErrorMessage = "O telefone deve conter 10 ou 11 dígitos")]
     [Display(Name = "Telefone")]
     public string? Telefone
@@ -30,23 +26,9 @@ public class PessoaJuridicaAlteracaoDTO
         set => _telefone = Regex.Replace(value ?? string.Empty, "[^0-9]", "");
     }
 
-    [StringLength(150, ErrorMessage = "O E-mail deve conter no máximo 150 caracteres")]
-    [Display(Name = "E-mail")]
-    [EmailAddress(ErrorMessage = "O E-mail informado é inválido")]
-    public string? Email { get; set; }
-
-    [StringLength(100, MinimumLength = 8, ErrorMessage = "A senha deve conter entre 8 e 100 caracteres")]
-    [Display(Name = "Senha")]
-    public string? Senha { get; set; }
-
     [Display(Name = "Responsável")]
     public Guid? ResponsavelPublicId { get; set; }
 
-    [StringLength(150, ErrorMessage = "O E-mail deve conter no máximo 150 caracteres")]
-    [Display(Name = "E-mail do Responsável")]
-    [EmailAddress(ErrorMessage = "O E-mail informado é inválido")]
-    public string? EmailDoResponsavel { get; set; }
-
-    [Display(Name = "Ativo")]
-    public bool? Ativo { get; set; }
+    [Display(Name = "Situação")]
+    public EmpresaSituacao Situacao { get; set; }
 }
