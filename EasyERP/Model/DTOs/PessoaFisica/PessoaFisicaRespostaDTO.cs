@@ -1,9 +1,9 @@
-﻿using CrossCutting.Model.Enums;
+﻿using CrossCutting.Auditoria;
 using Model.DTOs.Endereco;
 
 namespace Model.DTOs.PessoaFisica
 {
-    public class PessoaFisicaRespostaDTO
+    public class PessoaFisicaRespostaDTO : EntidadeAuditavel
     {
         private string _cpf = string.Empty;
         private string _telefone = string.Empty;
@@ -12,7 +12,6 @@ namespace Model.DTOs.PessoaFisica
         public int Id { get; set; } // APENAS DEV, REMOVER
         public Guid PublicId { get; set; }
         public string NomeCompleto { get; set; } = string.Empty;
-        public string NomeUsuario { get; set; } = string.Empty;
         public string Genero
         {
             get => _genero; set => _genero = value switch
@@ -34,7 +33,6 @@ namespace Model.DTOs.PessoaFisica
         }
         public string Email { get; set; } = string.Empty;
         public DateTime DataNascimento { get; set; }
-        public Perfil Perfil { get; set; }
         public EnderecoRespostaDTO? Endereco { get; set; }
     }
 }
