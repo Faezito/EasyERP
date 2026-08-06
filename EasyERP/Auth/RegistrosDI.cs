@@ -11,6 +11,7 @@ public static class RegistrosDI
         services.AddScoped<IPessoaFisicaServicos, PessoaFisicaServicos>();
         services.AddScoped<IPessoaJuridicaServicos, PessoaJuridicaServicos>();
         services.AddScoped<IEnderecoServicos, EnderecoServicos>();
+        services.AddScoped<IAcessoServicos, AcessoServicos>();
 
         return services;
     }
