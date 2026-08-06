@@ -1,6 +1,7 @@
 ﻿using Auth.Repositorio;
 using Auth.Repositorio.Entidades;
 using AutoMapper;
+using CrossCutting.Model.DTOs.Login;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -27,19 +28,19 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
 
     public async Task<LoginResponseDTO> Login(LoginRequestDTO dto)
     {
-        var usuario = await _db.Set<Usuario>().Include(x=>x.PessoaFisica).SingleOrDefaultAsync(x=>x.NomeUsuario == dto.Login || x.PessoaFisica.Email == dto.Login);
+        var usuario = await _db.Set<Usuario>().Include(x => x.PessoaFisica).SingleOrDefaultAsync(x => x.NomeUsuario == dto.Login || x.PessoaFisica.Email == dto.Login);
 
         if (usuario == null || !bC.Verify(dto.Senha, usuario.SenhaHash))
             throw new Exception("Credenciais inválidas");
 
-        var claims = CriarClaims(usuario);
         var usuarioRes = _mapper.Map<UsuarioRespostaDTO>(usuario);
+        var claims = CriarClaims(usuario);
         usuarioRes.Pessoa = _mapper.Map<PessoaFisicaRespostaDTO>(usuario.PessoaFisica);
 
         var resposta = new LoginResponseDTO
         {
             Usuario = usuarioRes,
-            Token = GerarToken(claims),
+            Token = GerarToken(claims)
         };
 
         return resposta;
@@ -54,14 +55,14 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
 
         var credentials = new SigningCredentials(
             key,
-            SecurityAlgorithms.HmacSha256);
+                SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+        issuer: _configuration["Jwt:Issuer"],
+        audience: _configuration["Jwt:Audience"],
             claims: claims,
             expires: DateTime.UtcNow.AddHours(8),
-            signingCredentials: credentials);
+        signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
@@ -72,6 +73,7 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
             {
                 new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
                 new(JwtRegisteredClaimNames.UniqueName, usuario.NomeUsuario),
+                new(JwtRegisteredClaimNames.Name, usuario.PessoaFisica.NomeCompleto),
                 new(JwtRegisteredClaimNames.Email, usuario.PessoaFisica.Email),
 
                 new (ClaimTypes.NameIdentifier, usuario.Id.ToString()),

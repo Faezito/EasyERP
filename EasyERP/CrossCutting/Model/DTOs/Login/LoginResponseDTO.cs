@@ -1,10 +1,10 @@
 ﻿using Model.DTOs.Usuario;
 
-namespace Model.DTOs.Login;
+namespace CrossCutting.Model.DTOs.Login;
 
 public class LoginResponseDTO
 {
+    public string Token { get; set; }
     public UsuarioRespostaDTO Usuario { get; set; }
-    public string Token { get; set; } = string.Empty;
     public DateTime ExpirationDate => DateTime.Now.AddHours(3);
 }

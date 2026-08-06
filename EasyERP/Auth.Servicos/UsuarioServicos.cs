@@ -14,6 +14,7 @@ namespace Auth.Servicos
         Task Atualizar(UsuarioAtualizacaoDTO dto);
         Task<UsuarioRespostaDTO> ObterPorId(int id);
         Task<UsuarioRespostaDTO> ObterPorPublicId(Guid publicId);
+        Task<Usuario?> ObterPorLogin(string login);
         Task<List<UsuarioRespostaDTO>> Listar();
         Task Deletar(Guid publicId);
     }
@@ -83,6 +84,13 @@ namespace Auth.Servicos
         {
             var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
             return _mapper.Map<UsuarioRespostaDTO>(usuario);
+        }
+
+        public async Task<Usuario?> ObterPorLogin(string login)
+        {
+            return await _dbSet
+                .Include(x => x.PessoaFisica)
+                .FirstOrDefaultAsync(x => x.NomeUsuario == login || x.PessoaFisica.Email == login);
         }
 
         public async Task<UsuarioRespostaDTO> ObterPorPublicId(Guid publicId)
