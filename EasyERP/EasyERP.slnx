@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Admin/">
+    <Project Path="Admin/Admin.API/Admin.API.csproj" Id="59e28e5f-a661-4c94-b7cd-f74ebcfd9b4c" />
+    <Project Path="Admin/Admin.Repositorio/Admin.Repositorio.csproj" Id="029505cd-e664-4997-b302-c82ccd4efb2f" />
+    <Project Path="Admin/Admin.Servicos/Admin.Servicos.csproj" Id="9156c156-38cc-40c6-b7f2-7b735faa51f7" />
+  </Folder>
   <Folder Name="/Auth/">
     <Project Path="Auth.Repositorio/Auth.Repositorio.csproj" />
     <Project Path="Auth.Servicos/Auth.Servicos.csproj">
