@@ -14,4 +14,5 @@
     <Project Path="CrossCutting/Middlewares/Middlewares.csproj" />
     <Project Path="CrossCutting/Model/Model.csproj" Id="4dce9491-4fec-4cba-be79-40acdc52b3cf" />
   </Folder>
+  <Project Path="API.Gateway/API.Gateway.csproj" Id="8280f6c4-0cd2-4eb5-a4c8-fe50cb8e1b47" />
 </Solution>
