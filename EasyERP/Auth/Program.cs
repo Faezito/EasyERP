@@ -1,4 +1,5 @@
 using Auth.Repositorio;
+using Auth.Servicos.Mapeamento;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Middlewares.Erro;
 using Serilog;
 using System.Text;
-using Usuarios.Model.Mapeamento;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services
