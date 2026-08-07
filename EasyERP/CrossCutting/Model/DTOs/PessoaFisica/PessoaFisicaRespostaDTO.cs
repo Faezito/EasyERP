@@ -9,7 +9,6 @@ namespace Model.DTOs.PessoaFisica
         private string _telefone = string.Empty;
         private string _genero = string.Empty;
 
-        public int Id { get; set; } // APENAS DEV, REMOVER
         public Guid PublicId { get; set; }
         public string NomeCompleto { get; set; } = string.Empty;
         public string Genero

@@ -7,7 +7,6 @@ namespace Model.DTOs.Usuario
 {
     public class UsuarioRespostaDTO : EntidadeAuditavel
     {
-        public int Id { get; set; } // TODO: REMOVER
         public Guid PublicId { get; set; }
         public string NomeUsuario { get; set; } = string.Empty;
         public Perfil Perfil { get; set; }

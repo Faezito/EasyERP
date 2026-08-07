@@ -17,6 +17,7 @@ namespace Usuarios.Model.Mapeamento
             CreateMap<UsuarioCadastroDTO, Usuario>();
             CreateMap<Usuario, UsuarioCadastroDTO>();
 
+            CreateMap<UsuarioRespostaDTO, Usuario>();
             CreateMap<Usuario, UsuarioRespostaDTO>();
 
             CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();

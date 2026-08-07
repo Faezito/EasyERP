@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CrossCutting.Model.DTOs.Acesso
-{
-    public class LoginRequestDTO
-    {
-        [Required(ErrorMessage = "Insira seu usuário ou e-mail")]
-        public string Login { get; set; } = string.Empty;
+namespace Model.DTOs.Login;
 
-        [Required(ErrorMessage = "Insira sua senha")]
-        public string Senha { get; set; } = string.Empty;
-    }
+public class LoginRequestDTO
+{
+    [Required(ErrorMessage = "O login não pode ficar vazio")]
+    [Display(Name = "Nome de Usuario ou E-mail")]
+    public string? Login { get; set; }
+
+    [Required(ErrorMessage = "Credenciais inválidas")]
+    [Display(Name = "Senha")]
+    public string? Senha { get; set; }
 }
