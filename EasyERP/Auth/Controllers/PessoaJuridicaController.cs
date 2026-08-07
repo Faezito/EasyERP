@@ -1,12 +1,11 @@
+using Auth.Servicos;
 using CrossCutting.Model.DTOs.PessoaJuridica;
 using Microsoft.AspNetCore.Mvc;
-using Model.DTOs.PessoaFisica;
-using Auth.Servicos;
 
 namespace AvenTuristaAPI.Controllers
 {
     [ApiController]
-    [Route("api/pessoajuridica")]
+    [Route("api/auth/pessoajuridica")]
     public class PessoaJuridicaController : ControllerBase
     {
         private readonly IPessoaJuridicaServicos _pessoaJuridicaServicos;

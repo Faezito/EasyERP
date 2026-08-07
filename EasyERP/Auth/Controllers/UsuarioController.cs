@@ -5,7 +5,7 @@ using Auth.Servicos;
 namespace AvenTuristaAPI.Controllers
 {
     [ApiController]
-    [Route("api/usuario")]
+    [Route("api/auth/usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioServicos _usuarioServicos;

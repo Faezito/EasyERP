@@ -5,7 +5,7 @@ using Model.DTOs.Login;
 namespace Auth.Controllers;
 
 [ApiController]
-[Route("api/acesso")]
+[Route("api/auth/acesso")]
 public class AcessoController(IAcessoServicos acessoServicos) : ControllerBase
 {
     private readonly IAcessoServicos _acessoServicos = acessoServicos;

@@ -7,7 +7,7 @@ namespace AvenTuristaAPI.Controllers
 {
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Route("api/endereco")]
+    [Route("api/auth/endereco")]
     public class EnderecoController : ControllerBase
     {
         private readonly IEnderecoServicos _servicoDeEndereco;
