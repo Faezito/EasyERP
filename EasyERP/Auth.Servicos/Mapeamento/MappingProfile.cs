@@ -5,41 +5,40 @@ using Model.DTOs.PessoaFisica;
 using Model.DTOs.Usuario;
 using Auth.Repositorio.Entidades;
 
-namespace Usuarios.Model.Mapeamento
+namespace Auth.Servicos.Mapeamento;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<UsuarioCadastroDTO, PessoaFisica>();
-            CreateMap<UsuarioRespostaDTO, PessoaFisica>();
+        CreateMap<UsuarioCadastroDTO, PessoaFisica>();
+        CreateMap<UsuarioRespostaDTO, PessoaFisica>();
 
-            CreateMap<UsuarioCadastroDTO, Usuario>();
-            CreateMap<Usuario, UsuarioCadastroDTO>();
+        CreateMap<UsuarioCadastroDTO, Usuario>();
+        CreateMap<Usuario, UsuarioCadastroDTO>();
 
-            CreateMap<UsuarioRespostaDTO, Usuario>();
-            CreateMap<Usuario, UsuarioRespostaDTO>();
+        CreateMap<UsuarioRespostaDTO, Usuario>();
+        CreateMap<Usuario, UsuarioRespostaDTO>();
 
-            CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();
-            CreateMap<PessoaFisicaCadastroDTO, PessoaFisica>();
-            CreateMap<PessoaFisica, PessoaFisicaCadastroDTO>();
-            CreateMap<PessoaFisicaAtualizacaoDTO, PessoaFisica>();
-            CreateMap<PessoaFisica, PessoaFisicaAtualizacaoDTO>()
-                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<PessoaFisica, UsuarioRespostaDTO>();
+        CreateMap<PessoaFisica, PessoaFisicaRespostaDTO>();
+        CreateMap<PessoaFisicaCadastroDTO, PessoaFisica>();
+        CreateMap<PessoaFisica, PessoaFisicaCadastroDTO>();
+        CreateMap<PessoaFisicaAtualizacaoDTO, PessoaFisica>();
+        CreateMap<PessoaFisica, PessoaFisicaAtualizacaoDTO>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<PessoaFisica, UsuarioRespostaDTO>();
 
-            CreateMap<EnderecoCadastroDTO, Endereco>();
-            CreateMap<Endereco, EnderecoCadastroDTO>();
-            CreateMap<Endereco, EnderecoRespostaDTO>();
-            CreateMap<EnderecoRespostaDTO, Endereco>();
+        CreateMap<EnderecoCadastroDTO, Endereco>();
+        CreateMap<Endereco, EnderecoCadastroDTO>();
+        CreateMap<Endereco, EnderecoRespostaDTO>();
+        CreateMap<EnderecoRespostaDTO, Endereco>();
 
-            CreateMap<PessoaJuridica, PessoaJuridicaCadastroDTO>();
-            CreateMap<PessoaJuridica, PessoaJuridicaAlteracaoDTO>();
-            CreateMap<PessoaJuridica, PessoaJuridicaRespostaDTO>();
-            CreateMap<PessoaJuridicaCadastroDTO, PessoaJuridica>();
-            CreateMap<PessoaJuridicaAlteracaoDTO, PessoaJuridica>()
-                .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<PessoaJuridica, PessoaJuridicaCadastroDTO>();
+        CreateMap<PessoaJuridica, PessoaJuridicaAlteracaoDTO>();
+        CreateMap<PessoaJuridica, PessoaJuridicaRespostaDTO>();
+        CreateMap<PessoaJuridicaCadastroDTO, PessoaJuridica>();
+        CreateMap<PessoaJuridicaAlteracaoDTO, PessoaJuridica>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
-        }
     }
 }
