@@ -37,12 +37,17 @@ public abstract class DbContextAuditavel : DbContext
             {
                 entrada.Entity.CriadoEm = DateTime.Now;
                 entrada.Entity.CriadoPor = usuarioId;
+                entrada.Entity.AtualizadoEm = null;
+                entrada.Entity.AtualizadoPor = null;
             }
 
             if (entrada.State == EntityState.Modified)
             {
                 entrada.Entity.AtualizadoEm = DateTime.Now;
                 entrada.Entity.AtualizadoPor = usuarioId;
+
+                entrada.Property(x => x.CriadoEm).IsModified = false;
+                entrada.Property(x => x.CriadoPor).IsModified = false;
             }
         }
     }
