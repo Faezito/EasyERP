@@ -31,8 +31,4 @@
 		<ProjectReference Include="..\..\Escolar\Escolar.Repositorio\Escolar.Repositorio.csproj" />
 		<ProjectReference Include="..\..\CrossCutting\Model\Model.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
-	</ItemGroup>
 </Project>
