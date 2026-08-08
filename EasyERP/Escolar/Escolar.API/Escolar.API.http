@@ -1,0 +1,6 @@
+@Escolar.API_HostAddress = http://localhost:5097
+
+GET {{Escolar.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
