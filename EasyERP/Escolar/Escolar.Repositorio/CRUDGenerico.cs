@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Escolar.Repositorio;
 
@@ -8,6 +9,7 @@ public interface ICRUDGenerico<T> where T : class
     Task<List<T>> ObterTodosAsync();
     Task AdicionarAsync(T entity);
     void Atualizar(T entity);
+    Task AtualizarAsync(T entity);
     void Adicionar(T entity);
     void Remover(T entity);
     void BulkRemove(List<T> entities);
@@ -19,11 +21,13 @@ public class CRUDGenerico<T> : ICRUDGenerico<T> where T : class
 {
     protected readonly AppDbContext _db;
     protected readonly DbSet<T> _dbSet;
+    protected readonly IMapper _mapper;
 
-    public CRUDGenerico(AppDbContext db)
+    public CRUDGenerico(AppDbContext db, IMapper mapper)
     {
         _db = db;
         _dbSet = db.Set<T>();
+        _mapper = mapper;
     }
 
     public async Task<T?> ObterPorIdAsync(int id)
@@ -43,6 +47,12 @@ public class CRUDGenerico<T> : ICRUDGenerico<T> where T : class
 
     public void Atualizar(T entity)
         => _dbSet.Update(entity);
+
+    public async Task AtualizarAsync(T entity)
+    {
+        _dbSet.Update(entity);
+        await _db.SaveChangesAsync();
+    }
 
     public void Remover(T entity)
         => _dbSet.Remove(entity);
