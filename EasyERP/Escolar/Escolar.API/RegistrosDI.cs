@@ -1,4 +1,5 @@
 ﻿using Escolar.Repositorio;
+using Escolar.Servicos;
 
 public static class RegistrosDI
 {
@@ -6,7 +7,7 @@ public static class RegistrosDI
     {
         services.AddHttpContextAccessor();
 
-        //services.AddScoped<IApiExternaServicos, ApiExternaServicos>();
+        services.AddScoped<ITurmaServicos, TurmaServicos>();
 
         return services;
     }
