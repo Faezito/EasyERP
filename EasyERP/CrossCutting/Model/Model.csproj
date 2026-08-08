@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Auditoria\Auditoria.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Escolar\Disciplina\" />
+  </ItemGroup>
+
 </Project>
