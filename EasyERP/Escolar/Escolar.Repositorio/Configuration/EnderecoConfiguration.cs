@@ -46,8 +46,8 @@ public class EnderecoConfiguration : IEntityTypeConfiguration<Endereco>
                .IsRequired();
 
         builder.HasOne(x => x.Pessoa)
-               .WithMany()
-               .HasForeignKey(x => x.PessoaId)
+               .WithOne(x => x.Endereco)
+               .HasForeignKey<Endereco>(x => x.PessoaId)
                .OnDelete(DeleteBehavior.Cascade);
     }
 }
