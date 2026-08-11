@@ -8,6 +8,7 @@ public static class RegistrosDI
         services.AddHttpContextAccessor();
 
         services.AddScoped<ITurmaServicos, TurmaServicos>();
+        services.AddScoped<IPessoaServicos, PessoaServicos>();
 
         return services;
     }
