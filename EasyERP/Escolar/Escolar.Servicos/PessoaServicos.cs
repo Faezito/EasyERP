@@ -18,17 +18,26 @@ public interface IPessoaServicos : ICRUDGenerico<Pessoa>
     Task Deletar(Guid publicId);
 }
 
-public class PessoaServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Pessoa>(db, mapper), IPessoaServicos
+public class PessoaServicos(AppDbContext db, IMapper mapper, IEnderecoServicos enderecoServicos) : CRUDGenerico<Pessoa>(db, mapper), IPessoaServicos
 {
+    private readonly IEnderecoServicos enderecoServicos = enderecoServicos;
+
     public async Task Atualizar(PessoaAtualizacaoDTO dto)
     {
-        var pessoa = await _db.Set<Pessoa>().FirstOrDefaultAsync(x => x.PublicId == dto.PublicId)
+        var pessoa = await _db.Set<Pessoa>()
+                              .Include(x => x.Endereco)
+                              .FirstOrDefaultAsync(x => x.PublicId == dto.PublicId)
             ?? throw new Exception("Erro ao atualizar: Usuário não encontrado");
 
         pessoa.NomeCompleto = string.IsNullOrWhiteSpace(dto.NomeCompleto) ? pessoa.NomeCompleto : dto.NomeCompleto;
         pessoa.Genero = string.IsNullOrWhiteSpace(dto.Genero) ? pessoa.Genero : dto.Genero;
         pessoa.Telefone = string.IsNullOrWhiteSpace(dto.Telefone) ? pessoa.Telefone : dto.Telefone;
         pessoa.Email = string.IsNullOrWhiteSpace(dto.Email) ? pessoa.Email : dto.Email;
+
+        if (dto?.Endereco?.Id > 0)
+            enderecoServicos.AtualizarEndereco(pessoa.Endereco!, dto.Endereco);
+        else
+            pessoa.Endereco = dto?.Endereco == null ? null : _mapper.Map<Endereco>(dto.Endereco);
 
         _dbSet.Update(pessoa);
         await SalvarAsync();
