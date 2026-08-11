@@ -15,5 +15,5 @@ public class Pessoa : EntidadeAuditavel
     public DateTime DataNascimento { get; set; } = DateTime.MinValue;
 
     public TipoDePessoa Tipo { get; set; }
-    public Endereco Endereco { get; set; } = null!;
+    public Endereco? Endereco { get; set; } = null!;
 }

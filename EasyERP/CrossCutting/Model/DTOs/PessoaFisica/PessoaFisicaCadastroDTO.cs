@@ -47,6 +47,6 @@ namespace Model.DTOs.PessoaFisica
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
         public int UsuarioAlteracaoId { get; set; }
-        public EnderecoCadastroDTO Endereco { get; set; }
+        public EnderecoCadastroDTO? Endereco { get; set; }
     }
 }
