@@ -21,6 +21,12 @@ public class MappingProfile : Profile
         CreateMap<EnderecoCadastroDTO, Endereco>();
         CreateMap<Endereco, EnderecoRespostaDTO>();
         CreateMap<EnderecoRespostaDTO, Endereco>();
+        CreateMap<Endereco, EnderecoAtualizacaoDTO>();
+        CreateMap<EnderecoAtualizacaoDTO, Endereco>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
+            ));
 
         CreateMap<Pessoa, PessoaRespostaDTO>();
         CreateMap<PessoaRespostaDTO, Pessoa>();
