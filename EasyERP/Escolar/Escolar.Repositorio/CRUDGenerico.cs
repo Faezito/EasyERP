@@ -6,6 +6,7 @@ namespace Escolar.Repositorio;
 public interface ICRUDGenerico<T> where T : class
 {
     Task<T?> ObterPorIdAsync(int id);
+    Task<T?> ObterPorIdAsync(Guid publicId);
     Task<List<T>> ObterTodosAsync();
     Task AdicionarAsync(T entity);
     void Atualizar(T entity);
@@ -71,4 +72,6 @@ public class CRUDGenerico<T> : ICRUDGenerico<T> where T : class
         _dbSet.Remove(entity);
         await SalvarAsync();
     }
+
+    public async Task<T?> ObterPorIdAsync(Guid publicId) => await _dbSet.FindAsync(publicId);
 }
