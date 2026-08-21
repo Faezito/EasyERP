@@ -7,4 +7,6 @@ public abstract class EntidadeAuditavel
     public DateTime? AtualizadoEm { get; set; }
     public Guid? AtualizadoPor { get; set; }
     public bool Deletado { get; set; }
+
+    public void Deletar() => Deletado = true;
 }
