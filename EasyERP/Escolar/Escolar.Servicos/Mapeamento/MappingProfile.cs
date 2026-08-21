@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CrossCutting.Model.DTOs.Escolar.Aluno;
 using Escolar.Repositorio.Entidades;
 using Model.DTOs.Endereco;
 using Model.DTOs.Escolar.Pessoa;
@@ -44,5 +45,13 @@ public class MappingProfile : Profile
                 srcMember != null &&
                 (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
             ));
+
+        CreateMap<Aluno, AlunoRespostaDTO>();
+        CreateMap<AlunoCadastroDTO, Aluno>();
+        CreateMap<Aluno, AlunoCadastroDTO>();
+        CreateMap<AlunoAtualizacaoDTO, Aluno>();
+        CreateMap<Aluno, AlunoAtualizacaoDTO>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
     }
 }
