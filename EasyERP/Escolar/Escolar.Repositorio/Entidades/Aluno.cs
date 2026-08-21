@@ -1,6 +1,8 @@
-﻿namespace Escolar.Repositorio.Entidades;
+﻿using CrossCutting.Auditoria;
 
-public class Aluno
+namespace Escolar.Repositorio.Entidades;
+
+public class Aluno : EntidadeAuditavel
 {
     public int Id { get; set; }
     public int PessoaId { get; set; }
