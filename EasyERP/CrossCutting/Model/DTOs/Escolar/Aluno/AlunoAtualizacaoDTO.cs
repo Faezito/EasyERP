@@ -1,5 +1,4 @@
 using Model.DTOs.Endereco;
-using Model.DTOs.Escolar.Pessoa;
 
 namespace CrossCutting.Model.DTOs.Escolar.Aluno;
 
