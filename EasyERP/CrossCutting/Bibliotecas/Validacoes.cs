@@ -1,4 +1,6 @@
 ﻿using System.Text.RegularExpressions;
+        using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Biblioteca
 {
@@ -97,6 +99,70 @@ namespace Biblioteca
                 return (false, null);
 
             return (true, cnpj);
+        }
+
+        public static ModelStateDictionary ValidarModel(object model)
+        {
+            var modelState = new ModelStateDictionary();
+
+            ValidateObject(model, modelState);
+
+            return modelState;
+        }
+
+        private static void ValidateObject(
+            object model,
+            ModelStateDictionary modelState,
+            string prefix = "")
+        {
+            var context = new ValidationContext(model);
+            var results = new List<ValidationResult>();
+
+            Validator.TryValidateObject(
+                model,
+                context,
+                results,
+                validateAllProperties: true
+            );
+
+            foreach (var result in results)
+            {
+                foreach (var memberName in result.MemberNames)
+                {
+                    var key = string.IsNullOrEmpty(prefix)
+                        ? memberName
+                        : $"{prefix}.{memberName}";
+
+                    modelState.AddModelError(
+                        key,
+                        result.ErrorMessage ?? "Valor inválido."
+                    );
+                }
+            }
+
+            foreach (var property in model.GetType().GetProperties())
+            {
+                var value = property.GetValue(model);
+
+                if (value == null)
+                    continue;
+
+                if (value is string)
+                    continue;
+
+                if (property.PropertyType.IsValueType)
+                    continue;
+
+                var propertyPrefix = string.IsNullOrEmpty(prefix)
+                    ? property.Name
+                    : $"{prefix}.{property.Name}";
+
+                ValidateObject(
+                    value,
+                    modelState,
+                    propertyPrefix
+                );
+            }
         }
     }
 }
