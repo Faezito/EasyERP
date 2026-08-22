@@ -8,6 +8,7 @@ namespace Escolar.Servicos;
 
 public interface IAlunoServicos : ICRUDGenerico<Aluno>
 {
+    Task<AlunoRespostaDTO> ObterPorPessoaId(Guid pessoaId);
     Task<List<AlunoRespostaDTO>> Listar();
     Task Cadastro(AlunoCadastroDTO alunoDto);
     Task Atualizacao(AlunoAtualizacaoDTO alunoDto);
@@ -18,7 +19,7 @@ public class AlunoServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Aluno
 {
     public async Task Atualizacao(AlunoAtualizacaoDTO alunoDto)
     {
-        var aluno = await _dbSet.Include(x=>x.Pessoa).FirstOrDefaultAsync(x=>x.Pessoa.PublicId == alunoDto.PessoaId)
+        var aluno = await _dbSet.Include(x => x.Pessoa).FirstOrDefaultAsync(x => x.Pessoa.PublicId == alunoDto.PessoaId)
             ?? throw new Exception("Erro ao atualizar: Aluno não encontrado");
         var pessoa = aluno.Pessoa;
 
@@ -40,9 +41,12 @@ public class AlunoServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Aluno
 
     public async Task Excluir(Guid publicId)
     {
-        var aluno = await ObterPorIdAsync(publicId) 
-            ?? throw new Exception("Erro ao deletar: aluno não encontrado.");
+        var aluno = await _db.Alunos.Include(x => x.Pessoa).FirstOrDefaultAsync(x => x.Pessoa.PublicId == publicId)
+            ?? throw new Exception("Erro ao excluir: Aluno não encontrado.");
+
         aluno.Deletar();
+        aluno.Pessoa.Deletar();
+
         await SalvarAsync();
     }
 
@@ -50,5 +54,11 @@ public class AlunoServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Aluno
     {
         var alunos = await _dbSet.AsNoTracking().ToListAsync();
         return _mapper.Map<List<AlunoRespostaDTO>>(alunos);
+    }
+
+    public async Task<AlunoRespostaDTO> ObterPorPessoaId(Guid pessoaId)
+    {
+        var aluno = await _db.Alunos.Include(x => x.Pessoa).FirstOrDefaultAsync(x => x.Pessoa.PublicId == pessoaId);
+        return _mapper.Map<AlunoRespostaDTO>(aluno);
     }
 }
