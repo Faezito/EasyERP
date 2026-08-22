@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Auditoria\Auditoria.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTOs\Escolar\Disciplina\" />
+    <ProjectReference Include="..\Bibliotecas\Bibliotecas.csproj" />
   </ItemGroup>
 
 </Project>
