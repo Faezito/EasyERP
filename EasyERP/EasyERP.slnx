@@ -23,6 +23,7 @@
     <Project Path="Escolar/Escolar.API/Escolar.API.csproj" Id="4afdeaf8-1044-4b73-a5d1-d06410a87469" />
     <Project Path="Escolar/Escolar.Repositorio/Escolar.Repositorio.csproj" Id="d1ebdab5-d81c-4279-9ee0-cb49d3c1ca6b" />
     <Project Path="Escolar/Escolar.Servicos/Escolar.Servicos.csproj" Id="69efd8b8-c0cb-48d3-a71b-d9bdb3964455" />
+    <Project Path="Escolar/Escolar.Testes/Escolar.Testes.csproj" Id="f4adeecd-f0a8-4f02-b511-74a3bad785c8" />
   </Folder>
   <Project Path="API.Gateway/API.Gateway.csproj" Id="8280f6c4-0cd2-4eb5-a4c8-fe50cb8e1b47" />
 </Solution>
