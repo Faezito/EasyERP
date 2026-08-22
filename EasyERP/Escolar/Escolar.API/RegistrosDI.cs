@@ -10,7 +10,10 @@ public static class RegistrosDI
         services.AddScoped<ITurmaServicos, TurmaServicos>();
         services.AddScoped<IPessoaServicos, PessoaServicos>();
         services.AddScoped<IEnderecoServicos, EnderecoServicos>();
-
+        services.AddScoped<IDisciplinaServicos, DisciplinaServicos>();
+        services.AddScoped<INotaServicos, NotaServicos>();
+        services.AddScoped<IAlunoServicos, AlunoServicos>();
+        services.AddScoped<IPresencaServicos, PresencaServicos>();
         return services;
     }
 
