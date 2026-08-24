@@ -26,4 +26,5 @@
     <Project Path="Escolar/Escolar.Testes/Escolar.Testes.csproj" Id="f4adeecd-f0a8-4f02-b511-74a3bad785c8" />
   </Folder>
   <Project Path="API.Gateway/API.Gateway.csproj" Id="8280f6c4-0cd2-4eb5-a4c8-fe50cb8e1b47" />
+  <Project Path="Web/Web.csproj" Id="96c42b8c-a659-4fa3-a0b2-e03c2babd683" />
 </Solution>

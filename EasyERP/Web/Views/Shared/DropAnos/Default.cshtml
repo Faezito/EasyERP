@@ -1,0 +1,10 @@
+﻿@model List<ItemDeSelect>
+
+@foreach (var item in Model)
+{
+    <option value="@item.Valor" selected="@item.Selecionado">@item.Texto</option>
+}
+
+@*
+    @await Component.InvokeAsync("DropAnos", new { anoInicio = 2025})
+*@

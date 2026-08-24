@@ -1,0 +1,17 @@
+﻿@model LoginRequestDTO
+
+<div class="row justify-content-center">
+    <div class="col-10">
+        <form data-ajax="true" method="post" id="form-login" asp-action="Login" asp-controller="Acesso">
+            <label asp-for="Login"></label>
+            <input asp-for="Login" />
+            <span asp-validation-for="Login"></span>
+
+            <label asp-for="Senha"></label>
+            <input asp-for="Senha" />
+            <span asp-validation-for="Senha"></span>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+</div>

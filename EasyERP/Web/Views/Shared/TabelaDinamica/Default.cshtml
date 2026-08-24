@@ -1,0 +1,64 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using Web.Models.TabelaDinamica
+@model TabelaDinamicaModel
+
+@{
+}
+
+<table id="tbl-dinamica" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            @if (Model.Itens.Any())
+            {
+                var props = Model.Itens.First().GetType().GetProperties();
+                foreach (var prop in props.Where(x => x.Name != "Id"))
+                {
+                    var display = prop.GetCustomAttribute<DisplayAttribute>();
+                    <th class="text-center">@(display?.Name ?? prop.Name)</th>
+                }
+            }
+            @if (Model.Editavel)
+            {
+                <th class="text-center">Ações</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Itens)
+        {
+            var props = row.GetType().GetProperties();
+            <tr>
+                @foreach (var prop in props.Where(x => x.Name != "Id"))
+                {
+                    var value = prop.GetValue(row);
+                    string strConvertido = Convert.ToString(value);
+                    string strClass = "";//ExpressoesRegulares.AlinhamentoHTML(strConvertido);
+
+                    <td class="@strClass">@value</td>
+                }
+                @if (Model.Editavel)
+                {
+                    @foreach (var prop in props.Where(x => x.Name == "Id"))
+                    {
+                        var id = prop.GetValue(row);
+                        <td class="p-1 m-0 align-middle text-center align-middle">
+                            <div class="d-flex gap-2 justify-content-center align-middle">
+                                <a data-rota-edicao="@Model.RotaEditar/@id" class="btn-editar btn btn-secondary btn-sm">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
+                                <form id="form-deletar" class="col-1" method="post" action="@Model.RotaDeletar">
+                                    <input type="hidden" name="id" value="@id" />
+
+                                    <button type="submit" class="btn btn-danger btn-sm btn-deletar">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
