@@ -22,6 +22,7 @@
         /// <param name="data"></param>
         /// <returns></returns>
         public static DateTime PrimeiroDiaDoMes(this DateTime? data) => data.HasValue ? new DateTime(data.Value.Year, data.Value.Month, 1) : DateTime.Today;
+        public static DateTime PrimeiroDiaDoMes(int ano, int mes) => new DateTime(ano, mes, 1, 0, 0, 0);
 
         /// <summary>
         /// Retorna o último dia do mês no formato de data
@@ -32,6 +33,7 @@
             data.HasValue ?
             new DateTime(data.Value.Year, data.Value.Month, DateTime.DaysInMonth(data.Value.Year, data.Value.Month)).AddHours(23).AddMinutes(59).AddSeconds(59)
             : DateTime.Today;
+        public static DateTime UltimoDiaDoMes(int ano, int mes) => new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes), 23, 59, 59);
 
         public static List<DateTime> DiasDaSemanaNoMes(int ano, int mes, DayOfWeek diaSemana)
         {
