@@ -5,7 +5,6 @@ using CrossCutting.Model.DTOs.Login;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Model.DTOs.Login;
 using Model.DTOs.PessoaFisica;
 using Model.DTOs.Usuario;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,7 +27,10 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
 
     public async Task<LoginResponseDTO> Login(LoginRequestDTO dto)
     {
-        var usuario = await _db.Set<Usuario>().Include(x => x.PessoaFisica).SingleOrDefaultAsync(x => x.NomeUsuario == dto.Login || x.PessoaFisica.Email == dto.Login);
+        var usuario = await _db.Set<Usuario>()
+                               .Include(x => x.PessoaFisica)
+                               .Include(x=>x.Acessos)
+                               .SingleOrDefaultAsync(x => x.NomeUsuario == dto.Login || x.PessoaFisica.Email == dto.Login);
 
         if (usuario == null || !bC.Verify(dto.Senha, usuario.SenhaHash))
             throw new Exception("Credenciais inválidas");
