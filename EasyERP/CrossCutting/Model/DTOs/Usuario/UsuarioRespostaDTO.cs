@@ -12,5 +12,6 @@ namespace Model.DTOs.Usuario
         public Perfil Perfil { get; set; }
         public EnderecoRespostaDTO? Endereco { get; set; }
         public PessoaFisicaRespostaDTO? Pessoa { get; set; }
+        public List<ModuloDTO> Acessos { get; set; } = new();
     }
 }
