@@ -18,7 +18,7 @@ namespace AvenTuristaAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Obter(int id)
         {
-            var modulo = await _moduloServicos.ObterPorId(id);
+            var modulo = await _moduloServicos.ObterPorIdAsync(id);
             if (modulo == null)
                 return NotFound();
 
@@ -28,7 +28,7 @@ namespace AvenTuristaAPI.Controllers
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
-            var modulos = await _moduloServicos.Listar();
+            var modulos = await _moduloServicos.ObterTodosAsync();
             return Ok(modulos);
         }
 
@@ -49,7 +49,19 @@ namespace AvenTuristaAPI.Controllers
         [HttpDelete("deletar")]
         public async Task<IActionResult> Deletar(int id)
         {
-            await _moduloServicos.Deletar(id);
+            await _moduloServicos.RemoverAsync(new Modulo { Id = id });
+            return Ok();
+        }
+
+        [HttpPost("atribuirModulo")]
+        public async Task<IActionResult> AtribuirModulo(int usuarioId, int moduloId)
+        {
+            await _moduloServicos.AtribuirModulo(new UsuarioModulo
+            {
+                UsuarioId = usuarioId,
+                EmpresaModuloId = moduloId
+            });
+
             return Ok();
         }
     }

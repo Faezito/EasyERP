@@ -4,6 +4,7 @@ using Model.DTOs.Endereco;
 using Model.DTOs.PessoaFisica;
 using Model.DTOs.Usuario;
 using Auth.Repositorio.Entidades;
+using Model.DTOs;
 
 namespace Auth.Servicos.Mapeamento;
 
@@ -38,6 +39,10 @@ public class MappingProfile : Profile
         CreateMap<PessoaJuridica, PessoaJuridicaRespostaDTO>();
         CreateMap<PessoaJuridicaCadastroDTO, PessoaJuridica>();
         CreateMap<PessoaJuridicaAlteracaoDTO, PessoaJuridica>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
+        CreateMap<Modulo, ModuloDTO>();
+        CreateMap<ModuloDTO, Modulo>()
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
     }

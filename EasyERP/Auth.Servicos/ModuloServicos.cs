@@ -2,19 +2,14 @@ using Auth.Repositorio;
 using Auth.Repositorio.Entidades;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Auth.Servicos;
 
 public interface IModuloServicos : ICRUDGenerico<Modulo>
 {
-    Task<Modulo> ObterPorId(int id);
-    Task<List<Modulo>> Listar();
+    Task AtribuirModulo(UsuarioModulo usuarioModulo);
     Task Cadastrar(Modulo modulo);
-    Task Atualizar(Modulo modulo);
+    new Task Atualizar(Modulo modulo);
     Task Deletar(int id);
 }
 
@@ -27,23 +22,13 @@ public class ModuloServicos : CRUDGenerico<Modulo>, IModuloServicos
         _mapper = mapper;
     }
 
-    public async Task<Modulo> ObterPorId(int id)
-    {
-        return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public async Task<List<Modulo>> Listar()
-    {
-        return await _dbSet.ToListAsync();
-    }
-
     public async Task Cadastrar(Modulo modulo)
     {
         Adicionar(modulo);
         await SalvarAsync();
     }
 
-    public async Task Atualizar(Modulo modulo)
+    public new async Task Atualizar(Modulo modulo)
     {
         var existente = await _dbSet.FirstOrDefaultAsync(x => x.Id == modulo.Id);
         if (existente == null)
@@ -66,6 +51,12 @@ public class ModuloServicos : CRUDGenerico<Modulo>, IModuloServicos
             throw new Exception("Módulo não encontrado.");
 
         _dbSet.Remove(modulo);
+        await SalvarAsync();
+    }
+
+    public async Task AtribuirModulo(UsuarioModulo usuarioModulo)
+    {
+        _db.Set<UsuarioModulo>().Add(usuarioModulo);
         await SalvarAsync();
     }
 }
