@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Model.DTOs.Login;
+namespace CrossCutting.Model.DTOs.Login;
 
 public class LoginRequestDTO
 {
