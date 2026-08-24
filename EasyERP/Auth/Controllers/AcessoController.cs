@@ -1,6 +1,6 @@
 ﻿using Auth.Servicos;
+using CrossCutting.Model.DTOs.Login;
 using Microsoft.AspNetCore.Mvc;
-using Model.DTOs.Login;
 
 namespace Auth.Controllers;
 
