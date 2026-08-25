@@ -4,7 +4,7 @@ services:
     container_name: sqlserver-dev
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "ALTERAR"
+      MSSQL_SA_PASSWORD: "Dev#2026"
     ports:
       - "14330:1433"
     volumes:
