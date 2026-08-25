@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="Areas\Escolar\Models\" />
     <Folder Include="Areas\Escolar\Services\" />
+    <Folder Include="Areas\Escolar\Views\Shared\" />
   </ItemGroup>
 
 </Project>
