@@ -154,3 +154,50 @@ $(document).on('submit', 'form[data-ajax="true"]', function (e)
         submit(e, formId, url);
     }
 })
+
+
+// LOADINGS
+
+window.Loading = (function () {
+
+    const defaultConfigs = {
+        "overlayBackgroundColor": "#000000",
+        "overlayOpacity": 0.6,
+        "spinnerIcon": "fire",
+        "spinnerColor": "#FFFFFF",
+        "spinnerSize": "2x",
+        "overlayIDName": "Carregando",
+        "spinnerIDName": "",
+        "offsetX": 0,
+        "offsetY": 0,
+        "containerID": null,
+        "lockScroll": true,
+        "overlayZIndex": 9998,
+        "spinnerZIndex": 9999
+    };
+
+    function show(customConfigs = {}) {
+        $.LoadingOverlay("show", {
+            ...defaultConfigs,
+            ...customConfigs
+        });
+    }
+
+    function hide() {
+        $.LoadingOverlay("hide");
+    }
+
+    return {
+        show,
+        hide
+    };
+
+})();
+
+$(document).ajaxStart(function () {
+    Loading.show();
+});
+
+$(document).ajaxStop(function () {
+    Loading.hide();
+});
