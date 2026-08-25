@@ -9,6 +9,14 @@
     {
       "library": "jquery.mask@1.14.16",
       "destination": "wwwroot/lib/jquery.mask/"
+    },
+    {
+      "library": "jquery-loading-overlay@2.1.7",
+      "destination": "wwwroot/lib/jquery-loading-overlay/"
+    },
+    {
+      "library": "font-awesome@7.3.1",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }
