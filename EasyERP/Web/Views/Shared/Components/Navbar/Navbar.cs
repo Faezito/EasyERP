@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AvenTuristaWEB.Views.Shared.Components.Navbar
+namespace Web.Views.Shared.Components.Navbar
 {
     public class Navbar : ViewComponent
     {

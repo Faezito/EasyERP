@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Models.TabelaDinamica;
 
-namespace AvenTuristaWEB.Views.Shared.Components.TabelaDinamica;
+namespace Web.Views.Shared.Components.TabelaDinamica;
 
 public class TabelaDinamica : ViewComponent
 {

@@ -1,0 +1,46 @@
+﻿@using Web.Views.Shared.Components.TopoMenus
+@model TopoMenu
+
+<div class="row justify-content-between">
+    <div class="col-12 col-md-6 text-center text-md-start mt-auto">
+        <h4 class="text-secondary fs-3 d-block d-md-none text-uppercase w-auto">
+            @Model.Titulo
+        </h4>
+
+        <h4 class="text-secondary fs-4 d-md-block d-none  text-uppercase w-auto">
+            @Model.Titulo
+        </h4>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 d-flex gap-2 justify-content-end mt-auto">
+
+        @if (Model.DropMeses != null)
+        {
+            <select name="Mes" class="form-select col-auto">
+                @await Component.InvokeAsync("DropMesesComponent", Model.DropMeses)
+            </select>
+        }
+
+        @if (Model.DropAnos != null)
+        {
+            <select name="Ano" class="form-select col-auto">
+                @await Component.InvokeAsync("DropAnosComponent", Model.DropAnos)
+            </select>
+        }
+
+        @foreach (var btn in Model.Botoes)
+        {
+            if (string.IsNullOrWhiteSpace(btn.Url))
+            {
+                <button class="@btn.Estilo?.Classe" id="@btn.Id" type="@(btn.Estilo!.Submit ? "submit" : "button")">
+                    @btn.Texto
+                </button>
+            }
+            else
+            {
+                <a href="@btn.Url" class="@btn.Estilo?.Classe" id="@btn.Id">
+                    @btn.Texto
+                </a>
+            }
+        }
+    </div>
+</div>
