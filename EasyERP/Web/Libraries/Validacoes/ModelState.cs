@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace BOPE.Libraries.Validacoes
+namespace Web.Libraries.Validacoes
 {
     public static class ModelStateHelper
     {
