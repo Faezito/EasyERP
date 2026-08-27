@@ -1,24 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Web.Extensions;
 
-namespace Web.Libraries.Filtros
+namespace Web.Libraries.Filtros;
+
+public class ValidateHttpRefererAttributes : Attribute, IActionFilter
 {
-    public class ValidateHttpRefererAttributes : Attribute, IActionFilter
+    public void OnActionExecuting(ActionExecutingContext context)
     {
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            var user = context.HttpContext.User;
+        var user = context.HttpContext.User;
+        var area = context.RouteData.Values["area"]?.ToString();
 
-            if (!user.Identity.IsAuthenticated)
-            {
-                context.Result = new RedirectToActionResult("Index", "Acesso", null);
-                return;
-            }
-        }
+        if (string.IsNullOrWhiteSpace(area))
+            return;
 
-        public void OnActionExecuted(ActionExecutedContext context)
+        var acessos = user.ObterModulosDoUsuario();
+        if (!acessos.Any(x => x.Nome.Equals(area, StringComparison.OrdinalIgnoreCase)))
         {
-            //Possivel Logging
+            context.Result = new RedirectToActionResult(
+                "Index",
+                "Home",
+                new { area = "" }
+            );
+
+            return;
         }
+    }
+
+    public void OnActionExecuted(ActionExecutedContext context)
+    {
+        //Possivel Logging
     }
 }

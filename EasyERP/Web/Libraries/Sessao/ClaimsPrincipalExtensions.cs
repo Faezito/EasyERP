@@ -1,7 +1,9 @@
 ﻿using CrossCutting.Model.Enums;
 using Microsoft.AspNetCore.Authentication;
+using Model.DTOs;
 using Model.DTOs.PessoaFisica;
 using Model.DTOs.Usuario;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Web.Extensions;
@@ -82,5 +84,23 @@ public static class ClaimsPrincipalExtensions
             }
         };
         return usuario;
+    }
+
+    public static List<int> ObterAcessos(this ClaimsPrincipal user)
+    {
+        var modulosString = user.FindFirst("Modulos")?.Value ?? string.Empty;
+        List<int> modulos = modulosString
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(int.Parse)
+            .ToList();
+
+        return modulos;
+    }
+
+    public static List<ModuloDTO> ObterModulosDoUsuario(this ClaimsPrincipal user)
+    {
+        var modulosJson = user.FindFirst("ModuloDTOs")?.Value ?? string.Empty;
+        var modulos = JsonConvert.DeserializeObject<List<ModuloDTO>>(modulosJson);
+        return modulos ?? new();
     }
 }
