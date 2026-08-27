@@ -4,11 +4,11 @@
 <div class="row justify-content-between">
     <div class="col-12 col-md-6 text-center text-md-start mt-auto">
         <h4 class="text-secondary fs-3 d-block d-md-none text-uppercase w-auto">
-            @Model.Titulo
+            @Html.Raw(Model.Titulo)
         </h4>
 
         <h4 class="text-secondary fs-4 d-md-block d-none  text-uppercase w-auto">
-            @Model.Titulo
+            @Html.Raw(Model.Titulo)
         </h4>
     </div>
     <div class="col-12 col-md-6 col-lg-3 d-flex gap-2 justify-content-end mt-auto">
@@ -31,14 +31,18 @@
         {
             if (string.IsNullOrWhiteSpace(btn.Url))
             {
-                <button class="@btn.Estilo?.Classe" id="@btn.Id" type="@(btn.Estilo!.Submit ? "submit" : "button")">
-                    @btn.Texto
+                <button 
+                    class="@btn.Estilo?.Classe" 
+                    id="@btn.Id" 
+                    type="@(btn.Estilo!.Submit ? "submit" : "button")"
+                    onclick="@btn.OnClick?.Trim()">
+                    @Html.Raw(btn.Texto)
                 </button>
             }
             else
             {
                 <a href="@btn.Url" class="@btn.Estilo?.Classe" id="@btn.Id">
-                    @btn.Texto
+                    @Html.Raw(btn.Texto)
                 </a>
             }
         }
