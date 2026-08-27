@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Auth.Servicos;
 using Auth.Repositorio.Entidades;
+using Model.DTOs;
 
 namespace AvenTuristaAPI.Controllers
 {
@@ -18,7 +19,7 @@ namespace AvenTuristaAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Obter(int id)
         {
-            var modulo = await _moduloServicos.ObterPorIdAsync(id);
+            var modulo = await _moduloServicos.ListarTodos();
             if (modulo == null)
                 return NotFound();
 
@@ -54,13 +55,9 @@ namespace AvenTuristaAPI.Controllers
         }
 
         [HttpPost("atribuirModulo")]
-        public async Task<IActionResult> AtribuirModulo(int usuarioId, int moduloId)
+        public async Task<IActionResult> AtribuirModulo(UsuarioModuloDTO dto)
         {
-            await _moduloServicos.AtribuirModulo(new UsuarioModulo
-            {
-                UsuarioId = usuarioId,
-                EmpresaModuloId = moduloId
-            });
+            await _moduloServicos.AtribuirModulo(dto);
 
             return Ok();
         }

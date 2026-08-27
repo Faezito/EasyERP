@@ -2,25 +2,23 @@ using Auth.Repositorio;
 using Auth.Repositorio.Entidades;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Model.DTOs;
 
 namespace Auth.Servicos;
 
 public interface IModuloServicos : ICRUDGenerico<Modulo>
 {
-    Task AtribuirModulo(UsuarioModulo usuarioModulo);
+    Task<List<ModuloDTO>> ListarTodos();
+    Task AtribuirModulo(UsuarioModuloDTO dto);
     Task Cadastrar(Modulo modulo);
     new Task Atualizar(Modulo modulo);
     Task Deletar(int id);
 }
 
-public class ModuloServicos : CRUDGenerico<Modulo>, IModuloServicos
+public class ModuloServicos(AppDbContext db, IMapper mapper, IUsuarioServicos usuarioServicos) : CRUDGenerico<Modulo>(db), IModuloServicos
 {
-    private readonly IMapper _mapper;
-
-    public ModuloServicos(AppDbContext db, IMapper mapper) : base(db)
-    {
-        _mapper = mapper;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly IUsuarioServicos _usuarioServicos = usuarioServicos;
 
     public async Task Cadastrar(Modulo modulo)
     {
@@ -54,9 +52,23 @@ public class ModuloServicos : CRUDGenerico<Modulo>, IModuloServicos
         await SalvarAsync();
     }
 
-    public async Task AtribuirModulo(UsuarioModulo usuarioModulo)
+    public async Task AtribuirModulo(UsuarioModuloDTO dto)
     {
+        var usuario = await _db.Usuarios.FirstOrDefaultAsync(x=>x.PublicId == dto.UsuarioId)
+            ?? throw new Exception("Usuario não encontrado");
+
+        var usuarioModulo = new UsuarioModulo{
+            UsuarioId = usuario.Id,
+            ModuloId = dto.ModuloId,
+        };
+
         _db.Set<UsuarioModulo>().Add(usuarioModulo);
         await SalvarAsync();
+    }
+
+    public async Task<List<ModuloDTO>> ListarTodos()
+    {
+        var modulos = await _dbSet.ToListAsync();
+        return _mapper.Map<List<ModuloDTO>>(modulos);
     }
 }
