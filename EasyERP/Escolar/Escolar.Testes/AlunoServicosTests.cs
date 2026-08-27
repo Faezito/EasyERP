@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Biblioteca;
-using Bogus;
 using CrossCutting.Model.DTOs.Escolar.Aluno;
 using Escolar.Repositorio;
 using Escolar.Repositorio.Entidades;
@@ -9,11 +8,8 @@ using Escolar.Servicos.Mapeamento;
 using Escolar.Tests.Builders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Model.DTOs.Endereco;
-using Model.DTOs.Escolar.Pessoa;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Web.WebPages;
 using Xunit.Abstractions;
 
 namespace Escolar.Testes;
