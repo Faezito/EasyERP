@@ -19,7 +19,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie(options =>
 {
-    options.LoginPath = "/Home/Login";
+    options.LoginPath = "/Acesso/Index";
     options.AccessDeniedPath = "/Home/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
     options.SlidingExpiration = true;
@@ -44,6 +44,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddScoped<IAcessoServices, AcessoServices>();
 builder.Services.AddScoped<IClientFactoryPost, ClientFactoryPost>();
+builder.Services.AddScoped<IClientFactoryGet, ClientFactoryGet>();
 
 builder.Services.AddHttpClient();
 var app = builder.Build();
