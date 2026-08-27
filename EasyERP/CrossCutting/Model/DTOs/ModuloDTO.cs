@@ -6,6 +6,7 @@ public class ModuloDTO
     public string Nome { get; set; } = string.Empty;
     public string Descricao { get; set; } = string.Empty;
     public bool Ativo { get; set; } = true;
+    public string? Imagem { get; set; }
 
     public string BaseUrl { get; set; } = string.Empty;
 }
