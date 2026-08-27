@@ -1,13 +1,11 @@
-using Web.Libraries.Filtros;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Web.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
 [Authorize]
-[ValidateHttpRefererAttributes]
 public class HomeController : Controller
 {
     public IActionResult Index()
