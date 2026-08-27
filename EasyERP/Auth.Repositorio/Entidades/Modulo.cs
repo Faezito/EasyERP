@@ -9,6 +9,8 @@
 
         public string BaseUrl { get; set; } = string.Empty;
         public string? HealthCheckPath { get; set; }       
-        public string? VersaoApi { get; set; }             
+        public string? VersaoApi { get; set; }
+
+        public List<UsuarioModulo> Usuarios { get; set; } = [];
     }
 }

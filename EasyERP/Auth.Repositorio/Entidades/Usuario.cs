@@ -13,5 +13,5 @@ public class Usuario : EntidadeAuditavel
     public Perfil Perfil { get; set; }
 
     public PessoaFisica PessoaFisica { get; set; } = null!;
-    public List<UsuarioModulo> Acessos { get; set; } = [];
+    public List<UsuarioModulo> Modulos { get; set; } = [];
 }

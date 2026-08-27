@@ -2,21 +2,21 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Auth.Repositorio.Entidades;
 
-namespace Auth.Repositorio.Configuration
+namespace Auth.Repositorio.Configuration;
+
+public class UsuarioModuloConfiguration : IEntityTypeConfiguration<UsuarioModulo>
 {
-    public class UsuarioModuloConfiguration : IEntityTypeConfiguration<UsuarioModulo>
+    public void Configure(EntityTypeBuilder<UsuarioModulo> builder)
     {
-        public void Configure(EntityTypeBuilder<UsuarioModulo> builder)
-        {
-            builder.HasOne(um => um.Usuario)
-                .WithMany(u => u.Acessos)
-                .HasForeignKey(um => um.UsuarioId);
+        builder.HasOne(um => um.Usuario)
+            .WithMany(u => u.Modulos)
+            .HasForeignKey(um => um.UsuarioId);
 
-            builder.HasOne(um => um.EmpresaModulo)
-                .WithMany(em => em.Acessos)
-                .HasForeignKey(um => um.EmpresaModuloId);
+        builder.HasOne(um => um.Modulo)
+            .WithMany(m => m.Usuarios)
+            .HasForeignKey(um => um.ModuloId);
 
-            builder.HasIndex(um => new { um.UsuarioId, um.EmpresaModuloId }).IsUnique();
-        }
+        builder.HasIndex(um => new { um.UsuarioId, um.ModuloId })
+            .IsUnique();
     }
 }
