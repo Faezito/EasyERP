@@ -1,12 +1,19 @@
-﻿@{
+﻿@model Navbar
+@{
+    var titulo = Model.Titulo;
     var usuario = this.User.ObterUsuario();
 }
 
-<nav class="navbar at-bg-teal navbar-dark bg-Web navbar-expand-sm navbar-toggleable-sm shadow-lg text-light box-shadow mb-3">
+<nav class="navbar at-bg-teal navbar-dark bg-secondary navbar-expand-sm navbar-toggleable-sm shadow text-light box-shadow mb-5">
     <div class="container-fluid">
         <div class="d-flex gap-2">
-            @* <img src="/img/icon.png" style="width: 40px; height: 35px;" /> *@
-            <a class="navbar-brand text-light" asp-area="" asp-controller="Menu" asp-action="Index">Portal AvenTurista <span class="fs-8">@($"v{Configuration["Sys:Versao"]}")</span></a>
+            @if (!string.IsNullOrWhiteSpace(Model.Logo))
+            {
+                <img src="/img/icon.png" style="width: 40px; height: 35px;" />
+            }
+            <a class="navbar-brand text-light" asp-area="" asp-controller="Menu" asp-action="Index">
+                @Model.Titulo
+            </a>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -14,18 +21,12 @@
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex text-light justify-content-between" data-bs-theme="dark">
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item px-2">
-                    <a class="nav-link text-light" asp-controller="Menu" asp-action="Index">MENU</a>
-                </li>
-                <li class="nav-item px-2">
-                    <a class="nav-link text-light" asp-controller="Dashboard" asp-action="Index">DASHBOARD</a>
-                </li>
-
-                <li class="nav-item px-2">
-                    <a class="nav-link text-light" asp-controller="DevTools" asp-action="Chamado">
-                        SUPORTE
-                    </a>
-                </li>
+                @foreach (var link in Model.Links)
+                {
+                    <li class="nav-item px-2">
+                        <a class="@link.Estilo.Classe" href="@link.Url">@link.Texto</a>
+                    </li>
+                }
             </ul>
             <div class="nav-item col-3 text-end me-3">
                 @if (usuario?.PublicId == null)
@@ -66,7 +67,7 @@
                                         </li>
                                     </a>
                                 }
-                                <form asp-controller="Home" asp-action="Logout" method="post">
+                                <form asp-controller="Acesso" asp-action="Logout" asp-area="" method="post">
                                     <button type="submit" class="w-100 text-start btn p-0 ps-3">Sair</button>
                                 </form>
                             </ul>
