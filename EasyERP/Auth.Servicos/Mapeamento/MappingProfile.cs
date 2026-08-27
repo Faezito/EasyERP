@@ -45,5 +45,14 @@ public class MappingProfile : Profile
         CreateMap<ModuloDTO, Modulo>()
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
+        CreateMap<UsuarioModulo, UsuarioModuloDTO>()
+            .ForMember(
+                dest => dest.UsuarioId,
+                opt => opt.MapFrom(src => src.Usuario.PublicId)
+            );
+
+        CreateMap<UsuarioModuloDTO, UsuarioModulo>()
+            .ForAllMembers(opt =>
+                opt.Condition((src, dest, srcMember) => srcMember != null));
     }
 }
