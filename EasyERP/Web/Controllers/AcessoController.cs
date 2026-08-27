@@ -32,4 +32,11 @@ public class AcessoController(IAcessoServices acesso) : Controller
 
         return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 }
