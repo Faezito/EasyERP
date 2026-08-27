@@ -70,7 +70,7 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
         var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.PublicId == publicId);
         if (usuario == null) throw new Exception("Erro ao excluir: Usuario não encontrado.");
 
-        usuario.Deletar(); // Deleção lógica
+        usuario.Deletar();
         await SalvarAsync();
     }
 
@@ -82,7 +82,10 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
 
     public async Task<UsuarioRespostaDTO> ObterPorId(int id)
     {
-        var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
+        var usuario = await _db.Usuarios
+            .Include(x => x.Modulos)
+                .ThenInclude(x => x.Modulo)
+            .FirstOrDefaultAsync(x => x.Id == id);
         return _mapper.Map<UsuarioRespostaDTO>(usuario);
     }
 
@@ -95,7 +98,10 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
 
     public async Task<UsuarioRespostaDTO> ObterPorPublicId(Guid publicId)
     {
-        var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.PublicId == publicId);
+        var usuario = await _db.Usuarios
+            .Include(x => x.Modulos)
+                //.ThenInclude(x => x.Modulo)
+            .FirstOrDefaultAsync(x => x.PublicId == publicId);
         return _mapper.Map<UsuarioRespostaDTO>(usuario);
     }
 }

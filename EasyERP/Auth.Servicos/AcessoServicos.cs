@@ -29,7 +29,8 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
     {
         var usuario = await _db.Set<Usuario>()
                                .Include(x => x.PessoaFisica)
-                               .Include(x=>x.Acessos)
+                               .Include(x => x.Modulos)
+                                   .ThenInclude(x => x.Modulo)
                                .SingleOrDefaultAsync(x => x.NomeUsuario == dto.Login || x.PessoaFisica.Email == dto.Login);
 
         if (usuario == null || !bC.Verify(dto.Senha, usuario.SenhaHash))
