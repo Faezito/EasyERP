@@ -2,6 +2,8 @@
 using CrossCutting.Model.DTOs.Login;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Model.DTOs;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Web.Services;
@@ -9,11 +11,20 @@ namespace Web.Services;
 public interface IAcessoServices
 {
     Task<ClaimsPrincipal> Login(LoginRequestDTO login);
+    Task<List<ModuloDTO>> ListarModulos();
 }
 
-public class AcessoServices(IClientFactoryPost post) : IAcessoServices
+public class AcessoServices(IClientFactoryPost post, IClientFactoryGet get) : IAcessoServices
 {
     private readonly IClientFactoryPost _post = post;
+    private readonly IClientFactoryGet _get = get;
+
+    public async Task<List<ModuloDTO>> ListarModulos()
+    {
+        var res = await _get.Get<List<ModuloDTO>>("api/auth/modulo/listar", new Api { Url = "https://localhost:44380/" });
+        return res ?? new();
+    }
+
     public async Task<ClaimsPrincipal> Login(LoginRequestDTO login)
     {
         var res = await _post.Post<LoginResponseDTO, LoginRequestDTO>("api/auth/acesso/login", login, new Api { Url = "https://localhost:44380/" });
@@ -24,12 +35,20 @@ public class AcessoServices(IClientFactoryPost post) : IAcessoServices
 
     private ClaimsPrincipal CriarClaims(LoginResponseDTO dto)
     {
+        var modulosAcesso = dto.Usuario.Modulos.Select(x => x.ModuloId).ToList();
+        var modulos = string.Join(", ", modulosAcesso);
+
+        var modulosObj = dto.Usuario.Modulos.Select(x=>x.Modulo).ToList();
+        var modulosDtos = JsonConvert.SerializeObject(modulosObj);
+
         var claims = new List<Claim>()
         {
             new Claim(ClaimTypes.NameIdentifier, dto.Usuario.PublicId.ToString()),
             new Claim(ClaimTypes.Role, dto.Usuario.Perfil.ToString()),
             new Claim(ClaimTypes.Name, dto.Usuario.NomeUsuario.ToString()),
             new Claim("NomeCompleto", dto.Usuario.Pessoa!.NomeCompleto),
+            new Claim("Modulos", modulos),
+            new Claim("ModuloDTOs", modulosDtos),
         };
 
         var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
