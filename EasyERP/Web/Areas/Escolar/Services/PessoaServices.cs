@@ -8,6 +8,7 @@ public interface IPessoaServices
 {
     Task Cadastrar(PessoaCadastroDTO pessoaCadastro, string? token);
     Task<List<PessoaTabela>> Listar(string? token);
+    Task<PessoaRespostaDTO> Obter(Guid id, string? token);
     Task Deletar(Guid id, string? token);
 }
 
@@ -28,6 +29,10 @@ public class PessoaServices(IClientFactoryPost post, IClientFactoryGet get, ICli
 
         var pessoas = PessoaTabela.MapearParaTabela(ret);
         return pessoas;
+    }
+    public async Task<PessoaRespostaDTO> Obter(Guid id, string? token)
+    {
+        return await _get.Get<PessoaRespostaDTO>($"api/escolar/Pessoa/{id}", new Api { Token = token, Url = "https://localhost:44380/" });
     }
 
     public async Task Deletar(Guid id, string? token)
