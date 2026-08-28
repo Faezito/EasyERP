@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Bibliotecas.Http;
@@ -24,7 +25,9 @@ public class ClientFactoryPost : IClientFactoryPost
         {
             var httpClient = _httpClientFactory.CreateClient(api.Url);
 
-            httpClient.DefaultRequestHeaders.Add("X-API-Key", api.Token);
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", api.Token);
+            
             string url = $"{api.Url}{endPoint}";
 
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -61,9 +64,8 @@ public class ClientFactoryPost : IClientFactoryPost
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            httpClient.DefaultRequestHeaders.Add("X-API-Key", api.Token);
-
-            //string Url = "http://localhost:8080";
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", api.Token);
 
             string url = $"{api.Url}{endPoint}";
 

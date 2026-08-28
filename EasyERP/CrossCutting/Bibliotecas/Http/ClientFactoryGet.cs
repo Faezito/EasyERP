@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace Bibliotecas.Http;
 
@@ -23,7 +24,8 @@ public class ClientFactoryGet : IClientFactoryGet
         {
             var httpClient = _httpClientFactory.CreateClient(api.Url);
 
-            httpClient.DefaultRequestHeaders.Add("X-API-Key", api.Token);
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", api.Token);
 
             string url = $"{api.Url}{endPoint}";
 
