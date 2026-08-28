@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,10 @@ namespace Web.Areas.Escolar.Controllers;
 [Area("Escolar")]
 [Authorize]
 [ValidateHttpRefererAttributes]
-public class PessoaController(IPessoaServices pessoaServices) : Controller
+public class PessoaController(IPessoaServices pessoaServices, IMapper mapper) : Controller
 {
     private readonly IPessoaServices _pessoaServices = pessoaServices;
+    private readonly IMapper _mapper = mapper;
 
     [HttpGet]
     public IActionResult Index()
@@ -30,7 +32,13 @@ public class PessoaController(IPessoaServices pessoaServices) : Controller
         var token = result?.Properties?.GetTokenValue("access_token");
         
         var pessoas = await _pessoaServices.Listar(token);
-        return ViewComponent(typeof(TabelaDinamica), new TabelaDinamicaModel(pessoas, "", Url.Action(nameof(Deletar)), true));
+        return ViewComponent(typeof(TabelaDinamica), new TabelaDinamicaModel(pessoas, Url.Action(nameof(Edicao)), Url.Action(nameof(Deletar)), true));
+    }
+
+    [HttpGet]
+    public IActionResult Cadastro()
+    {
+        return View();
     }
 
     [HttpPost]
@@ -41,6 +49,17 @@ public class PessoaController(IPessoaServices pessoaServices) : Controller
 
         await _pessoaServices.Cadastrar(dto, token);
         return Json(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edicao(Guid id)
+    {
+        var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        var token = result?.Properties?.GetTokenValue("access_token");
+
+        var pessoa = await _pessoaServices.Obter(id, token);
+        var pessoaEdicao = _mapper.Map<PessoaAtualizacaoDTO>(pessoa);
+        return View(pessoaEdicao);
     }
 
     [HttpPost]
