@@ -19,6 +19,8 @@ await Component.InvokeAsync("TopoMenuComponent", new TopoMenu { Menu = "Relatór
 public class TopoMenu
 {
     public string Titulo { get; set; } = string.Empty;
+    public string? FormActionURL { get; set; } = string.Empty;
+    public List<InputPesquisa> Campos { get; set; } = [];
     public List<BotaoComponent> Botoes { get; set; } = [];
     public DropAnos? DropAnos { get; set; }
     public DropMeses? DropMeses { get; set; }
