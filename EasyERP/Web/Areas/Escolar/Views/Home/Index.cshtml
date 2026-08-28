@@ -1,5 +1,21 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Web.Models.Components
+@using Web.Views.Shared.Components.DropMesesComponent
+@using Web.Views.Shared.Components.TopoMenus
+
+@await Component.InvokeAsync("TopoMenuComponent", new TopoMenu
+{
+    Titulo = "Escolar",
+    Botoes = new List<BotaoComponent>
+        {
+            new BotaoComponent (texto: "Pesquisar", estilo: new BotaoStyle (classe: "btn btn-sm btn-primary", submit: true), url: null),
+            new BotaoComponent (url: null, onclick: "history.back(); return false;")
+        },
+    DropAnos = new DropAnos(),
+    DropMeses = new DropMeses()
+})
+
+<hr class="mt-4" />
+
+<a asp-action="Index" asp-controller="Pessoa" asp-area="Escolar">
+    Pessoas
+</a>
