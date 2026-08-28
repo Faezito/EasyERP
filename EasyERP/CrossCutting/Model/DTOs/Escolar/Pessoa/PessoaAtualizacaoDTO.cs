@@ -1,10 +1,11 @@
-﻿using CrossCutting.Model.Enums;
+﻿using CrossCutting.Auditoria;
+using CrossCutting.Model.Enums;
 using Model.DTOs.Endereco;
 using System.Text.RegularExpressions;
 
 namespace Model.DTOs.Escolar.Pessoa;
 
-public class PessoaAtualizacaoDTO
+public class PessoaAtualizacaoDTO : EntidadeAuditavel
 {
     private string _telefone = string.Empty;
 

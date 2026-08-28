@@ -1,11 +1,12 @@
-﻿using CrossCutting.Model.Enums;
+﻿using CrossCutting.Auditoria;
+using CrossCutting.Model.Enums;
 using Model.DTOs.Endereco;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace Model.DTOs.Escolar.Pessoa;
 
-public class PessoaCadastroDTO
+public class PessoaCadastroDTO : EntidadeAuditavel
 {
     private string _cpf = string.Empty;
     private string _telefone = string.Empty;
