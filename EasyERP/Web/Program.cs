@@ -2,6 +2,7 @@ using Bibliotecas.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using System.Globalization;
+using Web.Areas.Escolar.Services;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ builder.Services.AddAuthentication(options =>
     options.AccessDeniedPath = "/Home/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
     options.SlidingExpiration = true;
+    options.Cookie.HttpOnly = true;
 });
 
 Log.Logger = new LoggerConfiguration()
@@ -43,6 +45,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddScoped<IAcessoServices, AcessoServices>();
+builder.Services.AddScoped<IPessoaServices, PessoaServices>();
+
 builder.Services.AddScoped<IClientFactoryPost, ClientFactoryPost>();
 builder.Services.AddScoped<IClientFactoryGet, ClientFactoryGet>();
 

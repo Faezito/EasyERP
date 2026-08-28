@@ -3,6 +3,7 @@ using CrossCutting.Model.DTOs.Login;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Model.DTOs;
+using Model.DTOs.Login;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -10,7 +11,7 @@ namespace Web.Services;
 
 public interface IAcessoServices
 {
-    Task<ClaimsPrincipal> Login(LoginRequestDTO login);
+    Task<LoginResult> Login(LoginRequestDTO login);
     Task<List<ModuloDTO>> ListarModulos();
 }
 
@@ -25,12 +26,16 @@ public class AcessoServices(IClientFactoryPost post, IClientFactoryGet get) : IA
         return res ?? new();
     }
 
-    public async Task<ClaimsPrincipal> Login(LoginRequestDTO login)
+    public async Task<LoginResult> Login(LoginRequestDTO login)
     {
         var res = await _post.Post<LoginResponseDTO, LoginRequestDTO>("api/auth/acesso/login", login, new Api { Url = "https://localhost:44380/" });
-        var claims = CriarClaims(res);
+        var loginResult = new LoginResult
+        {
+            Claims = CriarClaims(res),
+            Token = res.Token
+        };
 
-        return claims;
+        return loginResult;
     }
 
     private ClaimsPrincipal CriarClaims(LoginResponseDTO dto)
@@ -54,18 +59,18 @@ public class AcessoServices(IClientFactoryPost post, IClientFactoryGet get) : IA
         var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identidade);
 
-        var properties = new AuthenticationProperties
-        {
-            IsPersistent = true
-        };
-        properties.StoreTokens(new[]
-        {
-            new AuthenticationToken
-            {
-                Name = "access_token",
-                Value = dto.Token
-            }
-        });
+        //var properties = new AuthenticationProperties
+        //{
+        //    IsPersistent = true
+        //};
+        //properties.StoreTokens(new[]
+        //{
+        //    new AuthenticationToken
+        //    {
+        //        Name = "access_token",
+        //        Value = dto.Token
+        //    }
+        //});
 
         return principal;
     }

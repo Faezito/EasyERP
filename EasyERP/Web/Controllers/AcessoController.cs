@@ -19,16 +19,35 @@ public class AcessoController(IAcessoServices acesso) : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginRequestDTO credenciais)
     {
-        var claims = await _acesso.Login(credenciais);
+        var loginResult = await _acesso.Login(credenciais);
+
+        var properties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTime.UtcNow.AddHours(3)
+        };
+
+        properties.StoreTokens(new[]
+        {
+            new AuthenticationToken
+            {
+                Name = "access_token",
+                Value = loginResult.Token
+            }
+        });
+
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            claims,
-            new AuthenticationProperties()
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddHours(3)
-            }
+            loginResult.Claims,
+            properties
         );
+
+        var auth = await HttpContext.AuthenticateAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme
+        );
+
+        var tokens = auth.Properties?.GetTokens().ToList();
+        var token = auth.Properties?.GetTokenValue("access_token");
 
         return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
     }
