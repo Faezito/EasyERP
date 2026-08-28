@@ -9,16 +9,14 @@ namespace Auth.Servicos;
 public interface IModuloServicos : ICRUDGenerico<Modulo>
 {
     Task<List<ModuloDTO>> ListarTodos();
-    Task AtribuirModulo(UsuarioModuloDTO dto);
     Task Cadastrar(Modulo modulo);
     new Task Atualizar(Modulo modulo);
     Task Deletar(int id);
 }
 
-public class ModuloServicos(AppDbContext db, IMapper mapper, IUsuarioServicos usuarioServicos) : CRUDGenerico<Modulo>(db), IModuloServicos
+public class ModuloServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Modulo>(db), IModuloServicos
 {
     private readonly IMapper _mapper = mapper;
-    private readonly IUsuarioServicos _usuarioServicos = usuarioServicos;
 
     public async Task Cadastrar(Modulo modulo)
     {
@@ -30,7 +28,7 @@ public class ModuloServicos(AppDbContext db, IMapper mapper, IUsuarioServicos us
     {
         var existente = await _dbSet.FirstOrDefaultAsync(x => x.Id == modulo.Id);
         if (existente == null)
-            throw new Exception("Módulo não encontrado.");
+            throw new Exception("Módulo não encontrado");
 
         existente.Nome = modulo.Nome;
         existente.Descricao = modulo.Descricao;
@@ -46,23 +44,9 @@ public class ModuloServicos(AppDbContext db, IMapper mapper, IUsuarioServicos us
     {
         var modulo = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         if (modulo == null)
-            throw new Exception("Módulo não encontrado.");
+            throw new Exception("Módulo não encontrado");
 
         _dbSet.Remove(modulo);
-        await SalvarAsync();
-    }
-
-    public async Task AtribuirModulo(UsuarioModuloDTO dto)
-    {
-        var usuario = await _db.Usuarios.FirstOrDefaultAsync(x=>x.PublicId == dto.UsuarioId)
-            ?? throw new Exception("Usuario não encontrado");
-
-        var usuarioModulo = new UsuarioModulo{
-            UsuarioId = usuario.Id,
-            ModuloId = dto.ModuloId,
-        };
-
-        _db.Set<UsuarioModulo>().Add(usuarioModulo);
         await SalvarAsync();
     }
 
