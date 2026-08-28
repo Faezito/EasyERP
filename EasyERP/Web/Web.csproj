@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrossCutting\Bibliotecas\Bibliotecas.csproj" />
+    <ProjectReference Include="..\CrossCutting\Middlewares\Middlewares.csproj" />
     <ProjectReference Include="..\CrossCutting\Model\Model.csproj" />
   </ItemGroup>
 

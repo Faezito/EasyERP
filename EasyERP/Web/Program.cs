@@ -1,6 +1,7 @@
 using AutoMapper;
 using Bibliotecas.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Middlewares.Erro;
 using Serilog;
 using System.Globalization;
 using Web.Areas.Escolar.Services;
@@ -71,6 +72,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();

@@ -16,10 +16,38 @@
 
         complete: function () {
             // initTooltips();
-        },
-
-        error: function () {
         }
+    })
+    .fail(function (xhr) {
+
+        let json = null;
+
+        try {
+            json = JSON.parse(xhr.responseText);
+        }
+        catch {
+        }
+
+        if (json?.errors) {
+
+            const mensagens = Object.values(json.errors)
+                .flat()
+                .join('<br>');
+
+            Swal.fire({
+                icon: 'error',
+                title: json?.title ?? 'Erro de validação',
+                html: mensagens
+            });
+
+            return;
+        }
+
+        Swal.fire({
+            icon: 'error',
+            title: json?.title ?? 'Erro',
+            html: json?.detail ?? 'Erro inesperado ao processar a requisição.'
+        });
     });
 }
 
@@ -98,6 +126,21 @@ function submit(evt, formID, urlSubmit, btnSelector = '#btnSalvar') {
         .fail(function (xhr) {
 
             const json = xhr.responseJSON;
+
+            if (json?.errors) {
+
+                const mensagens = Object.values(json.errors)
+                    .flat()
+                    .join('<br>');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: json?.title ?? 'Erro de validação',
+                    html: mensagens
+                });
+
+                return;
+            }
 
             Swal.fire({
                 icon: 'error',

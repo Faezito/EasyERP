@@ -2,6 +2,7 @@ using AutoMapper;
 using Escolar.Repositorio;
 using Escolar.Servicos.Mapeamento;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Middlewares.Erro;
@@ -10,7 +11,21 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var problem = new ValidationProblemDetails(context.ModelState)
+            {
+                Title = "Erro de validação",
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            return new BadRequestObjectResult(problem);
+        };
+    });
+
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

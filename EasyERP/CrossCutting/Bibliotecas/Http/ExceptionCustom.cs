@@ -1,34 +1,26 @@
-﻿using System.Net;
+﻿using Bibliotecas.Exceptions;
+using System.Text.Json;
 
 namespace Bibliotecas.Http;
 
 public static class ExceptionCustom
 {
-    public static async Task<Exception> Exception(HttpResponseMessage response)
+    public static async Task Exception(HttpResponseMessage response)
     {
-        string json = await response.Content.ReadAsStringAsync();
+        var json = await response.Content.ReadAsStringAsync();
 
-        // StatusCode = 500
-        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-        {
-            throw new Exception(json);
-        }
-        // StatusCode = 400
-        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-        {
-            throw new Exception(json);
-        }
-        // StatusCode = 400
-        else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-        {
-            throw new Exception(json);
-        }
-        // StatusCode = 401
-        else if (response.StatusCode == HttpStatusCode.Unauthorized)
+        var problem = JsonSerializer.Deserialize<ApiProblemDetails>(
+            json,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+        if (problem == null)
         {
             throw new Exception(json);
         }
 
-        throw new Exception(json);
+        throw new HttpException(problem);
     }
 }

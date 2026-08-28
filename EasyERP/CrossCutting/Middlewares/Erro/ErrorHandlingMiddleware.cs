@@ -1,7 +1,9 @@
+using Bibliotecas.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using System.Net.Mail;
 
 namespace Middlewares.Erro;
 
@@ -25,6 +27,18 @@ public class ErrorHandlingMiddleware
         try
         {
             await _next(context);
+        }
+        catch (HttpException ex)
+        {
+            _logger.LogError(
+                ex,
+                "HttpException capturada. Detail: {Detail}",
+                ex.Problem.Detail);
+
+            context.Response.Clear();
+            context.Response.StatusCode = ex.Problem.Status ?? 500;
+
+            await context.Response.WriteAsJsonAsync(ex.Problem);
         }
         catch (Exception ex)
         {
