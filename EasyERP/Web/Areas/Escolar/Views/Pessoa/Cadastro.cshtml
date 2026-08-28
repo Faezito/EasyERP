@@ -1,6 +1,6 @@
 @model PessoaCadastroDTO
 
-<form method="post" id="formCadastroPessoa" data-ajax="true" class="row g-3 needs-validation">
+<form method="post" id="formCadastroPessoa" action="@Url.Action("Cadastrar", "Pessoa")" data-ajax="true" class="row g-3 needs-validation">
     <div class="col-md-6">
         <label class="form-label" asp-for="NomeCompleto">Nome Completo</label>
         <input class="form-control" asp-for="NomeCompleto" required />
