@@ -1,76 +1,71 @@
-﻿//using Newtonsoft.Json;
-//using System.Text;
+﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
-//namespace Bibliotecas.Http;
+namespace Bibliotecas.Http;
 
-//public interface IClientFactoryPut
-//{
-//    Task<S?> Put<T, S>(string endPoint, T body, int apiId);
-//    Task Put<T>(string endPoint, T body, int apiId);
-//}
+public interface IClientFactoryPut
+{
+    Task<S?> Put<T, S>(string endPoint, T body, Api api);
+    Task Put<T>(string endPoint, T body, Api api);
+}
 
-//public class ClientFactoryPut : IClientFactoryPut
-//{
-//    private readonly IHttpClientFactory _httpClientFactory;
-//    private readonly IAPIsServicos _api;
+public class ClientFactoryPut : IClientFactoryPut
+{
+    private readonly IHttpClientFactory _httpClientFactory;
 
-//    public ClientFactoryPut(IHttpClientFactory httpClientFactory, IAPIsServicos api)
-//    {
-//        _httpClientFactory = httpClientFactory;
-//        _api = api;
-//    }
+    public ClientFactoryPut(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
 
-//    public async Task<S?> Put<T, S>(string endPoint, T body, int apiId)
-//    {
-//        var api = await _api.ObterPorCodigo(apiId); // devtools 151
+    public async Task<S?> Put<T, S>(string endPoint, T body, Api api)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", api.Token);
 
-//        var httpClient = _httpClientFactory.CreateClient();
-//        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("X-API-Key", api.Token);
+        string url = $"{api.Url}{endPoint}";
 
-//        string url = $"{api.Url}{endPoint}";
+        string jsonBody = JsonConvert.SerializeObject(body);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-//        string jsonBody = JsonConvert.SerializeObject(body);
-//        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        using HttpResponseMessage response = await httpClient.PutAsync(url, content);
 
-//        using HttpResponseMessage response = await httpClient.PutAsync(url, content);
+        try
+        {
+            response.EnsureSuccessStatusCode();
 
-//        try
-//        {
-//            response.EnsureSuccessStatusCode();
+            string json = await response.Content.ReadAsStringAsync();
 
-//            string json = await response.Content.ReadAsStringAsync();
+            return string.IsNullOrWhiteSpace(json)
+                ? default
+                : JsonConvert.DeserializeObject<S>(json);
+        }
+        catch (HttpRequestException)
+        {
+            throw await ExceptionCustom.Exception(response);
+        }
+    }
 
-//            return string.IsNullOrWhiteSpace(json)
-//                ? default
-//                : JsonConvert.DeserializeObject<S>(json);
-//        }
-//        catch (HttpRequestException)
-//        {
-//            throw await ExceptionCustom.Exception(response);
-//        }
-//    }
+    public async Task Put<T>(string endPoint, T body, Api api)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", api.Token);
 
-//    public async Task Put<T>(string endPoint, T body, int apiId)
-//    {
-//        var api = await _api.ObterPorCodigo(apiId); // devtools 151
+        string url = $"{api.Url}{endPoint}";
 
-//        var httpClient = _httpClientFactory.CreateClient();
-//        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("X-API-Key", api.Token);
+        string jsonBody = JsonConvert.SerializeObject(body);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-//        string url = $"{api.Url}{endPoint}";
+        using HttpResponseMessage response = await httpClient.PutAsync(url, content);
 
-//        string jsonBody = JsonConvert.SerializeObject(body);
-//        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-//        using HttpResponseMessage response = await httpClient.PutAsync(url, content);
-
-//        try
-//        {
-//            response.EnsureSuccessStatusCode();
-//        }
-//        catch (HttpRequestException)
-//        {
-//            throw await ExceptionCustom.Exception(response);
-//        }
-//    }
-//}
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException)
+        {
+            throw await ExceptionCustom.Exception(response);
+        }
+    }
+}
