@@ -15,20 +15,19 @@ public interface IAcessoServices
     Task<List<ModuloDTO>> ListarModulos();
 }
 
-public class AcessoServices(IClientFactoryPost post, IClientFactoryGet get) : IAcessoServices
+public class AcessoServices(IClientFactory http) : IAcessoServices
 {
-    private readonly IClientFactoryPost _post = post;
-    private readonly IClientFactoryGet _get = get;
+    private readonly IClientFactory _http = http;
 
     public async Task<List<ModuloDTO>> ListarModulos()
     {
-        var res = await _get.Get<List<ModuloDTO>>("api/auth/modulo/listar", new Api { Url = "https://localhost:44380/" });
+        var res = await _http.Get<List<ModuloDTO>>("api/auth/modulo/listar", new Api { Url = "https://localhost:44380/" });
         return res ?? new();
     }
 
     public async Task<LoginResult> Login(LoginRequestDTO login)
     {
-        var res = await _post.Post<LoginResponseDTO, LoginRequestDTO>("api/auth/acesso/login", login, new Api { Url = "https://localhost:44380/" });
+        var res = await _http.Post<LoginResponseDTO, LoginRequestDTO>("api/auth/acesso/login", login, new Api { Url = "https://localhost:44380/" });
         var loginResult = new LoginResult
         {
             Claims = CriarClaims(res),

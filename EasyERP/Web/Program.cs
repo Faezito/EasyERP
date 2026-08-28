@@ -60,12 +60,10 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddScoped<IAcessoServices, AcessoServices>();
 builder.Services.AddScoped<IPessoaServices, PessoaServices>();
 
-builder.Services.AddScoped<IClientFactoryPost, ClientFactoryPost>();
-builder.Services.AddScoped<IClientFactoryGet, ClientFactoryGet>();
-builder.Services.AddScoped<IClientFactoryDelete, ClientFactoryDelete>();
-builder.Services.AddScoped<IClientFactoryPut, ClientFactoryPut>();
+builder.Services.AddScoped<IClientFactory, ClientFactory>();
 
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
