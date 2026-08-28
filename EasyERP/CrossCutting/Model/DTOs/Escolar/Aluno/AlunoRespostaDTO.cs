@@ -1,14 +1,13 @@
+using Model.DTOs.Escolar.Pessoa;
+
 namespace CrossCutting.Model.DTOs.Escolar.Aluno;
 
 public class AlunoRespostaDTO
 {
-    public Guid PublicId { get; set; }
-    public string Nome { get; set; }
-    public string Sobrenome { get; set; }
-    public string Email { get; set; }
-    public string Telefone { get; set; }
-    public string Endereco { get; set; }
-    public DateTime DataNascimento { get; set; }
-    public Guid TurmaId { get; set; }
-    public Guid PessoaId { get; set; }
+    public int Id { get; set; }
+    public int TurmaId { get; set; }
+    public int PessoaId { get; set; }
+
+    public PessoaRespostaDTO? Pessoa { get; set; }
+    //TODO: Adicionar presenças e Responsáveis, talvez
 }
