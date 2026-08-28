@@ -57,20 +57,6 @@ public class AcessoServices(IClientFactory http) : IAcessoServices
 
         var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identidade);
-
-        //var properties = new AuthenticationProperties
-        //{
-        //    IsPersistent = true
-        //};
-        //properties.StoreTokens(new[]
-        //{
-        //    new AuthenticationToken
-        //    {
-        //        Name = "access_token",
-        //        Value = dto.Token
-        //    }
-        //});
-
         return principal;
     }
 }

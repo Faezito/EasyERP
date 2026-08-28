@@ -10,9 +10,9 @@ namespace Bibliotecas.Http;
 public interface IClientFactory
 {
     Task<S> Get<S>(string endPoint, Api api);
-    Task<S?> Delete<S>(string endPoint, Api api); 
+    Task<S?> Delete<S>(string endPoint, Api api);
     Task<S?> Put<T, S>(string endPoint, T body, Api api);
-    Task Put<T>(string endPoint, T body, Api api); 
+    Task Put<T>(string endPoint, T body, Api api);
     Task<S> Post<S, E>(string endPoint, E model, Api api);
     Task Post<E>(string endPoint, E model, Api api);
 
@@ -53,7 +53,8 @@ public class ClientFactory : IClientFactory
         }
         catch (HttpRequestException)
         {
-            throw await ExceptionCustom.Exception(response);
+            await ExceptionCustom.Exception(response);
+            return default;
         }
     }
 
@@ -83,7 +84,8 @@ public class ClientFactory : IClientFactory
         }
         catch (HttpRequestException)
         {
-            throw await ExceptionCustom.Exception(response);
+            await ExceptionCustom.Exception(response);
+            return default;
         }
     }
 
@@ -107,129 +109,110 @@ public class ClientFactory : IClientFactory
         }
         catch (HttpRequestException)
         {
-            throw await ExceptionCustom.Exception(response);
+            await ExceptionCustom.Exception(response);
         }
     }
-    
+
     public async Task<S> Post<S, E>(string endPoint, E model, Api api)
     {
-        try
+        var token = await ObterToken();
+
+        var httpClient = _httpClientFactory.CreateClient(api.Url);
+
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        string url = $"{api.Url}{endPoint}";
+
+        httpClient.DefaultRequestHeaders.Accept.Clear();
+        string strJson = JsonConvert.SerializeObject(model);
+        StringContent httpContent = new(strJson, Encoding.UTF8, "application/json");
+
+        using (HttpResponseMessage response = await httpClient.PostAsync(url, httpContent))
         {
-            var token = await ObterToken();
-
-            var httpClient = _httpClientFactory.CreateClient(api.Url);
-
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
-
-            string url = $"{api.Url}{endPoint}";
-
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            string strJson = JsonConvert.SerializeObject(model);
-            StringContent httpContent = new(strJson, Encoding.UTF8, "application/json");
-
-            using (HttpResponseMessage response = await httpClient.PostAsync(url, httpContent))
+            try
             {
-                try
+                response.EnsureSuccessStatusCode();
+                string json = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrWhiteSpace(json))
                 {
-                    response.EnsureSuccessStatusCode();
-                    string json = await response.Content.ReadAsStringAsync();
-                    if (string.IsNullOrWhiteSpace(json))
-                    {
-                        return default;
-                    }
-                    return JsonConvert.DeserializeObject<S>(json);
+                    return default;
                 }
-                catch (Exception ex)
-                {
-                    throw await ExceptionCustom.Exception(response);
-                }
+                return JsonConvert.DeserializeObject<S>(json);
             }
-        }
-        catch (Exception)
-        {
-            throw;
+            catch (Exception ex)
+            {
+                await ExceptionCustom.Exception(response);
+                return default;
+            }
         }
     }
 
     public async Task Post<E>(string endPoint, E model, Api api)
     {
-        try
+        var token = await ObterToken();
+
+        var httpClient = _httpClientFactory.CreateClient();
+
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        string url = $"{api.Url}{endPoint}";
+
+        var settings = new JsonSerializerSettings
         {
-            var token = await ObterToken();
+            DateFormatString = "yyyy-MM-dd'T'HH:mm:ss.fffZ",
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+        };
 
-            var httpClient = _httpClientFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Accept.Clear();
+        StringContent httpContent = new(JsonConvert.SerializeObject(model), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var json = JsonConvert.SerializeObject(model, settings);
+        Console.WriteLine(json);
 
-            string url = $"{api.Url}{endPoint}";
-
-            var settings = new JsonSerializerSettings
+        using (HttpResponseMessage response = await httpClient.PostAsync(url, httpContent))
+        {
+            try
             {
-                DateFormatString = "yyyy-MM-dd'T'HH:mm:ss.fffZ",
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            };
-
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            StringContent httpContent = new(JsonConvert.SerializeObject(model), Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json);
-
-            var json = JsonConvert.SerializeObject(model, settings);
-            Console.WriteLine(json);
-
-            using (HttpResponseMessage response = await httpClient.PostAsync(url, httpContent))
-            {
-                try
-                {
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (Exception)
-                {
-                    throw await ExceptionCustom.Exception(response);
-                }
+                response.EnsureSuccessStatusCode();
             }
-        }
-        catch (Exception)
-        {
-            throw;
+            catch (Exception)
+            {
+                await ExceptionCustom.Exception(response);
+            }
         }
     }
 
     public async Task<S> Get<S>(string endPoint, Api api)
     {
-        try
+        var token = await ObterToken();
+
+        var httpClient = _httpClientFactory.CreateClient(api.Url);
+
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        string url = $"{api.Url}{endPoint}";
+
+        httpClient.DefaultRequestHeaders.Accept.Clear();
+
+        using (HttpResponseMessage response = await httpClient.GetAsync(url))
         {
-            var token = await ObterToken();
-
-            var httpClient = _httpClientFactory.CreateClient(api.Url);
-
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
-
-            string url = $"{api.Url}{endPoint}";
-
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-
-            using (HttpResponseMessage response = await httpClient.GetAsync(url))
+            try
             {
-                try
+                response.EnsureSuccessStatusCode();
+                string json = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrWhiteSpace(json))
                 {
-                    response.EnsureSuccessStatusCode();
-                    string json = await response.Content.ReadAsStringAsync();
-                    if (string.IsNullOrWhiteSpace(json))
-                    {
-                        return default;
-                    }
-                    return JsonConvert.DeserializeObject<S>(json);
+                    return default;
                 }
-                catch (Exception)
-                {
-                    throw await ExceptionCustom.Exception(response);
-                }
+                return JsonConvert.DeserializeObject<S>(json);
             }
-        }
-        catch (Exception)
-        {
-            throw;
+            catch (Exception)
+            {
+                await ExceptionCustom.Exception(response);
+                return default;
+            }
         }
     }
 
