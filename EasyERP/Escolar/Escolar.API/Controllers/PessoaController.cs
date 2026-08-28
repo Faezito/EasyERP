@@ -1,10 +1,12 @@
 using Escolar.Servicos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOs.Escolar.Pessoa;
 
 namespace AvenTuristaAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/escolar/[controller]")]
 public class PessoaController : ControllerBase
 {
