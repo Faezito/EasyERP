@@ -49,6 +49,8 @@ builder.Services.AddScoped<IPessoaServices, PessoaServices>();
 
 builder.Services.AddScoped<IClientFactoryPost, ClientFactoryPost>();
 builder.Services.AddScoped<IClientFactoryGet, ClientFactoryGet>();
+builder.Services.AddScoped<IClientFactoryDelete, ClientFactoryDelete>();
+builder.Services.AddScoped<IClientFactoryPut, ClientFactoryPut>();
 
 builder.Services.AddHttpClient();
 var app = builder.Build();
