@@ -1,18 +1,16 @@
+using Auth.Servicos;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOs.PessoaFisica;
-using Auth.Servicos;
+using System.Security.Claims;
 
-namespace AvenTuristaAPI.Controllers
+namespace Auth.Controllers
 {
     [ApiController]
     [Route("api/auth/[controller]")]
-    public class PessoaFisicaController : ControllerBase
+    public class PessoaFisicaController(IPessoaFisicaServicos pessoaServicos, IUsuarioAtualServicos usuarioAtualService) : ControllerBase
     {
-        private readonly IPessoaFisicaServicos _pessoaServicos;
-        public PessoaFisicaController(IPessoaFisicaServicos pessoaServicos)
-        {
-            _pessoaServicos = pessoaServicos;
-        }
+        private readonly IPessoaFisicaServicos _pessoaServicos = pessoaServicos;
+        private readonly IUsuarioAtualServicos _usuarioAtualService = usuarioAtualService;
 
         [HttpGet("{publicId}")]
         public async Task<IActionResult> Obter(Guid publicId)
@@ -24,6 +22,8 @@ namespace AvenTuristaAPI.Controllers
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
+            var usuarioId = _usuarioAtualService.UsuarioId;
+
             var usuarios = await _pessoaServicos.Listar();
             return Ok(usuarios);
         }
@@ -31,6 +31,8 @@ namespace AvenTuristaAPI.Controllers
         [HttpPost("cadastro")]
         public async Task<IActionResult> Cadastro(PessoaFisicaCadastroDTO dto)
         {
+            dto.UsuarioAlteracaoId = _usuarioAtualService.UsuarioId;
+
             await _pessoaServicos.Cadastrar(dto);
             return Ok();
         }
