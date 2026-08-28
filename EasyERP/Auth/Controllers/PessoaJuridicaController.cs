@@ -2,7 +2,7 @@ using Auth.Servicos;
 using CrossCutting.Model.DTOs.PessoaJuridica;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AvenTuristaAPI.Controllers
+namespace Auth.Controllers
 {
     [ApiController]
     [Route("api/auth/pessoajuridica")]

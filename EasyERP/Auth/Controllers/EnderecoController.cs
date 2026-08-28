@@ -3,7 +3,7 @@ using Model.DTOs.Endereco;
 using Auth.Repositorio.Entidades;
 using Auth.Servicos;
 
-namespace AvenTuristaAPI.Controllers
+namespace Auth.Controllers
 {
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]

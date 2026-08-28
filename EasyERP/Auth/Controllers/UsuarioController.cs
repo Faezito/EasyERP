@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model.DTOs.Usuario;
 using Auth.Servicos;
 
-namespace AvenTuristaAPI.Controllers
+namespace Auth.Controllers
 {
     [ApiController]
     [Route("api/auth/usuario")]
@@ -31,6 +31,11 @@ namespace AvenTuristaAPI.Controllers
         [HttpPost("cadastro")]
         public async Task<IActionResult> Cadastro(UsuarioCadastroDTO dto)
         {
+            // TODO: ADICIONAR ÀS ROTAS CONVENIENTES
+            var usuarioId = User.FindFirst("UsuarioId")?.Value;
+            var nome = User.FindFirst("Nome")?.Value;
+            var perfil = User.FindFirst("Perfil")?.Value;
+
             await _usuarioServicos.Cadastrar(dto);
             return Ok();
         }
