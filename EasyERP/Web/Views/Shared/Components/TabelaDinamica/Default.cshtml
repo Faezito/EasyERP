@@ -32,7 +32,7 @@
                 @foreach (var prop in props.Where(x => x.Name != "Id"))
                 {
                     var value = prop.GetValue(row);
-                    string strConvertido = Convert.ToString(value);
+                    @* var strConvertido = Convert.ToString(value); *@
                     string strClass = "";//ExpressoesRegulares.AlinhamentoHTML(strConvertido);
 
                     <td class="@strClass">@value</td>
@@ -42,7 +42,7 @@
                     @foreach (var prop in props.Where(x => x.Name == "Id"))
                     {
                         var id = prop.GetValue(row);
-                        <td class="p-1 m-0 align-middle text-center align-middle">
+                        <td class="p-1 m-0 align-middle text-center align-middle" style="width: 10%;">
                             <div class="d-flex gap-2 justify-content-center align-middle">
                                 <a data-rota-edicao="@Model.RotaEditar/@id" class="btn-editar btn btn-secondary btn-sm">
                                     <i class="fa-solid fa-pencil"></i>
