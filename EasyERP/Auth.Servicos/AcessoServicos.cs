@@ -75,6 +75,7 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
         return new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+                new(JwtRegisteredClaimNames.NameId, usuario.PublicId.ToString()),
                 new(JwtRegisteredClaimNames.UniqueName, usuario.NomeUsuario),
                 new(JwtRegisteredClaimNames.Name, usuario.PessoaFisica.NomeCompleto),
                 new(JwtRegisteredClaimNames.Email, usuario.PessoaFisica.Email),
