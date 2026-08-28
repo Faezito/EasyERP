@@ -10,11 +10,12 @@
         },
 
         success: function (resultado) {
+            //console.log(resultado)
             $(IdLocalResultado).html(resultado);
         },
 
         complete: function () {
-            initTooltips();
+            // initTooltips();
         },
 
         error: function () {
@@ -124,7 +125,49 @@ $(document).on('click', '.btn-deletar', function (e) {
         confirmButtonText: "Sim",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.trigger("submit");
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                beforeSend: function () {
+                    $('.btn-deletar').prop('disabled', true);
+                },
+                complete: function () {
+                    $('.btn-deletar').prop('disabled', false);
+                }
+            })
+                .done(function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response?.title ?? 'Sucesso',
+                        html: response?.detail ?? 'Solicitação concluída com sucesso!'
+                    }).then(() => {
+                        if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl;
+                        } else {
+                            window.location.reload();
+                        }
+                    });
+                })
+                .fail(function (xhr) {
+                    if (xhr.responseJSON) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: xhr.responseJSON.title ?? 'Erro',
+                            html: xhr.responseJSON.detail
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'Erro inesperado ao processar a requisição.'
+                        });
+                    }
+                });
+
         }
     })
 })
@@ -148,7 +191,7 @@ $(document).on('submit', 'form[data-ajax="true"]', function (e)
     // console.log(data)
 
     if (formId.includes('pesquisa')) {
-        pesquisar(e, formId, url, "resultado");
+        pesquisar(e, formId, url, "#resultado");
     }
     else {
         submit(e, formId, url);
