@@ -1,8 +1,20 @@
-﻿@{
+﻿@using Web.Views.Shared.Components.CardMenuComponent
+@{
     ViewData["Title"] = "Home Page";
+    var modulos = this.User.ObterModulosDoUsuario();
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="row justify-content-center gap-3">
+        @foreach (var m in modulos)
+        {
+            @await Component.InvokeAsync("CardMenuComponent", new CardMenu
+                {
+                    Texto = m.Nome,
+                    Url = m.BaseUrl,
+                    Imagem = m.Imagem,
+                    Estilo = new Estilo()
+                })
+        }
+    </div>
 </div>
