@@ -1,8 +1,10 @@
+using AutoMapper;
 using Bibliotecas.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using System.Globalization;
 using Web.Areas.Escolar.Services;
+using Web.Libraries.Mapeamento;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +39,17 @@ Log.Logger = new LoggerConfiguration()
         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
     )
     .CreateLogger();
+
+var config = new MapperConfiguration(
+    cfg =>
+    {
+        cfg.AddProfile<MappingProfile>();
+    },
+    new Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory()
+);
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 builder.Host.UseSerilog();
 
