@@ -58,10 +58,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddScoped<IAcessoServices, AcessoServices>();
-builder.Services.AddScoped<IPessoaServices, PessoaServices>();
-
-builder.Services.AddScoped<IClientFactory, ClientFactory>();
+builder.Services.InjecaoServicos();
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
