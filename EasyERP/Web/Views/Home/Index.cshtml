@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Home Page";
     var modulos = this.User.ObterModulosDoUsuario();
+    modulos = modulos.Where(x => x.ModuloPaiId == null).ToList();
 }
 
 <div class="text-center">
