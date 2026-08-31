@@ -1,0 +1,44 @@
+@model Model.DTOs.Escolar.Turma.TurmaDTO
+
+<form method="post" id="formEdicaoTurma" action="@Url.Action("Atualizar", "Turma")" data-ajax="true" class="row g-3 needs-validation">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Descricao">Descrição</label>
+        <input class="form-control" asp-for="Descricao" value="@Model.Descricao" required />
+        <span class="invalid-feedback" asp-validation-for="Descricao"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Sala">Sala</label>
+        <input class="form-control" asp-for="Sala" value="@Model.Sala" required />
+        <span class="invalid-feedback" asp-validation-for="Sala"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Predio">Prédio</label>
+        <input class="form-control" asp-for="Predio" value="@Model.Predio" />
+        <span class="invalid-feedback" asp-validation-for="Predio"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="ResponsavelId">Id do Responsável</label>
+        <input class="form-control" asp-for="ResponsavelId" value="@Model.ResponsavelId" type="number" />
+        <span class="invalid-feedback" asp-validation-for="ResponsavelId"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="ViceResponsavelId">Id do Vice-Responsável</label>
+        <input class="form-control" asp-for="ViceResponsavelId" value="@Model.ViceResponsavelId" type="number" />
+        <span class="invalid-feedback" asp-validation-for="ViceResponsavelId"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}
