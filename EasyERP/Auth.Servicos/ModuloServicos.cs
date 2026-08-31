@@ -34,8 +34,7 @@ public class ModuloServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<Modu
         existente.Descricao = modulo.Descricao;
         existente.Ativo = modulo.Ativo;
         existente.BaseUrl = modulo.BaseUrl;
-        existente.HealthCheckPath = modulo.HealthCheckPath;
-        existente.VersaoApi = modulo.VersaoApi;
+        existente.ModuloPaiId = modulo.ModuloPaiId;
 
         await SalvarAsync();
     }

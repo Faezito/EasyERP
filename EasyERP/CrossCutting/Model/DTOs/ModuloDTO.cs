@@ -9,4 +9,5 @@ public class ModuloDTO
     public string? Imagem { get; set; }
 
     public string BaseUrl { get; set; } = string.Empty;
+    public int? ModuloPaiId { get; set; }
 }
