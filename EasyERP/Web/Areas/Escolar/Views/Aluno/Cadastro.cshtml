@@ -1,0 +1,93 @@
+﻿@using CrossCutting.Model.DTOs.Escolar.Aluno
+@model AlunoCadastroDTO
+
+<form method="post" id="formCadastroPessoa" action="@Url.Action("Cadastrar", "Aluno")" data-ajax="true" class="row g-3 needs-validation">
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Pessoa.NomeCompleto"></label>
+        <input class="form-control" asp-for="Pessoa.NomeCompleto" required />
+        <span class="invalid-feedback" asp-validation-for="Pessoa.NomeCompleto"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Pessoa.Genero"></label>
+        <select class="form-select" asp-for="Pessoa.Genero" required>
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="O">Outro</option>
+            <option value="N">Não informado</option>
+        </select>
+        <span class="invalid-feedback" asp-validation-for="Pessoa.Genero"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Pessoa.Email"></label>
+        <input class="form-control" asp-for="Pessoa.Email" type="email" required />
+        <span class="invalid-feedback" asp-validation-for="Pessoa.Email"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Pessoa.CPF"></label>
+        <input class="form-control cpf" asp-for="Pessoa.CPF" type="text" required />
+        <span class="invalid-feedback" asp-validation-for="Pessoa.CPF"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Pessoa.Telefone"></label>
+        <input class="form-control tel_com_ddd" asp-for="Pessoa.Telefone" type="text" required />
+        <span class="invalid-feedback" asp-validation-for="Pessoa.Telefone"></span>
+    </div>
+
+    <div class="col-6">
+        <label class="form-label" asp-for="Pessoa.DataNascimento">Data de Nascimento</label>
+        <input class="form-control" asp-for="Pessoa.DataNascimento" type="date" required />
+        <span class="invalid-feedback" asp-validation-for="Pessoa.DataNascimento"></span>
+    </div>
+
+    <div class="col-12">
+        <fieldset class="border p-4 mb-3">
+            <legend class="w-auto">Endereço</legend>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Logradouro"></label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Logradouro" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Numero"></label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Numero" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Complemento"></label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Complemento" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Bairro">Bairro</label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Bairro" />
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Cidade">Cidade</label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Cidade" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" asp-for="Pessoa.Endereco.Estado">UF</label>
+                    <input class="form-control" asp-for="Pessoa.Endereco.Estado" maxlength="2" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Pessoa.Endereco.CEP">CEP</label>
+                    <input class="form-control cep" asp-for="Pessoa.Endereco.CEP" />
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}

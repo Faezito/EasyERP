@@ -19,7 +19,7 @@ public class AlunoServices(IClientFactory http) : IAlunoServices
 
     public async Task Cadastrar(AlunoCadastroDTO pessoaCadastro, string? token)
     {
-        await _http.Post("api/escolar/Aluno/cadastro", pessoaCadastro, new Api { Token = token, Url = "https://localhost:44380/" });
+        await _http.Post("api/escolar/Aluno/cadastrar", pessoaCadastro, new Api { Token = token, Url = "https://localhost:44380/" });
     }
 
     public async Task Atualizar(AlunoAtualizacaoDTO aluno, string? token)
