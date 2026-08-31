@@ -1,0 +1,51 @@
+@model Model.DTOs.ModuloDTO
+
+<form method="post" id="formEdicaoModulo" action="@Url.Action("Edicao", "Modulo")" data-ajax="true" class="row g-3 needs-validation">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Nome">Nome</label>
+        <input class="form-control" asp-for="Nome" value="@Model.Nome" required />
+        <span class="invalid-feedback" asp-validation-for="Nome"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Descricao">Descrição</label>
+        <input class="form-control" asp-for="Descricao" value="@Model.Descricao" required />
+        <span class="invalid-feedback" asp-validation-for="Descricao"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="BaseUrl">URL Base</label>
+        <input class="form-control" asp-for="BaseUrl" value="@Model.BaseUrl" required />
+        <span class="invalid-feedback" asp-validation-for="BaseUrl"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Imagem">Imagem</label>
+        <input class="form-control" asp-for="Imagem" value="@Model.Imagem" />
+        <span class="invalid-feedback" asp-validation-for="Imagem"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="ModuloPaiId">Módulo Pai ID</label>
+        <input class="form-control" asp-for="ModuloPaiId" value="@Model.ModuloPaiId" type="number" />
+        <span class="invalid-feedback" asp-validation-for="ModuloPaiId"></span>
+    </div>
+
+    <div class="col-md-6 d-flex align-items-center mt-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="Ativo" />
+            <label class="form-check-label" asp-for="Ativo">Ativo</label>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}
