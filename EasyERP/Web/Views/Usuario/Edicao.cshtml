@@ -1,0 +1,29 @@
+@using CrossCutting.Model.Enums
+@model Model.DTOs.Usuario.UsuarioAtualizacaoDTO
+
+<form method="post" id="formEdicaoUsuario" action="@Url.Action("Editar", "Usuario")" data-ajax="true" class="row g-3 needs-validation">
+    <input type="hidden" asp-for="PublicId" />
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Senha"></label>
+        <input class="form-control" asp-for="Senha" type="password" placeholder="Informe caso deseje alterar" />
+        <span class="invalid-feedback" asp-validation-for="Senha"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Perfil"></label>
+        <select class="form-select" asp-for="Perfil" asp-items="Html.GetEnumSelectList<Perfil>()">
+            <option value="">Selecione</option>
+        </select>
+        <span class="invalid-feedback" asp-validation-for="Perfil"></span>
+    </div>
+
+    <div class="col-12 mt-4">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar Alterações</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}

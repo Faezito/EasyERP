@@ -1,0 +1,21 @@
+﻿@using Web.Views.Shared.Components.TopoMenus
+@{
+    ViewData["Title"] = "Gestão de Usuários";
+}
+
+@await Component.InvokeAsync(nameof(TopoMenuComponent), new TopoMenu
+{
+    Titulo = "Usuários",
+    FormActionURL = Url.Action("Listar", "Usuario"),
+    Botoes = new List<BotaoComponent>
+            {
+                new BotaoComponent (texto: "Cadastrar", estilo: new BotaoStyle (classe: "btn btn-sm btn-success", submit: false), url: Url.Action("Cadastro", "Usuario")),
+                new BotaoComponent (texto: "Pesquisar", estilo: new BotaoStyle (classe: "btn btn-sm btn-primary", submit: true), url: null),
+                new BotaoComponent (url: null, onclick: "history.back(); return false;")
+            }
+})
+
+<hr />
+
+<div id="resultado">
+</div>

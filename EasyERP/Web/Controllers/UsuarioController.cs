@@ -1,0 +1,80 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Model.DTOs.Usuario;
+using Web.Libraries.Filtros;
+using Web.Libraries.Validacoes;
+using Web.Models.TabelaDinamica;
+using Web.Services;
+using Web.Views.Shared.Components.TabelaDinamica;
+
+namespace Web.Controllers;
+
+[Authorize(Roles = "AdministradorDoSistema")]
+[ValidateHttpRefererAttributes]
+public class UsuarioController(IUsuarioServices usuarioServices) : Controller
+{
+    private readonly IUsuarioServices _usuarioServices = usuarioServices;
+
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Listar()
+    {
+        var usuarios = await _usuarioServices.Listar();
+        var tabela = UsuarioTabela.MapearParaTabela(usuarios);
+
+        return ViewComponent(
+            typeof(TabelaDinamica),
+            new TabelaDinamicaModel(tabela, Url.Action(nameof(Edicao)),
+            Url.Action(nameof(Deletar)),
+            true)
+        );
+    }
+
+    [HttpGet]
+    public IActionResult Cadastro()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Cadastrar(UsuarioCadastroDTO dto)
+    {
+        ModelStateHelper.ValidarModelState(ModelState);
+
+        await _usuarioServices.Cadastrar(dto);
+        return Json(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edicao(Guid id)
+    {
+        var usuario = await _usuarioServices.Obter(id);
+        return View(new UsuarioAtualizacaoDTO
+        {
+            PublicId = usuario.PublicId,
+            Perfil = usuario.Perfil
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Editar(UsuarioAtualizacaoDTO dto)
+    {
+        ModelStateHelper.ValidarModelState(ModelState);
+
+        await _usuarioServices.Atualizar(dto);
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Deletar(Guid id)
+    {
+        await _usuarioServices.Deletar(id);
+        return Json(new { success = true, reloadPage = false });
+    }
+
+}

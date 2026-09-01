@@ -1,0 +1,113 @@
+@using CrossCutting.Model.Enums
+@model Model.DTOs.Usuario.UsuarioCadastroDTO
+
+<form method="post" id="formCadastroUsuario" action="@Url.Action("Cadastrar", "Usuario")" data-ajax="true" class="row g-3 needs-validation">
+    <div class="col-md-6">
+        <label class="form-label" asp-for="NomeCompleto"></label>
+        <input class="form-control" asp-for="NomeCompleto" required />
+        <span class="invalid-feedback" asp-validation-for="NomeCompleto"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="NomeUsuario"></label>
+        <input class="form-control" asp-for="NomeUsuario" required />
+        <span class="invalid-feedback" asp-validation-for="NomeUsuario"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Genero"></label>
+        <select class="form-select" asp-for="Genero" required>
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="O">Outro</option>
+            <option value="N">Não informado</option>
+        </select>
+        <span class="invalid-feedback" asp-validation-for="Genero"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Email"></label>
+        <input class="form-control" asp-for="Email" type="email" required />
+        <span class="invalid-feedback" asp-validation-for="Email"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Senha"></label>
+        <input class="form-control" asp-for="Senha" type="password" required />
+        <span class="invalid-feedback" asp-validation-for="Senha"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="CPF"></label>
+        <input class="form-control" asp-for="CPF" type="text" required />
+        <span class="invalid-feedback" asp-validation-for="CPF"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Telefone"></label>
+        <input class="form-control tel_com_ddd" asp-for="Telefone" type="text" required />
+        <span class="invalid-feedback" asp-validation-for="Telefone"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="DataNascimento"></label>
+        <input class="form-control" asp-for="DataNascimento" type="date" required />
+        <span class="invalid-feedback" asp-validation-for="DataNascimento"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Perfil"></label>
+        <select class="form-select" asp-for="Perfil" asp-items="Html.GetEnumSelectList<Perfil>()" required>
+            <option value="">Selecione</option>
+        </select>
+        <span class="invalid-feedback" asp-validation-for="Perfil"></span>
+    </div>
+
+    <div class="col-12">
+        <fieldset class="border p-4 mb-3">
+            <legend class="w-auto">Endereço</legend>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Endereco.Logradouro">Logradouro</label>
+                    <input class="form-control" asp-for="Endereco.Logradouro" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" asp-for="Endereco.Numero">Número</label>
+                    <input class="form-control" asp-for="Endereco.Numero" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" asp-for="Endereco.Complemento">Complemento</label>
+                    <input class="form-control" asp-for="Endereco.Complemento" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" asp-for="Endereco.Bairro">Bairro</label>
+                    <input class="form-control" asp-for="Endereco.Bairro" />
+                </div>
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Endereco.Cidade">Cidade</label>
+                    <input class="form-control" asp-for="Endereco.Cidade" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" asp-for="Endereco.Estado">UF</label>
+                    <input class="form-control" asp-for="Endereco.Estado" maxlength="2" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" asp-for="Endereco.CEP">CEP</label>
+                    <input class="form-control" asp-for="Endereco.CEP" />
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}
