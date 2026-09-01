@@ -1,32 +1,32 @@
-@model Model.DTOs.ModuloDTO
+@model Model.DTOs.ModuloCadastroDTO
 
 <form method="post" id="formCadastroModulo" action="@Url.Action("Cadastrar", "Modulo")" data-ajax="true" class="row g-3 needs-validation">
     <div class="col-md-6">
-        <label class="form-label" asp-for="Nome">Nome</label>
+        <label class="form-label" asp-for="Nome"></label>
         <input class="form-control" asp-for="Nome" required />
         <span class="invalid-feedback" asp-validation-for="Nome"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" asp-for="Descricao">Descrição</label>
+        <label class="form-label" asp-for="Descricao"></label>
         <input class="form-control" asp-for="Descricao" required />
         <span class="invalid-feedback" asp-validation-for="Descricao"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" asp-for="BaseUrl">URL Base</label>
+        <label class="form-label" asp-for="BaseUrl"></label>
         <input class="form-control" asp-for="BaseUrl" required />
         <span class="invalid-feedback" asp-validation-for="BaseUrl"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" asp-for="Imagem">Imagem</label>
+        <label class="form-label" asp-for="Imagem"></label>
         <input class="form-control" asp-for="Imagem" />
         <span class="invalid-feedback" asp-validation-for="Imagem"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label" asp-for="ModuloPaiId">Módulo Pai ID</label>
+        <label class="form-label" asp-for="ModuloPaiId"></label>
         <input class="form-control" asp-for="ModuloPaiId" type="number" />
         <span class="invalid-feedback" asp-validation-for="ModuloPaiId"></span>
     </div>
