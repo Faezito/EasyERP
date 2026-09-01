@@ -6,7 +6,7 @@ namespace Web.Services;
 
 public interface IModuloServices
 {
-    Task Cadastrar(ModuloDTO modulo);
+    Task Cadastrar(ModuloCadastroDTO modulo);
     Task Atualizar(ModuloDTO modulo);
     Task<List<ModuloTabela>> Listar();
     Task<ModuloDTO> Obter(int id);
@@ -17,7 +17,7 @@ public class ModuloServices(IClientFactory http) : IModuloServices
 {
     private readonly IClientFactory _http = http;
 
-    public async Task Cadastrar(ModuloDTO modulo)
+    public async Task Cadastrar(ModuloCadastroDTO modulo)
     {
         await _http.Post("api/auth/modulo/cadastro", modulo, new Api { Url = "https://localhost:44380/" });
     }
