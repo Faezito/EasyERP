@@ -11,6 +11,10 @@ public static class RegistrosDI
         services.AddScoped<IAcessoServices, AcessoServices>();
         services.AddScoped<IPessoaServices, PessoaServices>();
         services.AddScoped<IAlunoServices, AlunoServices>();
+        services.AddScoped<IModuloServices, ModuloServices>();
+        services.AddScoped<IModuloServices, ModuloServices>();
+        services.AddScoped<ITurmaServices, TurmaServices>();
+        services.AddScoped<IUsuarioServices, UsuarioServices>();
 
         services.AddScoped<IClientFactory, ClientFactory>();
 
