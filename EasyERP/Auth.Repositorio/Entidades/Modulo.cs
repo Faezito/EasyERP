@@ -6,10 +6,11 @@
         public string Nome { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;
         public bool Ativo { get; set; } = true;
+        public string Imagem { get; set; } = string.Empty;
 
         public string BaseUrl { get; set; } = string.Empty;
         public int? ModuloPaiId { get; set; }
 
-        public List<UsuarioModulo> Usuarios { get; set; } = [];
+        public List<UsuarioModulo> Usuarios { get; set; } = new List<UsuarioModulo>();
     }
 }
