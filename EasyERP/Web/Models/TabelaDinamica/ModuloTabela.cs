@@ -15,7 +15,7 @@ public class ModuloTabela
     public string Descricao { get; set; } = string.Empty;
 
     [Display(Name = "Ativo")]
-    public bool Ativo { get; set; }
+    public string Ativo { get; set; }
 
     [Display(Name = "Imagem")]
     public string? Imagem { get; set; }
@@ -36,7 +36,7 @@ public class ModuloTabela
                 Id = moduloDTO.Id,
                 Nome = moduloDTO.Nome,
                 Descricao = moduloDTO.Descricao,
-                Ativo = moduloDTO.Ativo,
+                Ativo = moduloDTO.Ativo == true ? "Ativo" : "Inativo",
                 Imagem = moduloDTO.Imagem,
                 BaseUrl = moduloDTO.BaseUrl,
                 ModuloPaiId = moduloDTO.ModuloPaiId

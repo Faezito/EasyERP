@@ -77,7 +77,7 @@ public static class ClaimsPrincipalExtensions
         {
             PublicId = id,
             Perfil = perfil,
-            Pessoa = new PessoaFisicaRespostaDTO
+            PessoaFisica = new PessoaFisicaRespostaDTO
             {
                 Email = email,
                 NomeCompleto = nome,

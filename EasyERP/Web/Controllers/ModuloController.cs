@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOs;
+using Model.DTOs.Usuario;
 using Web.Libraries.Filtros;
 using Web.Libraries.Validacoes;
 using Web.Models.TabelaDinamica;
@@ -40,7 +41,7 @@ public class ModuloController(IModuloServices moduloServices) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Cadastrar(ModuloDTO dto)
+    public async Task<IActionResult> Cadastrar(ModuloCadastroDTO dto)
     {
         ModelStateHelper.ValidarModelState(ModelState);
 
@@ -59,8 +60,9 @@ public class ModuloController(IModuloServices moduloServices) : Controller
     public async Task<IActionResult> Edicao(ModuloDTO dto)
     {
         ModelStateHelper.ValidarModelState(ModelState);
+
         await _moduloServices.Atualizar(dto);
-        return View(dto);
+        return Json(new { success = true });
     }
 
     [HttpPost]

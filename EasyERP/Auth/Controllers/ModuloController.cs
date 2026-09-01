@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using Auth.Servicos;
 using Auth.Repositorio.Entidades;
+using Auth.Servicos;
+using Microsoft.AspNetCore.Mvc;
+using Model.DTOs;
 
 namespace Auth.Controllers;
 
@@ -13,7 +14,7 @@ public class ModuloController(IModuloServicos moduloServicos) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Obter(int id)
     {
-        var modulo = await _moduloServicos.ListarTodos();
+        var modulo = await _moduloServicos.ObterPorId(id);
         if (modulo == null)
             return NotFound();
 
@@ -28,14 +29,14 @@ public class ModuloController(IModuloServicos moduloServicos) : ControllerBase
     }
 
     [HttpPost("cadastro")]
-    public async Task<IActionResult> Cadastro(Modulo modulo)
+    public async Task<IActionResult> Cadastro(ModuloCadastroDTO modulo)
     {
         await _moduloServicos.Cadastrar(modulo);
         return Ok();
     }
 
     [HttpPut("atualizacao")]
-    public async Task<IActionResult> Atualizacao(Modulo modulo)
+    public async Task<IActionResult> Atualizacao(ModuloDTO modulo)
     {
         await _moduloServicos.Atualizar(modulo);
         return Ok();
