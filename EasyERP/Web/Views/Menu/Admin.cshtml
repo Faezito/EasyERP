@@ -1,0 +1,21 @@
+﻿@using Web.Views.Shared.Components.CardMenuComponent
+@{
+    ViewData["Title"] = "Menu de Administrador";
+    var modulos = this.User.ObterModulosDoUsuario();
+    modulos = modulos.Where(x => x.ModuloPaiId == 3).ToList();
+}
+
+<div class="text-center">
+    <div class="row justify-content-center gap-3">
+        @foreach (var m in modulos)
+        {
+            @await Component.InvokeAsync("CardMenuComponent", new CardMenu
+            {
+                Texto = m.Nome,
+                Url = m.BaseUrl,
+                Imagem = m.Imagem,
+                Estilo = new Estilo()
+            })
+        }
+    </div>
+</div>
