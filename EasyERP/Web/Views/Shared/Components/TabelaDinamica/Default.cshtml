@@ -15,7 +15,7 @@
                 foreach (var prop in props.Where(x => x.Name != "Id"))
                 {
                     var display = prop.GetCustomAttribute<DisplayAttribute>();
-                    <th class="text-center">@(display?.Name ?? prop.Name)</th>
+                    <th class="text-center @(display?.Description)">@(display?.Name ?? prop.Name)</th>
                 }
             }
             @if (Model.Editavel)
@@ -32,10 +32,9 @@
                 @foreach (var prop in props.Where(x => x.Name != "Id"))
                 {
                     var value = prop.GetValue(row);
-                    @* var strConvertido = Convert.ToString(value); *@
-                    string strClass = "";//ExpressoesRegulares.AlinhamentoHTML(strConvertido);
+                    var classe = prop.GetCustomAttribute<DisplayAttribute>();
 
-                    <td class="@strClass">@value</td>
+                    <td class="@(classe?.Description)">@(value)</td>
                 }
                 @if (Model.Editavel)
                 {
