@@ -76,7 +76,10 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
 
     public async Task<List<UsuarioRespostaDTO>> Listar()
     {
-        var usuarios = await ObterTodosAsync();
+        var usuarios = await _dbSet
+            .Include(x => x.PessoaFisica)
+            .ThenInclude(x => x.Endereco)
+            .ToListAsync();
         return _mapper.Map<List<UsuarioRespostaDTO>>(usuarios);
     }
 
@@ -100,7 +103,7 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
     {
         var usuario = await _db.Usuarios
             .Include(x => x.Modulos)
-                //.ThenInclude(x => x.Modulo)
+            //.ThenInclude(x => x.Modulo)
             .FirstOrDefaultAsync(x => x.PublicId == publicId);
         return _mapper.Map<UsuarioRespostaDTO>(usuario);
     }

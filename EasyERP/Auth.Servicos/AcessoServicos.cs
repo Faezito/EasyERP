@@ -38,7 +38,7 @@ public class AcessoServicos(AppDbContext db, IMapper mapper, IConfiguration conf
 
         var usuarioRes = _mapper.Map<UsuarioRespostaDTO>(usuario);
         var claims = CriarClaims(usuario);
-        usuarioRes.Pessoa = _mapper.Map<PessoaFisicaRespostaDTO>(usuario.PessoaFisica);
+        usuarioRes.PessoaFisica = _mapper.Map<PessoaFisicaRespostaDTO>(usuario.PessoaFisica);
 
         var resposta = new LoginResponseDTO
         {
