@@ -1,5 +1,9 @@
 @using CrossCutting.Model.Enums
+@using Model.DTOs
 @model Model.DTOs.Usuario.UsuarioAtualizacaoDTO
+@{
+    List<ModuloDTO> modulos = ViewBag.Modulos;
+}
 
 <form method="post" id="formEdicaoUsuario" action="@Url.Action("Editar", "Usuario")" data-ajax="true" class="row g-3 needs-validation">
     <input type="hidden" asp-for="PublicId" />
@@ -16,6 +20,28 @@
             <option value="">Selecione</option>
         </select>
         <span class="invalid-feedback" asp-validation-for="Perfil"></span>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label" asp-for="Modulos"></label>
+        <div class="d-flex flex-wrap gap-5">
+
+            @foreach (var modulo in modulos.OrderBy(x => x.ModuloPaiId))
+            {
+                <div class="form-check w-auto">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="Modulos"
+                           value="@modulo.Id"
+                    @(Model.Modulos.Contains(modulo.Id) ? "checked" : "") />
+
+                    <label class="form-check-label">
+                        @modulo.Nome
+                    </label>
+                </div>
+            }
+            <span class="invalid-feedback" asp-validation-for="Modulos"></span>
+        </div>
     </div>
 
     <div class="col-12 mt-4">
