@@ -1,5 +1,22 @@
 ﻿@using CrossCutting.Model.DTOs.Escolar.Aluno
+@using Web.Views.Shared.Components.DropdownDinamicoComponent
+@using Web.Views.Shared.Components.TopoMenus
 @model AlunoCadastroDTO
+
+@{
+    ViewData["Title"] = "Cadastro de Aluno";
+}
+
+@await Component.InvokeAsync(nameof(TopoMenuComponent), new TopoMenu
+{
+    Titulo = "Novo Aluno",
+    Botoes = new List<BotaoComponent>
+            {
+                new BotaoComponent (url: Url.Action("Index", "Aluno"), null)
+            }
+})
+
+<hr />
 
 <form method="post" id="formCadastroPessoa" action="@Url.Action("Cadastrar", "Aluno")" data-ajax="true" class="row g-3 needs-validation">
     <div class="col-md-6">
@@ -24,6 +41,17 @@
         <label class="form-label" asp-for="Pessoa.Email"></label>
         <input class="form-control" asp-for="Pessoa.Email" type="email" required />
         <span class="invalid-feedback" asp-validation-for="Pessoa.Email"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="TurmaId"></label>
+        <select class="form-select" asp-for="TurmaId" required>
+            <option value="">Selecione</option>
+            @await Component.InvokeAsync("DropdownDinamicoComponent", 
+            new DropDown { Items = ViewBag.Turmas }
+            )
+        </select>
+        <span class="invalid-feedback" asp-validation-for="TurmaId"></span>
     </div>
 
     <div class="col-md-6">

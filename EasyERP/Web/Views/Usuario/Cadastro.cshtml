@@ -1,6 +1,21 @@
 @using CrossCutting.Model.Enums
+@using Web.Views.Shared.Components.TopoMenus
 @model Model.DTOs.Usuario.UsuarioCadastroDTO
 
+@{
+    ViewData["Title"] = "Cadastro de Usuário";
+}
+
+@await Component.InvokeAsync(nameof(TopoMenuComponent), new TopoMenu
+{
+    Titulo = "Novo Usuário",
+    Botoes = new List<BotaoComponent>
+            {
+                new BotaoComponent (url: Url.Action("Index", "Usuario"), null)
+            }
+})
+
+<hr />
 <form method="post" id="formCadastroUsuario" action="@Url.Action("Cadastrar", "Usuario")" data-ajax="true" class="row g-3 needs-validation">
     <div class="col-md-6">
         <label class="form-label" asp-for="NomeCompleto"></label>

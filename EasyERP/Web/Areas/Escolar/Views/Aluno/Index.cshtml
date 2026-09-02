@@ -15,7 +15,7 @@
                     estilo: new BotaoStyle (classe: "btn btn-sm btn-primary", submit: true), 
                     url: null
                 ),
-                new BotaoComponent (url: null, onclick: "history.back(); return false;")
+                new BotaoComponent (url: Url.Action("Index", "Aluno"), null)
             }
 })
 
@@ -23,3 +23,11 @@
 
 <div id="resultado">
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#pesquisa-base').submit();
+        });
+    </script>
+}
