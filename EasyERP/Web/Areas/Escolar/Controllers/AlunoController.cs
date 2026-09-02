@@ -2,6 +2,7 @@
 using CrossCutting.Model.DTOs.Escolar.Aluno;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Model.DTOs.Escolar.Pessoa;
 using Web.Areas.Escolar.Services;
 using Web.Libraries.Filtros;
@@ -15,9 +16,10 @@ namespace Web.Areas.Escolar.Controllers;
 [Area("Escolar")]
 [Authorize]
 [ValidateHttpRefererAttributes]
-public class AlunoController(IAlunoServices alunoServices, IMapper mapper) : Controller
+public class AlunoController(IAlunoServices alunoServices, ITurmaServices turmaServices, IMapper mapper) : Controller
 {
     private readonly IAlunoServices _alunoServices = alunoServices;
+    private readonly ITurmaServices _turmaServices = turmaServices;
     private readonly IMapper _mapper = mapper;
 
     [HttpGet]
@@ -36,8 +38,21 @@ public class AlunoController(IAlunoServices alunoServices, IMapper mapper) : Con
     }
 
     [HttpGet]
-    public IActionResult Cadastro()
+    public async Task<IActionResult> Cadastro()
     {
+        var turmas = await _turmaServices.Listar();
+        var dropdown = new List<SelectListItem>();
+
+        foreach(var turma in turmas)
+        {
+            dropdown.Add(new SelectListItem
+            {
+                Text = turma.Descricao,
+                Value = turma.Id.ToString()
+            });   
+        };
+
+        ViewBag.Turmas = dropdown;
         return View();
     }
 
@@ -53,12 +68,26 @@ public class AlunoController(IAlunoServices alunoServices, IMapper mapper) : Con
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edicao(int id)
+    public async Task<IActionResult> Edicao(Guid id)
     {
         var token = await HttpContext.GetJwtAsync();
 
         var aluno = await _alunoServices.Obter(id, token);
-        var alunoEdicao = _mapper.Map<PessoaAtualizacaoDTO>(aluno);
+        var alunoEdicao = _mapper.Map<AlunoAtualizacaoDTO>(aluno);
+
+        var turmas = await _turmaServices.Listar();
+        var dropdown = new List<SelectListItem>();
+
+        foreach (var turma in turmas)
+        {
+            dropdown.Add(new SelectListItem
+            {
+                Text = turma.Descricao,
+                Value = turma.Id.ToString()
+            });
+        };
+
+        ViewBag.Turmas = dropdown;
         return View(alunoEdicao);
     }
 
@@ -70,7 +99,7 @@ public class AlunoController(IAlunoServices alunoServices, IMapper mapper) : Con
         var token = await HttpContext.GetJwtAsync();
         await _alunoServices.Atualizar(dto, token);
 
-        return View();
+        return Json( new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) } );
     }
 
     [HttpPost]
