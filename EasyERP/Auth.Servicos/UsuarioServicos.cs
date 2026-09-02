@@ -22,9 +22,11 @@ public interface IUsuarioServicos : ICRUDGenerico<Usuario>
 public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
 {
     private readonly IMapper _mapper;
-    public UsuarioServicos(AppDbContext db, IMapper mapper) : base(db)
+    private readonly IUsuarioModuloServicos _umServicos;
+    public UsuarioServicos(AppDbContext db, IMapper mapper, IUsuarioModuloServicos umServicos) : base(db)
     {
         _mapper = mapper;
+        _umServicos = umServicos;
     }
 
     public async Task Atualizar(UsuarioAtualizacaoDTO dto)
@@ -34,6 +36,16 @@ public class UsuarioServicos : CRUDGenerico<Usuario>, IUsuarioServicos
 
         usuario.SenhaHash = string.IsNullOrWhiteSpace(dto.Senha) ? usuario.SenhaHash : bC.HashPassword(dto.Senha);
         usuario.Perfil = dto.Perfil ?? usuario.Perfil;
+
+        await _umServicos.LimparModulosDoUsuario(dto.PublicId);
+
+        foreach (var moduloId in dto.Modulos)
+        {
+            if (!usuario.Modulos.Any(x => x.ModuloId == moduloId))
+            {
+                _db.Set<UsuarioModulo>().Add(new UsuarioModulo { ModuloId = moduloId, UsuarioId = usuario.Id });
+            }
+        }
 
         await SalvarAsync();
     }
