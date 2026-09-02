@@ -11,6 +11,7 @@ public interface IUsuarioModuloServicos : ICRUDGenerico<UsuarioModulo>
     Task AtribuirModulo(UsuarioModuloDTO dto);
     Task<List<UsuarioModuloDTO>> ListarModulosDoUsuario(Guid usuarioId);
     Task RemoverAcesso(Guid usuarioId, int moduloId);
+    Task LimparModulosDoUsuario(Guid usuarioId);
 }
 
 public class UsuarioModuloServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<UsuarioModulo>(db), IUsuarioModuloServicos
@@ -30,6 +31,14 @@ public class UsuarioModuloServicos(AppDbContext db, IMapper mapper) : CRUDGeneri
 
         _db.Set<UsuarioModulo>().Add(usuarioModulo);
         await SalvarAsync();
+    }
+
+    public async Task LimparModulosDoUsuario(Guid usuarioId)
+    {
+        var usuario = await _db.Usuarios.FirstOrDefaultAsync(x => x.PublicId == usuarioId)
+            ?? throw new Exception("Usuário não encontrado");
+
+        await _dbSet.Where(x => x.UsuarioId == usuario.Id).ExecuteDeleteAsync();
     }
 
     public async Task<List<UsuarioModuloDTO>> ListarModulosDoUsuario(Guid usuarioId)
