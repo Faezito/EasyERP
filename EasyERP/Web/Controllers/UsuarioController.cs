@@ -11,9 +11,10 @@ namespace Web.Controllers;
 
 [Authorize(Roles = "AdministradorDoSistema")]
 [ValidateHttpRefererAttributes]
-public class UsuarioController(IUsuarioServices usuarioServices) : Controller
+public class UsuarioController(IUsuarioServices usuarioServices, IModuloServices moduloServices) : Controller
 {
     private readonly IUsuarioServices _usuarioServices = usuarioServices;
+    private readonly IModuloServices _moduloServices = moduloServices;
 
     [HttpGet]
     public IActionResult Index()
@@ -47,15 +48,20 @@ public class UsuarioController(IUsuarioServices usuarioServices) : Controller
         ModelStateHelper.ValidarModelState(ModelState);
 
         await _usuarioServices.Cadastrar(dto);
-        return Json(new { success = true });
+        return Json(new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpGet]
     public async Task<IActionResult> Edicao(Guid id)
     {
         var usuario = await _usuarioServices.Obter(id);
+        var modulos = await _moduloServices.Listar();
+        var modulosDoUsuario = usuario.Modulos.Select(m => m.ModuloId).ToList();
+
+        ViewBag.Modulos = modulos;
         return View(new UsuarioAtualizacaoDTO
         {
+            Modulos = modulosDoUsuario,
             PublicId = usuario.PublicId,
             Perfil = usuario.Perfil
         });
@@ -67,7 +73,7 @@ public class UsuarioController(IUsuarioServices usuarioServices) : Controller
         ModelStateHelper.ValidarModelState(ModelState);
 
         await _usuarioServices.Atualizar(dto);
-        return Json(new { success = true });
+        return Json(new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpPost]
