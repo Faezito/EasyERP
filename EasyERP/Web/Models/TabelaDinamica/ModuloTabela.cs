@@ -23,23 +23,24 @@ public class ModuloTabela
     [Display(Name = "URL Base")]
     public string BaseUrl { get; set; } = string.Empty;
 
-    [Display(Name = "Módulo Pai Id")]
-    public int? ModuloPaiId { get; set; }
+    [Display(Name = "Módulo Pai")]
+    public string? ModuloPai { get; set; }
 
     public static List<ModuloTabela> MapearParaTabela(List<ModuloDTO> modulosDTO)
     {
         var modulosTabela = new List<ModuloTabela>();
         foreach (var moduloDTO in modulosDTO)
         {
+            var pai = modulosDTO.FirstOrDefault(m => m.Id == moduloDTO.ModuloPaiId) ?? new();
             var modulo = new ModuloTabela
             {
                 Id = moduloDTO.Id,
-                Nome = moduloDTO.Nome,
-                Descricao = moduloDTO.Descricao,
+                Nome = moduloDTO.Nome ?? "",
+                Descricao = moduloDTO.Descricao ?? "",
                 Ativo = moduloDTO.Ativo == true ? "Ativo" : "Inativo",
                 Imagem = moduloDTO.Imagem,
-                BaseUrl = moduloDTO.BaseUrl,
-                ModuloPaiId = moduloDTO.ModuloPaiId
+                BaseUrl = moduloDTO.BaseUrl ?? "",
+                ModuloPai = pai.Nome ?? ""
             };
 
             modulosTabela.Add(modulo);
