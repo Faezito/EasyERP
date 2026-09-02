@@ -13,6 +13,7 @@
 
                 <!-- Formulário -->
                 <form data-ajax="true" method="post" id="form-login" asp-action="Login" asp-controller="Acesso">
+                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 
                     <!-- Campo Login -->
                     <div class="form-floating mb-3">

@@ -11,18 +11,21 @@ public class AcessoController(IAcessoServices acesso) : Controller
     private readonly IAcessoServices _acesso = acesso;
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string? returnUrl)
     {
-        if(User.Identity != null && User.Identity.IsAuthenticated)
+        ViewBag.ReturnUrl = returnUrl;
+
+        if (User.Identity != null && User.Identity.IsAuthenticated)
             return RedirectToAction("Index", "Home");
 
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginRequestDTO credenciais)
+    public async Task<IActionResult> Login(LoginRequestDTO credenciais, string? returnUrl)
     {
         var loginResult = await _acesso.Login(credenciais);
+        var url = string.IsNullOrWhiteSpace(returnUrl) ? Url.Action("Index", "Home") : returnUrl;
 
         var properties = new AuthenticationProperties
         {
@@ -52,7 +55,7 @@ public class AcessoController(IAcessoServices acesso) : Controller
         var tokens = auth.Properties?.GetTokens().ToList();
         var token = auth.Properties?.GetTokenValue("access_token");
 
-        return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
+        return Json(new { success = true, redirectUrl = url });
     }
 
     [HttpPost]
