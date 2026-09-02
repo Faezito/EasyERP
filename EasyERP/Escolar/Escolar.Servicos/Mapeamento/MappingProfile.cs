@@ -39,6 +39,13 @@ public class MappingProfile : Profile
                 (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
             ));
 
+        CreateMap<PessoaRespostaDTO, PessoaAtualizacaoDTO>();
+        CreateMap<PessoaAtualizacaoDTO, PessoaRespostaDTO>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
+            ));
+
         CreateMap<Turma, TurmaDTO>();
         CreateMap<TurmaDTO, Turma>()
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
