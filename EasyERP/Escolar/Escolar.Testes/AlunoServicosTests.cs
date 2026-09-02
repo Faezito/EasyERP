@@ -8,6 +8,7 @@ using Escolar.Servicos.Mapeamento;
 using Escolar.Tests.Builders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Model.DTOs.Escolar.Pessoa;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
@@ -141,8 +142,11 @@ public class AlunoServicosTests
 
         var updtDto = new AlunoAtualizacaoDTO
         {
-            PessoaId = aluno!.Pessoa.PublicId,
-            NomeCompleto = "Carlos da Silva"
+            Pessoa = new PessoaAtualizacaoDTO
+            {
+                PublicId = aluno!.Pessoa.PublicId,
+                NomeCompleto = "Carlos da Silva"
+            },
         };
 
         await servico.Atualizacao(updtDto);

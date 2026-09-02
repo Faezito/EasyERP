@@ -9,7 +9,7 @@ public interface IAlunoServices
     Task Cadastrar(AlunoCadastroDTO pessoaCadastro, string? token);
     Task Atualizar(AlunoAtualizacaoDTO aluno, string? token);
     Task<List<AlunoTabela>> Listar(string? token);
-    Task<AlunoRespostaDTO> Obter(int id, string? token);
+    Task<AlunoRespostaDTO> Obter(Guid id, string? token);
     Task Deletar(Guid id, string? token);
 }
 
@@ -24,7 +24,7 @@ public class AlunoServices(IClientFactory http) : IAlunoServices
 
     public async Task Atualizar(AlunoAtualizacaoDTO aluno, string? token)
     {
-        await _http.Put("api/escolar/Aluno/atualizacao", aluno, new Api { Token = token, Url = "https://localhost:44380/" });
+        await _http.Put("api/escolar/Aluno/atualizar", aluno, new Api { Token = token, Url = "https://localhost:44380/" });
     }
 
     public async Task<List<AlunoTabela>> Listar(string? token)
@@ -34,9 +34,9 @@ public class AlunoServices(IClientFactory http) : IAlunoServices
         var pessoas = AlunoTabela.MapearParaTabela(ret);
         return pessoas;
     }
-    public async Task<AlunoRespostaDTO> Obter(int id, string? token)
+    public async Task<AlunoRespostaDTO> Obter(Guid id, string? token)
     {
-        return await _http.Get<AlunoRespostaDTO>($"api/escolar/Aluno/{id}", new Api { Token = token, Url = "https://localhost:44380/" });
+        return await _http.Get<AlunoRespostaDTO>($"api/escolar/Aluno/obterPorPessoaId/{id}", new Api { Token = token, Url = "https://localhost:44380/" });
     }
 
     public async Task Deletar(Guid id, string? token)
