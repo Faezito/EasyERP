@@ -29,8 +29,8 @@ public class TurmaController(ITurmaServices turmaServices) : Controller
         var turmasView = TurmaTabela.MapearParaTabela(turmas);
 
         return ViewComponent(typeof(TabelaDinamica),
-                new TabelaDinamicaModel(turmasView, 
-                    Url.Action(nameof(Editar)),
+                new TabelaDinamicaModel(turmasView,
+                    Url.Action(nameof(Edicao)),
                     Url.Action(nameof(Deletar)),
                     true
                 )
@@ -51,30 +51,30 @@ public class TurmaController(ITurmaServices turmaServices) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Cadastrar([FromBody] TurmaDTO dto)
+    public async Task<IActionResult> Cadastrar(TurmaDTO dto)
     {
         await _turmaServices.Cadastrar(dto);
-        return Ok();
+        return Json(new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpGet]
-    public async Task<IActionResult> Editar(int id)
+    public async Task<IActionResult> Edicao(int id)
     {
         var turma = await _turmaServices.Obter(id);
         return View(turma);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Atualizar([FromBody] TurmaDTO dto)
+    public async Task<IActionResult> Editar(TurmaDTO dto)
     {
         await _turmaServices.Atualizar(dto);
-        return Ok();
+        return Json(new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpPost]
     public async Task<IActionResult> Deletar(int id)
     {
         await _turmaServices.Deletar(id);
-        return Ok();
+        return Json(new { success = true, reloadPage = false });
     }
 }
