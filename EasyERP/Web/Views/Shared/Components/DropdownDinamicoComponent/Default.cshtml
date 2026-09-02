@@ -1,0 +1,13 @@
+﻿@using Web.Views.Shared.Components.DropdownDinamicoComponent
+@model DropDown
+
+@foreach (var item in Model.Items)
+{
+    if (item.Value == Model.Selecionado?.ToString()) item.Selected = true;
+
+    <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+}
+
+@*
+    @await Component.InvokeAsync("DropdownDinamicoComponent", new { items = lst })
+*@
