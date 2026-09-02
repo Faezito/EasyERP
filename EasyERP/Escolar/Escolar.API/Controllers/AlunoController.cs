@@ -10,17 +10,24 @@ public class AlunoController(IAlunoServicos alunoServicos) : ControllerBase
 {
     private readonly IAlunoServicos _alunoServicos = alunoServicos;
 
-    [HttpGet("{pessoaId}")]
+    [HttpGet("obterPorPessoaId/{pessoaId}")]
     public async Task<IActionResult> ObterPorPessoaId(Guid pessoaId)
     {
         var aluno = await _alunoServicos.ObterPorPessoaId(pessoaId);
         return Ok(aluno);
     }
 
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> ObterPorId(int Id)
+    {
+        var aluno = await _alunoServicos.ObterPorId(Id);
+        return Ok(aluno);
+    }
+
     [HttpGet("listar")]
     public async Task<IActionResult> Listar()
     {
-        var alunos = await _alunoServicos.ObterTodosAsync();
+        var alunos = await _alunoServicos.Listar();
         return Ok(alunos);
     }
 
