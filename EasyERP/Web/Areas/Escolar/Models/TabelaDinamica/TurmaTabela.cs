@@ -11,16 +11,16 @@ public class TurmaTabela
     [Display(Name = "Descrição")]
     public string Descricao { get; set; } = string.Empty;
 
-    [Display(Name = "Sala")]
+    [Display(Name = "Sala", Description = "text-end")]
     public string Sala { get; set; } = string.Empty;
 
-    [Display(Name = "Prédio")]
+    [Display(Name = "Prédio", Description = "text-end")]
     public string? Predio { get; set; }
 
-    [Display(Name = "Responsável Id")]
+    [Display(Name = "Responsável Id", Description = "text-end")]
     public int? ResponsavelId { get; set; }
 
-    [Display(Name = "Vice-Responsável Id")]
+    [Display(Name = "Vice-Responsável Id", Description = "text-end")]
     public int? ViceResponsavelId { get; set; }
 
     public static List<TurmaTabela> MapearParaTabela(List<TurmaDTO> turmasDTO)

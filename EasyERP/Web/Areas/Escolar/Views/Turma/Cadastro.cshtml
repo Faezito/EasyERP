@@ -1,6 +1,21 @@
-@model Model.DTOs.Escolar.Turma.TurmaDTO
+@using Model.DTOs.Escolar.Turma
+@using Web.Views.Shared.Components.TopoMenus
+@model TurmaDTO
 
-<form method="post" id="formCadastroTurma" action="@Url.Action("Cadastrar", "Turma")" data-ajax="true" class="row g-3 needs-validation">
+@await Component.InvokeAsync(nameof(TopoMenuComponent), new TopoMenu
+{
+    Titulo = "Cadastrar Turma",
+    Botoes = new List<BotaoComponent>
+            {
+                new BotaoComponent (url: null, onclick: "history.back(); return false;")
+            }
+})
+
+<hr />
+
+<form method="post" id="formCadastroTurma"
+      action="@Url.Action("Cadastrar", "Turma")" data-ajax="true" class="row g-3 needs-validation">
+
     <div class="col-md-6">
         <label class="form-label" asp-for="Descricao">Descrição</label>
         <input class="form-control" asp-for="Descricao" required />
@@ -31,8 +46,8 @@
         <span class="invalid-feedback" asp-validation-for="ViceResponsavelId"></span>
     </div>
 
-    <div class="col-12">
-        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    <div class="d-flex justify-content-start">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-auto">Salvar</button>
     </div>
 </form>
 

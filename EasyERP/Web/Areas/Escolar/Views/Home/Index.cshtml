@@ -1,25 +1,21 @@
-﻿@using Web.Models.Components
-@using Web.Views.Shared.Components.DropMesesComponent
-@using Web.Views.Shared.Components.TopoMenus
+﻿@using Web.Views.Shared.Components.CardMenuComponent
+@{
+    ViewData["Title"] = "Escolar";
+    var modulos = this.User.ObterModulosDoUsuario();
+    modulos = modulos.Where(x => x.ModuloPaiId == 1).ToList();
+}
 
-@await Component.InvokeAsync("TopoMenuComponent", new TopoMenu
-{
-    Titulo = "Escolar",
-    Botoes = new List<BotaoComponent>
+<div class="text-center">
+    <div class="row justify-content-center gap-3">
+        @foreach (var m in modulos)
         {
-            new BotaoComponent (texto: "Pesquisar", estilo: new BotaoStyle (classe: "btn btn-sm btn-primary", submit: true), url: null),
-            new BotaoComponent (url: null, onclick: "history.back(); return false;")
-        },
-    DropAnos = new DropAnos(),
-    DropMeses = new DropMeses()
-})
-
-<hr class="mt-4" />
-
-<a asp-action="Index" asp-controller="Pessoa" asp-area="Escolar">
-    Pessoas
-</a>
-
-<a asp-action="Index" asp-controller="Aluno" asp-area="Escolar">
-    Alunos
-</a>
+            @await Component.InvokeAsync("CardMenuComponent", new CardMenu
+            {
+                Texto = m.Nome,
+                Url = m.BaseUrl,
+                Imagem = m.Imagem,
+                Estilo = new Estilo()
+            })
+        }
+    </div>
+</div>
