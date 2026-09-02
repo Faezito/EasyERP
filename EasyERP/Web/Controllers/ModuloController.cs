@@ -25,7 +25,9 @@ public class ModuloController(IModuloServices moduloServices) : Controller
     [HttpPost]
     public async Task<IActionResult> Listar()
     {
-        var modulos = await _moduloServices.Listar();
+        var ret = await _moduloServices.Listar();
+        var modulos = ModuloTabela.MapearParaTabela(ret);
+
         return ViewComponent(
             typeof(TabelaDinamica),
             new TabelaDinamicaModel(modulos, Url.Action(nameof(Edicao)),
@@ -46,7 +48,7 @@ public class ModuloController(IModuloServices moduloServices) : Controller
         ModelStateHelper.ValidarModelState(ModelState);
 
         await _moduloServices.Cadastrar(dto);
-        return Json(new { success = true });
+        return Json(new { success = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpGet]
@@ -62,7 +64,7 @@ public class ModuloController(IModuloServices moduloServices) : Controller
         ModelStateHelper.ValidarModelState(ModelState);
 
         await _moduloServices.Atualizar(dto);
-        return Json(new { success = true });
+        return Json(new { success = true, pergunta = true, redirectUrl = Url.Action(nameof(Index)) });
     }
 
     [HttpPost]

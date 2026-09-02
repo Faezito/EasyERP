@@ -8,7 +8,7 @@ public interface IModuloServices
 {
     Task Cadastrar(ModuloCadastroDTO modulo);
     Task Atualizar(ModuloDTO modulo);
-    Task<List<ModuloTabela>> Listar();
+    Task<List<ModuloDTO>> Listar();
     Task<ModuloDTO> Obter(int id);
     Task Deletar(int id);
 }
@@ -27,12 +27,9 @@ public class ModuloServices(IClientFactory http) : IModuloServices
         await _http.Put("api/auth/modulo/atualizacao", modulo, new Api { Url = "https://localhost:44380/" });
     }
 
-    public async Task<List<ModuloTabela>> Listar()
+    public async Task<List<ModuloDTO>> Listar()
     {
-        var ret = await _http.Get<List<ModuloDTO>>("api/auth/modulo/listar", new Api { Url = "https://localhost:44380/" });
-
-        var modulos = ModuloTabela.MapearParaTabela(ret);
-        return modulos;
+        return await _http.Get<List<ModuloDTO>>("api/auth/modulo/listar", new Api { Url = "https://localhost:44380/" });
     }
 
     public async Task<ModuloDTO> Obter(int id)
