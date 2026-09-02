@@ -15,5 +15,7 @@ namespace Model.DTOs.Usuario
 
         [Display(Name = "Perfil")]
         public Perfil? Perfil { get; set; }
+
+        public List<int> Modulos { get; set; } = new List<int>();
     }
 }
