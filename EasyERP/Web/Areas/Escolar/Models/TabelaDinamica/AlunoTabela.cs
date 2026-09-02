@@ -6,7 +6,7 @@ namespace Web.Areas.Escolar.Models.TabelaDinamica;
 public class AlunoTabela
 {
     [Display(Name = "Id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Display(Name = "Nome")]
     public string Name { get; set; }
@@ -27,7 +27,7 @@ public class AlunoTabela
         {
             var pessoa = new AlunoTabela
             {
-                Id = alunoDTO.Id,
+                Id = alunoDTO.Pessoa.PublicId,
                 Name = alunoDTO.Pessoa.NomeCompleto,
                 Email = alunoDTO.Pessoa.Email,
                 Telefone = alunoDTO.Pessoa.Telefone,
