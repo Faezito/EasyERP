@@ -160,6 +160,7 @@ $(document).on('click', '.btn-deletar', function (e) {
     e.preventDefault();
 
     const form = $(this).closest("form");
+    const modalEl = this.closest('.modal');
 
     Swal.fire({
         title: "Realmente deseja deletar este registro?",
@@ -190,8 +191,15 @@ $(document).on('click', '.btn-deletar', function (e) {
                     }).then(() => {
                         if (response.redirectUrl) {
                             window.location.href = response.redirectUrl;
-                        } else {
+                        } else if (response.reloadPage) {
                             window.location.reload();
+                        }
+
+                        if (response?.success) {
+                            if (modalEl) {
+                                bootstrap.Modal.getInstance(modalEl)?.hide();
+                            }
+                            $('#pesquisa-base').submit();
                         }
                     });
                 })
