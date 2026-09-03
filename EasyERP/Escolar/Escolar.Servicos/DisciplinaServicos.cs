@@ -8,6 +8,8 @@ namespace Escolar.Servicos;
 
 public interface IDisciplinaServicos : ICRUDGenerico<Disciplina>
 {
+    Task<List<DisciplinaRespostaDTO>> Listar(int pessoaJuridicaId);
+    Task<DisciplinaRespostaDTO> ObterPorId(int id);
     Task Atualizar(DisciplinaAtualizacaoDTO disciplinaDto);
     Task Cadastrar(DisciplinaCadastroDTO disciplinaDto);
     Task Excluir(int id);
@@ -38,5 +40,22 @@ public class DisciplinaServicos(AppDbContext db, IMapper mapper) : CRUDGenerico<
             ?? throw new Exception("Erro ao deletar: disciplina não encontrada.");
         disciplina.Deletar();
         await SalvarAsync();
+    }
+
+    public async Task<List<DisciplinaRespostaDTO>> Listar(int pessoaJuridicaId)
+    {
+        var disciplinas = await _dbSet
+                                .AsNoTracking()
+                                .Where(x => x.PessoaJuridicaId == pessoaJuridicaId)
+                                .ToListAsync();
+
+        return _mapper.Map<List<DisciplinaRespostaDTO>>(disciplinas);
+    }
+
+    public async Task<DisciplinaRespostaDTO> ObterPorId(int id)
+    {
+        var disciplina = await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new Exception("Disciplina não encontrada.");
+        return _mapper.Map<DisciplinaRespostaDTO>(disciplina);
     }
 }

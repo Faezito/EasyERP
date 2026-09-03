@@ -10,10 +10,17 @@ public class DisciplinaController(IDisciplinaServicos disciplinaServicos) : Cont
 {
     private readonly IDisciplinaServicos _disciplinaServicos = disciplinaServicos;
 
-    [HttpGet("listar")]
-    public async Task<IActionResult> Listar()
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Obter(int id) 
     {
-        var disciplinas = await _disciplinaServicos.ObterTodosAsync();
+        var disciplina = await _disciplinaServicos.ObterPorId(id);
+        return Ok(disciplina);
+    }
+
+    [HttpGet("listar/{pessoaJuridicaId}")]
+    public async Task<IActionResult> Listar(int pessoaJuridicaId)
+    {
+        var disciplinas = await _disciplinaServicos.Listar(pessoaJuridicaId);
         return Ok(disciplinas);
     }
 
