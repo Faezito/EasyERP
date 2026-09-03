@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CrossCutting.Model.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Model.DTOs;
 using Model.DTOs.Usuario;
+using Web.Extensions;
 using Web.Libraries.Filtros;
 using Web.Libraries.Validacoes;
 using Web.Models.TabelaDinamica;
@@ -55,7 +58,12 @@ public class UsuarioController(IUsuarioServices usuarioServices, IModuloServices
     public async Task<IActionResult> Edicao(Guid id)
     {
         var usuario = await _usuarioServices.Obter(id);
-        var modulos = await _moduloServices.Listar();
+        var modulos = new List<ModuloDTO>();
+        if (this.User.GetUserTipo() == "AdministradorDoSistema")
+            modulos = await _moduloServices.Listar();
+        else
+            modulos = this.User.ObterModulosDoUsuario();
+
         var modulosDoUsuario = usuario.Modulos.Select(m => m.ModuloId).ToList();
 
         ViewBag.Modulos = modulos;
