@@ -2,6 +2,7 @@
 using CrossCutting.Model.DTOs.Escolar.Aluno;
 using Escolar.Repositorio.Entidades;
 using Model.DTOs.Endereco;
+using Model.DTOs.Escolar.Disciplina;
 using Model.DTOs.Escolar.Pessoa;
 using Model.DTOs.Escolar.Turma;
 
@@ -13,6 +14,27 @@ public class MappingProfile : Profile
     {
         CreateMap<Pessoa, PessoaCadastroDTO>();
         CreateMap<PessoaCadastroDTO, Pessoa>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
+            ));
+
+        CreateMap<Disciplina, DisciplinaCadastroDTO>();
+        CreateMap<DisciplinaCadastroDTO, Disciplina>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
+            ));
+
+        CreateMap<Disciplina, DisciplinaAtualizacaoDTO>();
+        CreateMap<DisciplinaAtualizacaoDTO, Disciplina>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
+            ));
+
+        CreateMap<Disciplina, DisciplinaRespostaDTO>();
+        CreateMap<DisciplinaRespostaDTO, Disciplina>()
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
                 srcMember != null &&
                 (srcMember is not string str || !string.IsNullOrWhiteSpace(str))
