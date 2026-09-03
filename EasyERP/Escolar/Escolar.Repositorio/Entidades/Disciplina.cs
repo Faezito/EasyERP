@@ -8,6 +8,7 @@ public class Disciplina : EntidadeAuditavel
     public string Nome { get; set; } = string.Empty;
     public string? Descricao { get; set; }
     public bool Ativa { get; set; } = true;
+    public int PessoaJuridicaId { get; set; }
 
     public List<Nota> Notas { get; set; } = new();
     public List<Presenca> Presencas { get; set; } = new();

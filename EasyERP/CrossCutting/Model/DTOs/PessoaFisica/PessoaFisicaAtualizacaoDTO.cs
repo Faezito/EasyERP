@@ -28,5 +28,7 @@ namespace Model.DTOs.PessoaFisica
         [Display(Name = "E-mail")]
         [EmailAddress(ErrorMessage = "O E-mail informado é inválido")]
         public string? Email { get; set; }
+
+        public int? EmpresaId { get; set; } = 0;
     }
 }

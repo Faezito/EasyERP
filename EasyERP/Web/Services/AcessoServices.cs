@@ -50,6 +50,7 @@ public class AcessoServices(IClientFactory http) : IAcessoServices
             new Claim(ClaimTypes.NameIdentifier, dto.Usuario.PublicId.ToString()),
             new Claim(ClaimTypes.Role, dto.Usuario.Perfil.ToString()),
             new Claim(ClaimTypes.Name, dto.Usuario.NomeUsuario.ToString()),
+            new Claim(ClaimTypes.GroupSid, dto.Usuario.PessoaFisica!.EmpresaId.ToString()),
             new Claim("NomeCompleto", dto.Usuario.PessoaFisica!.NomeCompleto),
             new Claim("Modulos", modulos),
             new Claim("ModuloDTOs", modulosDtos),

@@ -31,6 +31,7 @@ namespace Model.DTOs.PessoaFisica
             set => _telefone = value ?? Convert.ToUInt64(value).ToString(@"(000) 00000-0000");
         }
         public string Email { get; set; } = string.Empty;
+        public int EmpresaId { get; set; }
         public DateTime DataNascimento { get; set; }
         public EnderecoRespostaDTO? Endereco { get; set; }
     }

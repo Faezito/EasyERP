@@ -35,6 +35,7 @@ namespace Auth.Servicos
             pessoa.Genero = string.IsNullOrWhiteSpace(dto.Genero) ? pessoa.Genero : dto.Genero;
             pessoa.Telefone = string.IsNullOrWhiteSpace(dto.Telefone) ? pessoa.Telefone : dto.Telefone;
             pessoa.Email = string.IsNullOrWhiteSpace(dto.Email) ? pessoa.Email : dto.Email;
+            pessoa.EmpresaId = dto.EmpresaId ?? pessoa.EmpresaId;
             pessoa.AtualizadoEm = DateTime.Now;
 
             _dbSet.Update(pessoa);

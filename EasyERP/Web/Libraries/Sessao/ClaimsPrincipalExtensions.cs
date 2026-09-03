@@ -42,6 +42,12 @@ public static class ClaimsPrincipalExtensions
         return user.FindFirst(ClaimTypes.Email)?.Value;
     }
 
+    public static int GetUserEmpresaId(this ClaimsPrincipal user)
+    {   
+        var claim = user.FindFirst(ClaimTypes.GroupSid)?.Value ?? throw new Exception("Id da empresa não encontrado");
+        return int.Parse(claim);
+    }
+
     public static string GetUserName(this ClaimsPrincipal user)
     {
         return user.FindFirst(ClaimTypes.Name)?.Value;
