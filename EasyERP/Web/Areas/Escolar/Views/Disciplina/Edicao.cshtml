@@ -1,0 +1,33 @@
+@model Model.DTOs.Escolar.Disciplina.DisciplinaRespostaDTO
+
+<form method="post" id="formEdicaoDisciplina" action="@Url.Action("Edicao", "Disciplina", new { area = "Escolar" })" data-ajax="true" class="row g-3 needs-validation">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Nome">Nome</label>
+        <input class="form-control" asp-for="Nome" value="@Model.Nome" required />
+        <span class="invalid-feedback" asp-validation-for="Nome"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" asp-for="Descricao">Descrição</label>
+        <input class="form-control" asp-for="Descricao" value="@Model.Descricao" required />
+        <span class="invalid-feedback" asp-validation-for="Descricao"></span>
+    </div>
+
+    <div class="col-md-6 d-flex align-items-center mt-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="Ativa" />
+            <label class="form-check-label" asp-for="Ativa">Ativa</label>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" id="btnSalvar" class="btn btn-success w-100">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+    </script>
+}
